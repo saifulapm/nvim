@@ -1,0 +1,30 @@
+{
+  "shrug": {
+    "prefix": "shrug",
+    "body": "¯\\_(ツ)_/¯"
+  },
+  "lorem": {
+    "prefix": "lorem",
+    "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed massa libero,\nnec interdum diam. Sed viverra urna ac nibh cursus nec posuere tortor\nvenenatis. Aenean vitae massa enim. Pellentesque hendrerit massa et quam\ncursus fringilla. Etiam rhoncus feugiat eleifend. In pellentesque ipsum nec\ndiam bibendum blandit. Vestibulum ac dui risus, in tristique nisl. Etiam ut\njusto lectus. Curabitur blandit fermentum porttitor. Donec aliquet adipiscing\nenim sed fermentum. Aenean ac neque elit, eu aliquet justo. Vestibulum\npharetra arcu non enim auctor ut mattis leo sollicitudin. Aliquam vehicula\nlobortis dictum. Aliquam nisi diam, imperdiet ac convallis non, venenatis\nvitae orci. Morbi suscipit bibendum lacus non vulputate."
+  },
+  "ipsum": {
+    "prefix": "ipsum",
+    "body": "Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius,\nturpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis\nsollicitudin mauris. Integer in mauris eu nibh euismod gravida. Duis ac\ntellus et risus vulputate vehicula. Donec lobortis risus a elit. Etiam\ntempor. Ut ullamcorper, ligula eu tempor congue, eros est euismod turpis, id\ntincidunt sapien risus a quam. Maecenas fermentum consequat mi. Donec\nfermentum. Pellentesque malesuada nulla a mi. Duis sapien sem, aliquet nec,\ncommodo eget, consequat quis, neque. Aliquam faucibus, elit ut dictum\naliquet, felis nisl adipiscing sapien, sed malesuada diam lacus eget erat.\nCras mollis scelerisque nunc. Nullam arcu. Aliquam consequat. Curabitur augue\nlorem, dapibus quis, laoreet et, pretium ac, nisi. Aenean magna nisl, mollis\nquis, molestie eu, feugiat in, orci. In hac habitasse platea dictumst."
+  },
+  "dolor": {
+    "prefix": "dolor",
+    "body": "Fusce convallis, mauris imperdiet gravida bibendum, nisl turpis suscipit\nmauris, sed placerat ipsum urna sed risus. In convallis tellus a mauris.\nCurabitur non elit ut libero tristique sodales. Mauris a lacus. Donec mattis\nsemper leo. In hac habitasse platea dictumst. Vivamus facilisis diam at odio.\nMauris dictum, nisi eget consequat elementum, lacus ligula molestie metus,\nnon feugiat orci magna ac sem. Donec turpis. Donec vitae metus. Morbi\ntristique neque eu mauris. Quisque gravida ipsum non sapien. Proin turpis\nlacus, scelerisque vitae, elementum at, lobortis ac, quam. Aliquam dictum\neleifend risus. In hac habitasse platea dictumst. Etiam sit amet diam.\nSuspendisse odio. Suspendisse nunc. In semper bibendum libero."
+  },
+  "sit": {
+    "prefix": "sit",
+    "body": "Nam in erat nisi, porttitor sagittis dui. Donec bibendum turpis eros.\nCurabitur ac ultricies libero. Class aptent taciti sociosqu ad litora\ntorquent per conubia nostra, per inceptos himenaeos. Curabitur tempor egestas\nipsum vel placerat. Maecenas volutpat velit ac urna pretium laoreet. Morbi\nfringilla arcu id eros hendrerit lacinia tempor magna faucibus. Fusce\ntincidunt commodo posuere. Sed suscipit purus nec est cursus euismod. Sed\nsapien arcu, posuere a tempus eu, pharetra egestas nibh. Vestibulum ante\nipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;\nInteger vitae convallis dolor. Aenean lorem libero, elementum a scelerisque\nnon, scelerisque at mauris. Lorem ipsum dolor sit amet, consectetur\nadipiscing elit. Mauris mollis metus ac justo scelerisque quis eleifend lorem\nplacerat. Vivamus justo dui, faucibus at congue sed, consequat ac magna.\nVestibulum nec dolor eu lacus facilisis vehicula eget congue sapien. Sed vel\nfringilla tellus."
+  },
+  "amet": {
+    "prefix": "amet",
+    "body": "Vivamus mollis dui eu mauris tempus nec tincidunt libero mollis. Fusce et sem\neget nunc rhoncus blandit ut et urna. Nunc a lacus ut augue posuere\ntincidunt. Suspendisse nec nulla lacus. Etiam lobortis, est eget rhoncus\ntristique, neque magna imperdiet urna, vulputate adipiscing augue mi non\nlorem. Integer at sem ligula. Nam sed nisi augue. Quisque tempus vestibulum\nmetus quis lacinia. Cum sociis natoque penatibus et magnis dis parturient\nmontes, nascetur ridiculus mus. Maecenas congue dui quis lectus condimentum a\nelementum sem iaculis. Fusce at faucibus ante. Donec mattis enim at nisi\nmalesuada et rutrum ligula porttitor. Aliquam luctus gravida tincidunt. Cum\nsociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus\nmus. Phasellus dictum mauris porttitor purus varius a sagittis sapien\nfermentum. Nulla quis dolor quam. Aliquam eget nunc est. Nunc faucibus magna\nsed elit faucibus et accumsan magna vehicula. Suspendisse ligula nisi,\nvenenatis ac sollicitudin in, fermentum vel orci. Vivamus sollicitudin\nvenenatis nunc, et adipiscing massa imperdiet id."
+  },
+  "mit": {
+    "prefix": "mit",
+    "body": "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+  }
+}

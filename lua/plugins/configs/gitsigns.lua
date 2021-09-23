@@ -20,13 +20,12 @@ gitsigns.setup {
    word_diff = false,
    sign_priority = 5,
    signs = {
-      add = { hl = "DiffAdd", text = '▌', numhl = "GitSignsAddNr" },
-      change = { hl = "DiffChange", text = '▌', numhl = "GitSignsChangeNr" },
-      changedelete = { hl = "DiffChange", text = '▌', numhl = "GitSignsChangeNr" },
-      delete = { hl = "DiffDelete", text = '▌', numhl = "GitSignsDeleteNr" },
-      topdelete = { hl = "DiffDelete", text = '▌', numhl = "GitSignsDeleteNr" },
+      add = { hl = "DiffAdd", text = '▌' },
+      change = { hl = "DiffChange", text = '▌' },
+      changedelete = { hl = "DiffChange", text = '▌' },
+      delete = { hl = "DiffDelete", text = '▌' },
+      topdelete = { hl = "DiffDelete", text = '▌' },
    },
-
    status_formatter = nil, -- Use default
    watch_index = {
       interval = 100,

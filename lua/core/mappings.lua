@@ -57,18 +57,19 @@ M.misc = function()
          map(
             "n",
             maps.theme_toggler,
-            ":lua require('nvchad').toggle_theme(require('core.utils').load_config().ui.theme_toggler.fav_themes) <CR>"
+            ":lua require('utils').toggle_theme(require('utils').load_config().ui.theme_toggler.fav_themes) <CR>"
          )
       end
    end
 
    local function required_mappings()
-      map("n", maps.close_buffer, ":lua require('core.utils').close_buffer() <CR>") -- close  buffer
+      map("n", maps.close_buffer, ":lua require('utils').close_buffer() <CR>") -- close  buffer
       map("n", maps.copy_whole_file, ":%y+ <CR>") -- copy whole file content
       map("n", maps.new_buffer, ":enew <CR>") -- new buffer
       map("n", maps.new_tab, ":tabnew <CR>") -- new tabs
       map("n", maps.line_number_toggle, ":set nu! <CR>") -- toggle numbers
       map("n", maps.save_file, ":w <CR>") -- ctrl + s to save file
+      map("n", maps.reload_theme, ":lua require('utils').reload_theme()<CR>") -- ctrl + s to save file
 
       -- terminal mappings --
       local term_maps = maps.terminal
@@ -131,8 +132,8 @@ M.bufferline = function()
    map("n", m.moveDown, "<C-w>j")
 end
 
-M.chadsheet = function()
-   local m = plugin_maps.chadsheet
+M.cheatsheet = function()
+   local m = plugin_maps.cheatsheet
 
    map("n", m.default_keys, ":lua require('cheatsheet').show_cheatsheet_telescope() <CR>")
    map(
@@ -140,12 +141,6 @@ M.chadsheet = function()
       m.user_keys,
       ":lua require('cheatsheet').show_cheatsheet_telescope{bundled_cheatsheets = false, bundled_plugin_cheatsheets = false } <CR>"
    )
-end
-
-M.comment = function()
-   local m = plugin_maps.comment.toggle
-   map("n", m, ":CommentToggle <CR>")
-   map("v", m, ":CommentToggle <CR>")
 end
 
 M.dashboard = function()
@@ -178,7 +173,7 @@ M.telescope = function()
    map("n", m.help_tags, ":Telescope help_tags <CR>")
    map("n", m.live_grep, ":Telescope live_grep <CR>")
    map("n", m.oldfiles, ":Telescope oldfiles <CR>")
-   map("n", m.themes, ":Telescope themes <CR>")
+   map("n", m.themes, ":lua require('utils').theme_switcher()<CR>")
 end
 
 M.telescope_media = function()
@@ -209,6 +204,20 @@ M.treesitter_unit = function()
   map("x", "au", ':lua require"treesitter-unit".select(true)<CR>')
   map("o", "iu", '<Cmd>lua require"treesitter-unit".select()<CR>')
   map("o", "au", '<Cmd>lua require"treesitter-unit".select(true)<CR>')
+end
+
+M.fastaction  = function ()
+  map("n", "<leader>ca", ":lua require('lsp-fastaction').code_action()<CR>")
+  map("x", "<leader>ca", "<esc><Cmd>lua require('lsp-fastaction').range_code_action()<CR>")
+end
+
+M.todo_comments = function ()
+  local m = plugin_maps.todo_comments
+  map('n', m.toggle, '<Cmd>TodoTrouble<CR>')
+end
+
+M.hop = function()
+  map('n', 's', "<Cmd>HopChar1<CR>")
 end
 
 return M

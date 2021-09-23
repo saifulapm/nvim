@@ -1,0 +1,70 @@
+{
+  "{,": {
+    "prefix": "{,",
+    "body": "{\n\t${1}\n},"
+  },
+  "fun": {
+    "prefix": "fun",
+    "body": "function ${1:function_name}(${2:argument}) {\n\t${3}\n}"
+  },
+  "f": {
+    "prefix": "f",
+    "body": "function(${1}) {${2}};"
+  },
+  "ff": {
+    "prefix": "ff",
+    "body": "function(${1}) {\n\t${2}\n}"
+  },
+  "ff;": {
+    "prefix": "ff;",
+    "body": "function(${1}) {\n\t${2}\n};"
+  },
+  "ff)": {
+    "prefix": "ff)",
+    "body": "function(${1}) {\n\t${2}\n});"
+  },
+  "ff,": {
+    "prefix": "ff,",
+    "body": "function(${1}) {\n\t${2}\n},"
+  },
+  "if": {
+    "prefix": "if",
+    "body": "if (${1:true}) {\n\t${2}\n}"
+  },
+  "ife": {
+    "prefix": "ife",
+    "body": "if (${1:true}) {\n\t${2}\n} else {\n\t${3}\n}"
+  },
+  "t": {
+    "prefix": "t",
+    "body": "${1:/* condition */} ? ${2:a} : ${3:b}"
+  },
+  "switch": {
+    "prefix": "switch",
+    "body": "switch(${1:expression}) {\n\tcase '${3:case}':\n\t\t${4:// code}\n\t\tbreak;\n\t${5}\n\tdefault:\n\t\t${2:// code}\n}\n# case"
+  },
+  "case": {
+    "prefix": "case",
+    "body": "case '${1:case}':\n\t${2:// code}\n\tbreak;\n${3}"
+  },
+  "wh": {
+    "prefix": "wh",
+    "body": "while (${1:/* condition */}) {\n\t${2:/* code */}\n}\n# do...while"
+  },
+  "do": {
+    "prefix": "do",
+    "body": "do {\n\t${2:/* code */}\n} while (${1:/* condition */});"
+  },
+  ":f": {
+    "prefix": ":f",
+    "body": "${1:method_name}: function(${2:attribute}) {\n\t${4}\n}${3:,}"
+  },
+  "timeout": {
+    "prefix": "timeout",
+    "body": "setTimeout(function() {\n\t${2}\n}, ${1:1000});"
+  },
+  "promise": {
+    "prefix": "promise",
+    "body": "new Promise(function(resolve, reject) {\n\t${1}\n});"
+  }
+}

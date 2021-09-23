@@ -1,4 +1,4 @@
--- IMPORTANT NOTE : This is the user config, can be edited. Will be preserved if updated with internal updater
+-- IMPORTANT NOTE : This is default config, so dont change anything here. (check chadrc.lua instead)
 
 local M = {}
 M.ui, M.options, M.plugin_status, M.mappings, M.custom = {}, {}, {}, {}, {}
@@ -8,11 +8,11 @@ M.ui = {
    italic_comments = false,
 
    -- theme to be used, to see all available themes, open the theme switcher by <leader> + th
-   theme = "onedark",
+   theme = "gruvbox",
 
    -- theme toggler, toggle between two themes, see theme_toggleer mappings
    theme_toggler = {
-      enabled = false,
+      enabled = true,
       fav_themes = {
          "onedark",
          "one-light",
@@ -30,10 +30,15 @@ M.ui.plugin = {
    statusline = {
       -- these are filetypes, not pattern matched
       -- if a filetype is present in shown, it will always show the statusline, irrespective of filetypes in hidden
-      hidden = {},
+      hidden = {
+         "help",
+         "dashboard",
+         "NvimTree",
+         "terminal",
+      },
       shown = {},
       -- default, round , slant , block , arrow
-      style = "arrow",
+      style = "default",
    },
 }
 
@@ -72,33 +77,15 @@ M.options.plugin = {
    esc_insertmode_timeout = 300,
 }
 
--- enable and disable plugins (false for disable)
-M.plugin_status = {
-   autosave = false, -- to autosave files
-   blankline = true, -- beautified blank lines
-   bufferline = true, -- buffer shown as tabs
-   cheatsheet = true, -- fuzzy search your commands/keymappings
-   colorizer = true,
-   comment = true, -- universal commentor
-   dashboard = false, -- a nice looking dashboard
-   esc_insertmode = true, -- escape from insert mode using custom keys
-   feline = true, -- statusline
-   gitsigns = true, -- gitsigns in statusline
-   lspsignature = true, -- lsp enhancements
-   neoformat = true, -- universal formatter
-   neoscroll = true, -- smooth scroll
-   telescope_media = false, -- see media files in telescope picker
-   truezen = false, -- no distraction mode for nvim
-   vim_fugitive = false, -- git in nvim
-   vim_matchup = true, -- % magic, match it but improved
-}
-
 -- mappings -- don't use a single keymap twice --
 -- non plugin mappings
 M.mappings = {
    -- close current focused buffer
    close_buffer = "<leader>x",
    copy_whole_file = "<C-a>", -- copy all contents of the current buffer
+
+   -- Reload Theme (If any change you made in current colors)
+   reload_theme = "<Leader>tr",
 
    -- navigation in insert mode, only if enabled in options
    insert_nav = {
@@ -148,26 +135,21 @@ M.mappings.plugin = {
       moveUp = "<C-k>",
       moveDown = "<C-j>",
    },
-   chadsheet = {
+   cheatsheet = {
       default_keys = "<leader>dk",
       user_keys = "<leader>uk",
    },
-   comment = {
-      toggle = "<leader>/", -- trigger comment on a single/selected lines/number prefix
-   },
-   dashboard = {
-      bookmarks = "<leader>bm",
-      new_file = "<leader>fn", -- basically create a new buffer
-      open = "<leader>db", -- open dashboard
-      session_load = "<leader>l", -- load a saved session
-      session_save = "<leader>s", -- save a session
+   todo_comments = {
+      toggle = "<leader>lt",
    },
    -- note: this is an edditional mapping to escape, escape key will still work
    better_escape = {
       esc_insertmode = { "jk" }, -- multiple mappings allowed
    },
    nvimtree = {
-      toggle = "<C-n>", -- file manager
+      -- file tree
+      toggle = "<C-n>",
+      focus = "<leader>e",
    },
    neoformat = {
       format = "<leader>fm",
@@ -175,6 +157,7 @@ M.mappings.plugin = {
    telescope = {
       buffers = "<leader>fb",
       find_files = "<leader>ff",
+      find_hiddenfiles = "<leader>fa",
       git_commits = "<leader>cm",
       git_status = "<leader>gt",
       help_tags = "<leader>fh",
@@ -220,5 +203,4 @@ M.plugins = {
       servers = {},
    },
 }
-
 return M

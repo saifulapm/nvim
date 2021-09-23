@@ -106,5 +106,194 @@ return packer.startup(function()
     end,
   }
 
+  -- smooth scroll
+  use {
+    "karb94/neoscroll.nvim",
+    opt = true,
+    config = function()
+      require("plugins.configs.others").neoscroll()
+    end,
+    setup = function()
+      require("utils").packer_lazy_load "neoscroll.nvim"
+    end,
+  }
 
+  -- lsp stuff
+  use {
+    "neovim/nvim-lspconfig",
+    event = 'BufReadPre',
+    config = function()
+      require "plugins.configs.lspconfig"
+    end,
+  }
+
+  use { 'folke/lua-dev.nvim' }
+
+  use {
+    "kabouzeid/nvim-lspinstall",
+    module = "lspinstall",
+    requires = "nvim-lspconfig",
+    config = function()
+      require("lspinstall").post_install_hook = function()
+        require("plugins.configs.lspconfig").setup_servers()
+        vim.cmd "bufdo e"
+      end
+    end,
+  }
+
+  use {
+    'jose-elias-alvarez/null-ls.nvim',
+    run = function()
+      require("utils").install('write-good', 'npm', 'install -g')
+    end,
+    event = 'User LspServersStarted',
+    config = function()
+      require("plugins.configs.others").null_ls()
+    end,
+  }
+
+  use {
+    "ray-x/lsp_signature.nvim",
+    after = "nvim-lspconfig",
+    config = function()
+      require("plugins.configs.others").signature()
+    end,
+  }
+
+  use {
+    'windwp/lsp-fastaction.nvim',
+    config = function()
+      require("plugins.configs.others").fastaction()
+    end,
+    setup = function()
+      require("core.mappings").fastaction()
+    end,
+  }
+
+  use {
+    'hrsh7th/nvim-cmp',
+    module = 'cmp',
+    event = 'InsertEnter',
+    requires = {
+      { 'hrsh7th/cmp-nvim-lsp' },
+      { 'f3fora/cmp-spell', after = 'nvim-cmp' },
+      { 'hrsh7th/cmp-path', after = 'nvim-cmp' },
+      { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' },
+      { 'saadparwaiz1/cmp_luasnip', after = 'nvim-cmp' },
+    },
+    config = function()
+      require "plugins.configs.cmp"
+    end,
+  }
+
+  use {
+    'L3MON4D3/LuaSnip',
+    event = 'InsertEnter',
+    module = 'luasnip',
+    config = function()
+      require "plugins.configs.luasnip"
+    end,
+  }
+
+  use {
+    "jdhao/better-escape.vim",
+    event = "InsertEnter",
+    setup = function()
+      require("plugins.configs.others").better_escape()
+    end,
+  }
+
+  -- file managing , picker etc
+  use {
+    "kyazdani42/nvim-tree.lua",
+    cmd = { "NvimTreeToggle", "NvimTreeFocus" },
+    config = function()
+      require "plugins.configs.nvimtree"
+    end,
+    setup = function()
+      require("core.mappings").nvimtree()
+    end,
+  }
+
+  use {
+    'windwp/nvim-autopairs',
+    after = 'nvim-cmp',
+    config = function()
+         require("plugins.configs.others").autopairs()
+    end
+  }
+
+  use {
+    "nvim-telescope/telescope.nvim",
+    cmd = "Telescope",
+    module = "telescope.*",
+    requires = {
+      {
+        "sudormrfbin/cheatsheet.nvim",
+        after = "telescope.nvim",
+        -- because cheatsheet is not activated by a teleacope command
+        module = "cheatsheet",
+        config = function()
+          require "plugins.configs.cheatsheet"
+        end,
+        setup = function()
+          require("core.mappings").cheatsheet()
+        end,
+      },
+      {
+        "nvim-telescope/telescope-fzf-native.nvim",
+        after = "telescope.nvim",
+        run = "make",
+      },
+    },
+    config = function()
+      require "plugins.configs.telescope"
+    end,
+    setup = function()
+      require("core.mappings").telescope()
+    end,
+  }
+
+  use {
+    'gelguy/wilder.nvim',
+    event = { 'CursorHold', 'CmdlineEnter' },
+    rocks = { 'luarocks-fetch-gitrec', 'pcre2' },
+    requires = { 'romgrk/fzy-lua-native' },
+    config = function()
+      gl.source('vimscript/wilder.vim', true)
+    end,
+  }
+
+  use {
+    'b3nj5m1n/kommentary',
+    event = 'BufReadPre',
+    config = function()
+      require("plugins.configs.others").comment()
+    end,
+  }
+
+  use {
+    'folke/todo-comments.nvim',
+    config = function()
+      require("plugins.configs.others").todo_comments()
+    end,
+    setup = function()
+      require("core.mappings").todo_comments()
+    end,
+  }
+
+  use {
+    'phaazon/hop.nvim',
+    cmd = {'HopChar1'},
+    keys = { { 'n', 'f' }, { 'n', 'F' }, { 'o', 'f' }, { 'x', 'f' }, { 'o', 'F' }, { 'x', 'F' } },
+    config = function()
+      require("plugins.configs.others").hop()
+    end,
+    setup = function()
+      require("core.mappings").hop()
+    end,
+  }
+
+  -- Dev Plugins
+  use { 'rafcamlet/nvim-luapad', cmd = 'Luapad' }
 end)

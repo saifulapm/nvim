@@ -63,22 +63,4 @@ function M.alter_color(color, percent)
   return string.format('#%02x%02x%02x', r, g, b)
 end
 
---- NOTE: vim.highlight's link and create are private, so
---- eventually move to using `nvim_set_hl`
----@param name string
----@param opts table
-function M.set_hl(name, opts)
-  assert(name and opts, "Both 'name' and 'opts' must be specified")
-  if not vim.tbl_isempty(opts) then
-    if opts.link then
-      vim.highlight.link(name, opts.link, opts.force)
-    else
-      local ok, msg = pcall(vim.highlight.create, name, opts)
-      if not ok then
-        vim.notify(fmt('Failed to set %s because: %s', name, msg))
-      end
-    end
-  end
-end
-
 return M

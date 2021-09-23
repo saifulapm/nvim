@@ -3,18 +3,22 @@ local M = {}
 local config = require("utils").load_config()
 
 M.autopairs = function()
-   local present1, autopairs = pcall(require, "nvim-autopairs")
-   local present2, autopairs_completion = pcall(require, "nvim-autopairs.completion.cmp")
+  local present1, autopairs = pcall(require, "nvim-autopairs")
+  local present2, autopairs_completion = pcall(require, "nvim-autopairs.completion.cmp")
 
-   if not (present1 or present2) then
-      return
-   end
+  if not (present1 or present2) then
+    return
+  end
 
-   autopairs.setup()
-   autopairs_completion.setup {
-      map_complete = true, -- insert () func completion
-      map_cr = true,
-   }
+  autopairs.setup {
+    close_triple_quotes = true,
+    check_ts = false,
+  }
+  autopairs_completion.setup {
+    map_complete = true, -- insert () func completion
+    map_cr = true,
+    auto_select = true,
+  }
 end
 
 M.autosave = function()
@@ -40,7 +44,7 @@ M.autosave = function()
 end
 
 M.better_escape = function()
-   local m = require("core.utils").load_config().mappings.plugin.better_escape.esc_insertmode
+   local m = require("utils").load_config().mappings.plugin.better_escape.esc_insertmode
 
    vim.g.better_escape_interval = config.options.plugin.esc_insertmode_timeout or 300
    vim.g.better_escape_shortcut = m
@@ -115,28 +119,31 @@ M.colorizer = function()
 end
 
 M.comment = function()
-   local present, nvim_comment = pcall(require, "nvim_comment")
+   local present, nvim_comment = pcall(require, "kommentary.config")
    if present then
-      nvim_comment.setup()
-   end
+      nvim_comment.configure_language ('default', { ignore_whitespace = true, use_consistent_indentation = true })
+      nvim_comment.configure_language ( {'lua', 'php' }, { prefer_single_line_comments = true })
+  end
 end
 
-M.luasnip = function()
-   local present, luasnip = pcall(require, "luasnip")
-   if not present then
-      return
-   end
-
-   luasnip.config.set_config {
-      history = true,
-      updateevents = "TextChanged,TextChangedI",
-   }
-   require("luasnip/loaders/from_vscode").load()
+M.todo_comments = function()
+   local present, todo_comments = pcall(require, "todo-comments")
+   if present then
+      todo_comments.setup {
+        highlight = {
+          exclude = { 'org', 'orgagenda', 'vimwiki', 'markdown' },
+        },
+      }
+  end
 end
 
 M.neoscroll = function()
    pcall(function()
-      require("neoscroll").setup()
+    require("neoscroll").setup {
+      mappings = { '<C-u>', '<C-d>', '<C-b>', '<C-f>', '<C-y>', 'zt', 'zz', 'zb' },
+      stop_eof = false,
+      hide_cursor = true,
+    }
    end)
 end
 
@@ -161,6 +168,86 @@ M.signature = function()
          padding = "", -- character to pad on left and right of signature can be ' ', or '|'  etc
       }
    end
+end
+
+M.fastaction = function()
+  local present, fastaction = pcall(require, "lsp-fastaction")
+  if present then
+    fastaction.setup {
+      action_data = {
+        dart = {
+          { pattern = 'import library', key = 'i', order = 1 },
+          { pattern = 'wrap with widget', key = 'w', order = 2 },
+          { pattern = 'column', key = 'c', order = 3 },
+          { pattern = 'row', key = 'r', order = 3 },
+          { pattern = 'container', key = 'C', order = 4 },
+          { pattern = 'center', key = 'E', order = 4 },
+          { pattern = 'padding', key = 'p', order = 4 },
+          { pattern = 'remove', key = 'r', order = 5 },
+          -- range code action
+          { pattern = "surround with %'if'", key = 'i', order = 2 },
+          { pattern = 'try%-catch', key = 't', order = 2 },
+          { pattern = 'for%-in', key = 'f', order = 2 },
+          { pattern = 'setstate', key = 's', order = 2 },
+        },
+      },
+    }
+  end
+end
+
+M.null_ls = function ()
+  local present1, null_ls = pcall(require, "null-ls")
+  local present2,  lspconfig = pcall(require, "lspconfig")
+
+  if not (present1 or present2) then
+    return
+  end
+
+  null_ls.config {
+    debounce = 150,
+    sources = {
+      null_ls.builtins.diagnostics.write_good,
+      null_ls.builtins.code_actions.gitsigns,
+      null_ls.builtins.formatting.stylua.with {
+        condition = function(_utils)
+          return _utils.root_has_file 'stylua.toml'
+        end,
+      },
+      null_ls.builtins.formatting.prettier.with {
+        filetypes = { 'html', 'json', 'yaml', 'graphql', 'markdown' },
+      },
+    },
+  }
+  lspconfig['null-ls'].setup { on_attach = gl.lsp.on_attach }
+end
+
+M.hop = function ()
+  local present1, hop = pcall(require, "hop")
+  local present2, hint = pcall(require, "hop.hint")
+  if not (present1 or present2) then
+    return
+  end
+
+  -- remove h,j,k,l from hops list of keys
+  hop.setup { keys = 'etovxqpdygfbzcisuran' }
+
+  local map = require("utils").map
+
+  -- NOTE: override F/f using hop motions
+  map('n', 'F', function()
+    hop.hint_words { direction = hint.HintDirection.BEFORE_CURSOR }
+  end)
+
+  map('n', 'f', function()
+    hop.hint_words { direction = hint.HintDirection.AFTER_CURSOR }
+  end)
+
+  map({ 'o', 'x' }, 'F', function()
+    hop.hint_char1 { direction = hint.HintDirection.BEFORE_CURSOR }
+  end)
+  map({ 'o', 'x' }, 'f', function()
+    hop.hint_char1 { direction = hint.HintDirection.AFTER_CURSOR }
+  end)
 end
 
 return M

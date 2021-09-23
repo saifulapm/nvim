@@ -1,0 +1,48 @@
+{
+  "contributes": {
+    "snippets": [
+      {
+        "language": [
+          "all"
+        ],
+        "path": "./all.json"
+      },
+      {
+        "language": "dart",
+        "path": "./dart.json"
+      },
+      {
+        "language": "help",
+        "path": "./help.json"
+      },
+      {
+        "language": "php",
+        "path": "./php.json"
+      },
+      {
+        "language": "liquid",
+        "path": "./liquid.json"
+      },
+      {
+        "language": "lua",
+        "path": "./lua.json"
+      },
+      {
+        "language": "markdown",
+        "path": "./markdown.json"
+      },
+      {
+        "language": "javascript",
+        "path": "./javascript.json"
+      },
+      {
+        "language": "javascriptreact",
+        "path": "./javascriptreact.json"
+      },
+      {
+        "language": "json",
+        "path": "./json.json"
+      }
+    ]
+  }
+}

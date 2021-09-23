@@ -1,0 +1,38 @@
+{
+  "-": {
+    "prefix": "-",
+    "body": "<?php ${1} ?>"
+  },
+  "=": {
+    "prefix": "=",
+    "body": "<?php echo ${1} ?>"
+  },
+  "if": {
+    "prefix": "if",
+    "body": "if (${1:/* condition */})\n{\n\t${2:// code...}\n}"
+  },
+  "if=": {
+    "prefix": "if=",
+    "body": "<?php if (${1:/* condition */}): ?>\n\t${2:<!-- code -->}\n<?php endif ?>"
+  },
+  "switch": {
+    "prefix": "switch",
+    "body": "switch ($${1:variable}) {\n\tcase '${2:value}':\n\t\t${3:// code...}\n\t\tbreak;\n\t${5}\n\tdefault:\n\t\t${4:// code...}\n\t\tbreak;\n}"
+  },
+  "case": {
+    "prefix": "case",
+    "body": "case '${1:value}':\n\t${2:// code...}\n\tbreak;${3}"
+  },
+  "for": {
+    "prefix": "for",
+    "body": "for ($${2:i} = 0; $$2 < ${1:count}; $$2${3:++}) {\n\t${4: // code...}\n}"
+  },
+  "each": {
+    "prefix": "each",
+    "body": "foreach ($${1:variable} as $${2:value})\n{\n\t${3:// code...}\n}${4}"
+  },
+  "each=": {
+    "prefix": "each=",
+    "body": "<?php foreach ($${1:variable} as $${2:key}): ?>\n\t<?php echo $$2 ?>\n<?php endforeach ?>${4}"
+  }
+}

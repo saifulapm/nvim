@@ -1,0 +1,10 @@
+{
+  "image": {
+    "prefix": "image",
+    "body": "![Alt text](http://example.com)"
+  },
+  "badge": {
+    "prefix": "badge",
+    "body": "[![Build Status](https://secure.travis-ci.org/AndrewRadev/${1:plugin_name}.png?branch=master)](http://travis-ci.org/AndrewRadev/$1)"
+  }
+}

@@ -315,3 +315,8 @@ function gl.invalidate(path, recursive)
     require(path)
   end
 end
+
+function gl.has_map(lhs, mode)
+  mode = mode or 'n'
+  return vim.fn.maparg(lhs, mode) ~= ''
+end

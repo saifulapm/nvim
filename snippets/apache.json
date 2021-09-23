@@ -1,0 +1,6 @@
+{
+  "vhost": {
+    "prefix": "vhost",
+    "body": "<VirtualHost *:80>\n\tServerName ${1:test.localhost}\n\tDocumentRoot \"/home/andrew/projects/${2:test}\"\n\tDirectoryIndex index.php\n\t<Directory \"/home/andrew/projects/$2\">\n\t\tAllowOverride All\n\t\tAllow from All\n\t\tOptions -MultiViews\n\t</Directory>\n</VirtualHost>"
+  }
+}
