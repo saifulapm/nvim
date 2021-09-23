@@ -8,7 +8,7 @@ M.ui = {
    italic_comments = false,
 
    -- theme to be used, to see all available themes, open the theme switcher by <leader> + th
-   theme = "gruvbox",
+   theme = "everforest",
 
    -- theme toggler, toggle between two themes, see theme_toggleer mappings
    theme_toggler = {
@@ -38,7 +38,7 @@ M.ui.plugin = {
       },
       shown = {},
       -- default, round , slant , block , arrow
-      style = "default",
+      style = "arrow",
    },
 }
 
@@ -151,33 +151,40 @@ M.mappings.plugin = {
       toggle = "<C-n>",
       focus = "<leader>e",
    },
-   neoformat = {
-      format = "<leader>fm",
-   },
    telescope = {
-      buffers = "<leader>fb",
+      buffers = "<leader>fo",
+      buffer_fuzzy = "<leader>fb",
       find_files = "<leader>ff",
       find_hiddenfiles = "<leader>fa",
-      git_commits = "<leader>cm",
-      git_status = "<leader>gt",
-      help_tags = "<leader>fh",
-      live_grep = "<leader>fw",
-      oldfiles = "<leader>fo",
+      git_commits = "<leader>fgc",
+      git_branches = "<leader>fgt",
+      man_pages = "<leader>fm",
+      help_tags = "<leader>f?",
+      nvim_config = "<Leader>fn",
+      live_grep = "<leader>fs",
+      grep_under_cursor_word = "<leader>fw",
+      history = "<leader>fh",
       themes = "<leader>th",
-   },
-   telescope_media = {
-      media_files = "<leader>fp",
+      builtins = "<leader>fa",
+      dotfiles = "<leader>fd",
+      installed_plugins = "<Leader>fp",
+      orgfiles = "<Leader>fO",
+      module_reloader = "<leader>fR",
+      resume_last_picker = "<Leader>fr",
+      tmux_sessions = "<leader>fts",
+      tmux_windows = "<leader>ftw",
+      lsp_workspace_diagnostics = "<leader>cd",
+      lsp_document_symbols = "<Leader>cs",
+      lsp_dynamic_workspace_symbols = "<leader>cw"
    },
    truezen = { -- distraction free modes mapping, hide statusline, tabline, line numbers
       ataraxis_mode = "<leader>zz", -- center
       focus_mode = "<leader>zf",
       minimalistic_mode = "<leader>zm", -- as it is
    },
-   vim_fugitive = {
-      diff_get_2 = "<leader>gh",
-      diff_get_3 = "<leader>gl",
-      git = "<leader>gs",
-      git_blame = "<leader>gb",
+   session = {
+      session_save = "<leader>s",
+      session_load = "<leader>l",
    },
 }
 

@@ -55,10 +55,10 @@ local function setup_mappings(client, bufnr)
   map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>")
   map("n", "<space>e", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>")
   map("n", "[d", function()
-    diagnostics.goto_prev { popup_opts = { border = 'rounded', focusable = false } }
+    diagnostics.goto_prev { popup_opts = { border = 'rounded', focusable = false, source = 'always' } }
   end)
   map("n", "]d", function()
-    diagnostics.goto_next { popup_opts = { border = 'rounded', focusable = false } }
+    diagnostics.goto_next { popup_opts = { border = 'rounded', focusable = false, source = 'always' } }
   end)
   map("n", "<space>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>")
   map("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>")

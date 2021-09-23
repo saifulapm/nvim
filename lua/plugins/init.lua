@@ -226,6 +226,7 @@ return packer.startup(function()
   use {
     "nvim-telescope/telescope.nvim",
     cmd = "Telescope",
+    keys = { '<leader>fo', '<leader>ff', '<leader>fs', '<leader>fw' },
     module = "telescope.*",
     requires = {
       {
@@ -244,13 +245,35 @@ return packer.startup(function()
         "nvim-telescope/telescope-fzf-native.nvim",
         after = "telescope.nvim",
         run = "make",
+        config = function()
+          require('telescope').load_extension 'fzf'
+        end,
+      },
+      {
+        'nvim-telescope/telescope-frecency.nvim',
+        after = 'telescope.nvim',
+        requires = 'tami5/sqlite.lua',
+        config = function()
+          require"telescope".load_extension("frecency")
+        end,
+      },
+      {
+        'nvim-telescope/telescope-smart-history.nvim',
+        after = 'telescope.nvim',
+        config = function()
+          require('telescope').load_extension 'smart_history'
+        end,
+      },
+      {
+        'camgraff/telescope-tmux.nvim',
+        after = 'telescope.nvim',
+        config = function()
+          require('telescope').load_extension 'tmux'
+        end,
       },
     },
     config = function()
       require "plugins.configs.telescope"
-    end,
-    setup = function()
-      require("core.mappings").telescope()
     end,
   }
 
@@ -294,6 +317,73 @@ return packer.startup(function()
     end,
   }
 
+  use {
+    'rmagatti/auto-session',
+    config = function()
+      require("plugins.configs.others").session()
+    end,
+    setup = function ()
+      require("core.mappings").session()
+    end
+  }
+
+  use {
+    'AckslD/nvim-neoclip.lua',
+    config = function()
+      require("plugins.configs.others").neoclip()
+    end,
+  }
+
+  use {
+    'kevinhwang91/nvim-bqf',
+  }
+
+  use {
+    'kevinhwang91/nvim-hclipboard',
+    event = 'InsertCharPre',
+    config = function()
+      require('hclipboard').start()
+    end,
+  }
+
+  use { 'arecarn/vim-fold-cycle' }
+
+  use {
+    'mbbill/undotree',
+    cmd = 'UndotreeToggle',
+    keys = '<leader>u',
+    setup = function()
+      require("core.mappings").undotree()
+    end,
+    config = function()
+      vim.g.undotree_TreeNodeShape = '◉' -- Alternative: '◦'
+      vim.g.undotree_SetFocusWhenToggle = 1
+    end,
+  }
+
+  -- Use <Tab> to escape from pairs such as ""|''|() etc.
+  use {
+    'abecodes/tabout.nvim',
+    wants = { 'nvim-treesitter' },
+    after = { 'nvim-cmp' },
+    config = function()
+      require('tabout').setup {
+        completion = false,
+        ignore_beginning = false,
+      }
+    end,
+  }
+
+  --------------------------------------------------------------------------------
+  -- TPOPE {{{1
+  --------------------------------------------------------------------------------
+  use 'tpope/vim-repeat'
+  -- sets searchable path for filetypes like go so 'gf' works
+  use { 'tpope/vim-apathy', ft = { 'go', 'python', 'javascript', 'typescript' } }
+  -- TODO: surround, abolish, eunuch, sleuth, projectionist
+
   -- Dev Plugins
   use { 'rafcamlet/nvim-luapad', cmd = 'Luapad' }
+  use { 'nanotee/luv-vimdocs' }
+  use { 'milisims/nvim-luaref' }
 end)

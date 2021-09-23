@@ -43,6 +43,20 @@ M.autosave = function()
    }
 end
 
+M.session = function ()
+  local present, auto_session = pcall(require, "auto-session")
+  if not present then
+    return
+  end
+  auto_session.setup {
+    auto_session_root_dir = ('%s/session/auto/'):format(vim.fn.stdpath 'data'),
+    auto_session_enabled = false,
+    auto_save_enabled = true,
+    auto_restore_enabled = false,
+    auto_session_suppress_dirs = true
+  }
+end
+
 M.better_escape = function()
    local m = require("utils").load_config().mappings.plugin.better_escape.esc_insertmode
 
@@ -152,20 +166,11 @@ M.signature = function()
    if present then
       lspsignature.setup {
          bind = true,
-         doc_lines = 2,
-         floating_window = true,
-         fix_pos = true,
+         fix_pos = false,
          hint_enable = true,
-         hint_prefix = " ",
-         hint_scheme = "String",
-         hi_parameter = "Search",
-         max_height = 22,
-         max_width = 120, -- max_width of signature floating_window, line will be wrapped if exceed max_width
          handler_opts = {
-            border = "single", -- double, single, shadow, none
+            border = "rounded", -- double, single, shadow, none
          },
-         zindex = 200, -- by default it will be on top of all floating windows, set to 50 send it to bottom
-         padding = "", -- character to pad on left and right of signature can be ' ', or '|'  etc
       }
    end
 end
@@ -248,6 +253,29 @@ M.hop = function ()
   map({ 'o', 'x' }, 'f', function()
     hop.hint_char1 { direction = hint.HintDirection.AFTER_CURSOR }
   end)
+end
+
+M.neoclip = function ()
+  local present, neoclip = pcall(require, "neoclip")
+  if present then
+  neoclip.setup {
+    keys = {
+      i = { select = '<CR>', paste = '<c-p>', paste_behind = '<c-k>' },
+      n = { select = '<CR>', paste = 'p', paste_behind = 'P' },
+    },
+  }
+  local function clip()
+    if not gl.plugin_loaded('telescope') then
+      vim.cmd [[packadd telescope.nvim]]
+    end
+    require('telescope').extensions.neoclip.default(
+      require('telescope.themes').get_dropdown()
+    )
+  end
+  local map = require("utils").map
+  map('n', '<localleader>p', clip)
+
+end
 end
 
 return M

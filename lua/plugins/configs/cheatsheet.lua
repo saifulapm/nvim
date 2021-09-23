@@ -4,6 +4,10 @@ if not present then
    return
 end
 
+if not gl.plugin_loaded("telescope") then
+  vim.cmd [[packadd telescope.nvim]]
+end
+
 local mappings = require("utils").load_config().mappings
 
 -- add user mappings to the cheetsheet

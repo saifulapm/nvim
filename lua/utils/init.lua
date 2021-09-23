@@ -257,8 +257,8 @@ M.install = function (binary, installer, cmd, opts)
     if opts.silent then
       vim.cmd('!'..install_cmd)
     else
-      vim.cmd '25split | wincmd J'
-      vim.fn.termopen(install_cmd)
+      -- open a small split, make it full width, run the command
+      vim.cmd(string.format('25split | wincmd J | terminal %s', install_cmd))
     end
   end
 end
@@ -436,6 +436,9 @@ M.list_themes = function(return_type)
 end
 
 M.theme_switcher = function (opts)
+  if not gl.plugin_loaded("telescope") then
+    vim.cmd [[packadd telescope.nvim]]
+  end
   local pickers, finders, previewers, actions, action_state, utils, conf
   if pcall(require, "telescope") then
     pickers = require "telescope.pickers"

@@ -143,43 +143,15 @@ M.cheatsheet = function()
    )
 end
 
-M.dashboard = function()
-   local m = plugin_maps.dashboard
-
-   map("n", m.bookmarks, ":DashboardJumpMarks <CR>")
-   map("n", m.new_file, ":DashboardNewFile <CR>")
-   map("n", m.open, ":Dashboard <CR>")
-   map("n", m.session_load, ":SessionLoad <CR>")
-   map("n", m.session_save, ":SessionSave <CR>")
+M.session = function()
+   local m = plugin_maps.session
+   map("n", m.session_load, ":RestoreSession<CR>")
+   map("n", m.session_save, ":SaveSession<CR>")
 end
 
 M.nvimtree = function()
    map("n", plugin_maps.nvimtree.toggle, ":NvimTreeToggle <CR>")
    map("n", plugin_maps.nvimtree.focus, ":NvimTreeFocus <CR>")
-end
-
-M.neoformat = function()
-   map("n", plugin_maps.neoformat.format, ":Neoformat <CR>")
-end
-
-M.telescope = function()
-   local m = plugin_maps.telescope
-
-   map("n", m.buffers, ":Telescope buffers <CR>")
-   map("n", m.find_files, ":Telescope find_files <CR>")
-   map("n", m.find_hiddenfiles, ":Telescope find_files hidden=true <CR>")
-   map("n", m.git_commits, ":Telescope git_commits <CR>")
-   map("n", m.git_status, ":Telescope git_status <CR>")
-   map("n", m.help_tags, ":Telescope help_tags <CR>")
-   map("n", m.live_grep, ":Telescope live_grep <CR>")
-   map("n", m.oldfiles, ":Telescope oldfiles <CR>")
-   map("n", m.themes, ":lua require('utils').theme_switcher()<CR>")
-end
-
-M.telescope_media = function()
-   local m = plugin_maps.telescope_media
-
-   map("n", m.media_files, ":Telescope media_files <CR>")
 end
 
 M.truezen = function()
@@ -218,6 +190,10 @@ end
 
 M.hop = function()
   map('n', 's', "<Cmd>HopChar1<CR>")
+end
+
+M.undotree = function ()
+  map('n', "<leader>u", "<Cmd>UndotreeToggle<CR>")
 end
 
 return M
