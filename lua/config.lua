@@ -5,7 +5,7 @@ M.ui, M.options, M.plugin_status, M.mappings, M.custom = {}, {}, {}, {}, {}
 
 -- non plugin ui configs, available without any plugins
 M.ui = {
-   italic_comments = false,
+   italic_comments = true,
 
    -- theme to be used, to see all available themes, open the theme switcher by <leader> + th
    theme = "everforest",
@@ -15,6 +15,7 @@ M.ui = {
       enabled = true,
       fav_themes = {
          "onedark",
+         "everforest",
          "one-light",
       },
    },
@@ -44,35 +45,14 @@ M.ui.plugin = {
 
 -- non plugin normal, available without any plugins
 M.options = {
-   clipboard = "unnamedplus",
-   cmdheight = 1,
    copy_cut = true, -- copy cut text ( x key ), visual and normal mode
    copy_del = true, -- copy deleted text ( dd key ), visual and normal mode
-   expandtab = true,
-   hidden = true,
-   ignorecase = true,
    insert_nav = true, -- navigation in insertmode
-   mapleader = " ",
-   mouse = "a",
-   number = true,
-   -- relative numbers in normal mode tool at the bottom of options.lua
-   numberwidth = 2,
-   permanent_undo = true,
-   shiftwidth = 2,
-   smartindent = true,
-   tabstop = 8, -- Number of spaces that a <Tab> in the file counts for
-   timeoutlen = 400,
-   relativenumber = false,
-   ruler = false,
-   updatetime = 250,
-   -- used for updater
-   update_url = "https://github.com/NvChad/NvChad",
-   update_branch = "main",
 }
 
 -- these are plugin related options
 M.options.plugin = {
-   autosave = false, -- autosave on changed text or insert mode leave
+   autosave = true, -- autosave on changed text or insert mode leave
    -- timeout to be used for using escape with a key combination, see mappings.plugin.better_escape
    esc_insertmode_timeout = 300,
 }
@@ -97,7 +77,6 @@ M.mappings = {
       top_of_line = "<C-a>",
    },
 
-   line_number_toggle = "<leader>n", -- show or hide line number
    new_buffer = "<S-t>", -- open a new buffer
    new_tab = "<C-t>b", -- open a new vim tab
    save_file = "<C-s>", -- save file using :w
@@ -119,15 +98,13 @@ M.mappings = {
       new_window = "<leader>w",
    },
 
-   -- update nvchad from nvchad, chadness 101
-   update_nvchad = "<leader>uu",
 }
 
 -- all plugins related mappings
 -- to get short info about a plugin, see the respective string in plugin_status, if not present, then info here
 M.mappings.plugin = {
    bufferline = {
-      next_buffer = "<TAB>", -- next buffer
+      next_buffer = "<Leader><TAB>", -- next buffer
       prev_buffer = "<S-Tab>", -- previous buffer
       --better window movement
       moveLeft = "<C-h>",

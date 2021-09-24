@@ -30,15 +30,15 @@
     enable_autosnippets = true,
   }
   local opts = { expr = true }
-  local map = require("utils").map
-  map('i', '<c-j>', "luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<c-j>'", opts)
-  map('i', '<c-k>', "luasnip#jumpable(-1) ? '<Plug>luasnip-jump-prev': '<c-k>'", opts)
-  map('s', '<c-j>', function()
-    ls.jump(1)
-  end)
-  map('s', '<c-k>', function()
-    ls.jump(-1)
-  end)
+  -- local map = require("utils").map
+  -- map('i', '<c-j>', "luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<c-j>'", opts)
+  -- map('i', '<c-k>', "luasnip#jumpable(-1) ? '<Plug>luasnip-jump-prev': '<c-k>'", opts)
+  -- map('s', '<c-j>', function()
+  --   ls.jump(1)
+  -- end)
+  -- map('s', '<c-k>', function()
+  --   ls.jump(-1)
+  -- end)
 
   ls.snippets = {
     lua = {

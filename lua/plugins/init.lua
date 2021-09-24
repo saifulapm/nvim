@@ -374,6 +374,21 @@ return packer.startup(function()
     end,
   }
 
+  use {
+    "Pocco81/TrueZen.nvim",
+    cmd = {
+      "TZAtaraxis",
+      "TZMinimalist",
+      "TZFocus",
+    },
+    config = function()
+      require("plugins.configs.zenmode")
+    end,
+    setup = function()
+      require("core.mappings").truezen()
+    end,
+  }
+
   --------------------------------------------------------------------------------
   -- TPOPE {{{1
   --------------------------------------------------------------------------------

@@ -32,6 +32,8 @@ telescope.setup {
       horizontal = {
         preview_width = 0.45,
       },
+      width = 0.87,
+      height = 0.80,
     },
     winblend = 10,
     history = {
@@ -191,4 +193,3 @@ map("n", m.tmux_windows, tmux_windows)
 map("n", m.lsp_workspace_diagnostics, builtins.lsp_workspace_diagnostics)
 map("n", m.lsp_document_symbols, builtins.lsp_document_symbols)
 map("n", m.lsp_workspace_diagnostics, builtins.lsp_workspace_diagnostics)
-map("n", m.themes, ":lua require('utils').theme_switcher()<CR>")

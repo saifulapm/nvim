@@ -38,7 +38,7 @@ end
 M.better_escape = function()
    require("better_escape").setup {
       mapping = config.mappings.plugin.better_escape.esc_insertmode,
-      timeout = config.plugins.options.esc_insertmode_timeout,
+      timeout = config.options.plugin.esc_insertmode_timeout,
    }
 end
 

@@ -278,6 +278,7 @@ M.misc = function()
         maps.theme_toggler,
         ":lua require('utils').toggle_theme(require('utils').load_config().ui.theme_toggler.fav_themes) <CR>"
       )
+      map("n", plugin_maps.telescope.themes, ":lua require('utils').theme_switcher()<CR>")
     end
   end
 
@@ -286,7 +287,6 @@ M.misc = function()
     map("n", maps.copy_whole_file, ":%y+ <CR>") -- copy whole file content
     map("n", maps.new_buffer, ":enew <CR>") -- new buffer
     map("n", maps.new_tab, ":tabnew <CR>") -- new tabs
-    map("n", maps.line_number_toggle, ":set nu! <CR>") -- toggle numbers
     map("n", maps.save_file, ":w <CR>") -- ctrl + s to save file
     map("n", maps.reload_theme, ":lua require('utils').reload_theme()<CR>") -- ctrl + s to save file
 
@@ -312,10 +312,6 @@ M.misc = function()
     cmd "silent! command PackerStatus lua require 'plugins' require('packer').status()"
     cmd "silent! command PackerSync lua require 'plugins' require('packer').sync()"
     cmd "silent! command PackerUpdate lua require 'plugins' require('packer').update()"
-
-    -- add NvChadUpdate command and mapping
-    cmd "silent! command! NvChadUpdate lua require('nvchad').update_nvchad()"
-    map("n", maps.update_nvchad, ":NvChadUpdate <CR>")
 
     -- add ChadReload command and maping
     -- cmd "silent! command! NvChadReload lua require('nvchad').reload_config()"
