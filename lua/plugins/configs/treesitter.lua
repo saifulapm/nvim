@@ -6,6 +6,8 @@ end
 ts_config.setup {
   ensure_installed = {
     "lua",
+    "javascript",
+    "php"
   },
   highlight = {
     enable = true,

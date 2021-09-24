@@ -196,9 +196,9 @@ return packer.startup(function()
   }
 
   use {
-    "jdhao/better-escape.vim",
+    "max397574/better-escape.nvim",
     event = "InsertEnter",
-    setup = function()
+    config = function()
       require("plugins.configs.others").better_escape()
     end,
   }

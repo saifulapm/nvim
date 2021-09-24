@@ -26,8 +26,4 @@ gitsigns.setup {
       delete = { hl = "DiffDelete", text = '▌' },
       topdelete = { hl = "DiffDelete", text = '▌' },
    },
-   status_formatter = nil, -- Use default
-   watch_index = {
-      interval = 100,
-   },
 }

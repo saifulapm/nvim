@@ -21,28 +21,6 @@ M.autopairs = function()
   }
 end
 
-M.autosave = function()
-   -- autosave.nvim plugin is disabled by default
-   local present, autosave = pcall(require, "autosave")
-   if not present then
-      return
-   end
-
-   autosave.setup {
-      enabled = config.options.plugin.autosave, -- takes boolean value from chadrc.lua
-      execution_message = "autosaved at : " .. vim.fn.strftime "%H:%M:%S",
-      events = { "InsertLeave", "TextChanged" },
-      conditions = {
-         exists = true,
-         filetype_is_not = {},
-         modifiable = true,
-      },
-      clean_command_line_interval = 2500,
-      on_off_commands = true,
-      write_all_buffers = false,
-   }
-end
-
 M.session = function ()
   local present, auto_session = pcall(require, "auto-session")
   if not present then
@@ -58,10 +36,10 @@ M.session = function ()
 end
 
 M.better_escape = function()
-   local m = require("utils").load_config().mappings.plugin.better_escape.esc_insertmode
-
-   vim.g.better_escape_interval = config.options.plugin.esc_insertmode_timeout or 300
-   vim.g.better_escape_shortcut = m
+   require("better_escape").setup {
+      mapping = config.mappings.plugin.better_escape.esc_insertmode,
+      timeout = config.plugins.options.esc_insertmode_timeout,
+   }
 end
 
 M.blankline = function()

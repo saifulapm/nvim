@@ -135,7 +135,11 @@ end
 
 M.map = function(mode, keys, cmd, opt)
   local options = { noremap = true, silent = true }
+  local buffer = nil
+
   if opt then
+    buffer = opt.buffer
+    opt.buffer = nil
     options = vim.tbl_extend("force", options, opt)
   end
 
@@ -173,6 +177,9 @@ M.map = function(mode, keys, cmd, opt)
           rhs = string.format('<cmd>lua gl._execute(%s)<CR>', fn_id)
         end
         if valid_modes[mo] and lhs and rhs then
+          if buffer and type(buffer) == 'number' then
+            return vim.api.nvim_buf_set_keymap(buffer, mo, lhs, rhs, op)
+          end
           vim.api.nvim_set_keymap(mo, lhs, rhs, op)
         else
           mo, lhs, rhs = mo or "", lhs or "", rhs or ""
