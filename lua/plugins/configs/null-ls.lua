@@ -15,6 +15,15 @@ null_ls.config {
     null_ls.builtins.formatting.prettier.with {
       filetypes = { 'html', 'json', 'yaml', 'graphql', 'markdown' },
     },
+    null_ls.builtins.formatting.phpcsfixer.with {
+      args = {
+        '--no-interaction',
+        '--quiet',
+        '--config=~/.dotfiles/.php-cs-fixer.php',
+        'fix',
+        '$FILENAME',
+      },
+    },
   },
 }
 require('lspconfig')['null-ls'].setup { on_attach = gl.lsp.on_attach }
