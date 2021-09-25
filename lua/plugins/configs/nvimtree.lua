@@ -1,6 +1,6 @@
-local present, tree = pcall(require, "nvim-tree")
+local present, tree = pcall(require, 'nvim-tree')
 if not present then
-   return
+  return
 end
 
 local action = require('nvim-tree.config').nvim_tree_callback
@@ -35,8 +35,8 @@ vim.g.nvim_tree_auto_resize = 1
 
 vim.g.nvim_tree_bindings = {
   { key = 'cd', cb = action 'cd' },
-  { key = "v", cb = action("vsplit") },
-  { key = "s", cb = action("split") },
+  { key = 'v', cb = action 'vsplit' },
+  { key = 's', cb = action 'split' },
 }
 
 tree.setup {

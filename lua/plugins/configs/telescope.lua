@@ -1,10 +1,10 @@
-local present, telescope = pcall(require, "telescope")
+local present, telescope = pcall(require, 'telescope')
 if not present then
   return
 end
 
 local actions = require 'telescope.actions'
-local utils = require "utils"
+local utils = require 'utils'
 
 local plugin_maps = utils.load_config().mappings.plugin
 local map = utils.map
@@ -170,12 +170,12 @@ end
 local m = plugin_maps.telescope
 
 map('n', m.builtins, builtins.builtin)
-map("n", m.buffer_fuzzy, builtins.current_buffer_fuzzy_find)
-map("n", m.dotfiles, dotfiles)
-map("n", m.find_files, builtins.find_files)
-map("n", m.find_hiddenfiles, ":Telescope find_files hidden=true <CR>")
-map("n", m.git_commits, ":Telescope git_commits <CR>")
-map("n", m.git_branches, ":Telescope git_branches <CR>")
+map('n', m.buffer_fuzzy, builtins.current_buffer_fuzzy_find)
+map('n', m.dotfiles, dotfiles)
+map('n', m.find_files, builtins.find_files)
+map('n', m.find_hiddenfiles, ':Telescope find_files hidden=true <CR>')
+map('n', m.git_commits, ':Telescope git_commits <CR>')
+map('n', m.git_branches, ':Telescope git_branches <CR>')
 map('n', m.man_pages, builtins.man_pages)
 map('n', m.nvim_config, nvim_config)
 map('n', m.buffers, builtins.buffers)
@@ -184,12 +184,12 @@ map('n', m.orgfiles, orgfiles)
 map('n', m.module_reloader, builtins.reloader)
 map('n', m.resume_last_picker, builtins.resume)
 map('n', m.buffers, builtins.buffers)
-map("n", m.help_tags, ":Telescope help_tags <CR>")
-map("n", m.live_grep, builtins.live_grep)
-map("n", m.grep_under_cursor_word, builtins.grep_string)
-map("n", m.history, frecency)
-map("n", m.tmux_sessions, tmux_sessions)
-map("n", m.tmux_windows, tmux_windows)
-map("n", m.lsp_workspace_diagnostics, builtins.lsp_workspace_diagnostics)
-map("n", m.lsp_document_symbols, builtins.lsp_document_symbols)
-map("n", m.lsp_workspace_diagnostics, builtins.lsp_workspace_diagnostics)
+map('n', m.help_tags, ':Telescope help_tags <CR>')
+map('n', m.live_grep, builtins.live_grep)
+map('n', m.grep_under_cursor_word, builtins.grep_string)
+map('n', m.history, frecency)
+map('n', m.tmux_sessions, tmux_sessions)
+map('n', m.tmux_windows, tmux_windows)
+map('n', m.lsp_workspace_diagnostics, builtins.lsp_workspace_diagnostics)
+map('n', m.lsp_document_symbols, builtins.lsp_document_symbols)
+map('n', m.lsp_workspace_diagnostics, builtins.lsp_workspace_diagnostics)

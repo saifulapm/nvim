@@ -31,7 +31,7 @@ local function toggle_trailing(mode)
   end
 end
 
-vim.cmd("hi ExtraWhitespace guifg=red")
+vim.cmd 'hi ExtraWhitespace guifg=red'
 
 gl.augroup('WhitespaceMatch', {
   {

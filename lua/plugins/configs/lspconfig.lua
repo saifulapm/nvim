@@ -16,23 +16,23 @@ local function setup_autocommands(client, _)
       },
     })
   end
-  -- if client and client.resolved_capabilities.document_formatting then
-  --   -- format on save
-  --   gl.augroup('LspFormat', {
-  --     {
-  --       events = { 'BufWritePre' },
-  --       targets = { '<buffer>' },
-  --       command = function()
-  --         -- BUG: folds are are removed when formatting is done, so we save the current state of the
-  --         -- view and re-apply it manually after formatting the buffer
-  --         -- @see: https://github.com/nvim-treesitter/nvim-treesitter/issues/1424#issuecomment-909181939
-  --         vim.cmd 'mkview!'
-  --         vim.lsp.buf.formatting_sync()
-  --         vim.cmd 'edit | loadview'
-  --       end,
-  --     },
-  --   })
-  -- end
+  if client and client.resolved_capabilities.document_formatting then
+    -- format on save
+    gl.augroup('LspFormat', {
+      {
+        events = { 'BufWritePre' },
+        targets = { '<buffer>' },
+        command = function()
+          -- BUG: folds are are removed when formatting is done, so we save the current state of the
+          -- view and re-apply it manually after formatting the buffer
+          -- @see: https://github.com/nvim-treesitter/nvim-treesitter/issues/1424#issuecomment-909181939
+          vim.cmd 'mkview!'
+          vim.lsp.buf.formatting_sync()
+          vim.cmd 'edit | loadview'
+        end,
+      },
+    })
+  end
 end
 
 -----------------------------------------------------------------------------//
@@ -43,40 +43,44 @@ end
 ---@param client table lsp client
 ---@param bufnr integer?
 local function setup_mappings(client, bufnr)
-  local map = require("utils").map
-  map("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>")
-  map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
-  map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
-  map("n", "gI", "<cmd>lua vim.lsp.buf.incoming_calls()<CR>")
-  map("n", "gk", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
-  map("n", "<space>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>")
-  map("n", "<space>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>")
-  map("n", "<space>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>")
-  map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>")
-  map("n", "<space>e", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>")
-  map("n", "[d", function()
-    diagnostics.goto_prev { popup_opts = { border = 'rounded', focusable = false, source = 'always' } }
+  local map = require('utils').map
+  map('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>')
+  map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
+  map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
+  map('n', 'gI', '<cmd>lua vim.lsp.buf.incoming_calls()<CR>')
+  map('n', 'gk', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
+  map('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>')
+  map('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>')
+  map('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>')
+  map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
+  map('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
+  map('n', '[d', function()
+    diagnostics.goto_prev {
+      popup_opts = { border = 'rounded', focusable = false, source = 'always' },
+    }
   end)
-  map("n", "]d", function()
-    diagnostics.goto_next { popup_opts = { border = 'rounded', focusable = false, source = 'always' } }
+  map('n', ']d', function()
+    diagnostics.goto_next {
+      popup_opts = { border = 'rounded', focusable = false, source = 'always' },
+    }
   end)
-  map("n", "<space>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>")
-  map("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>")
+  map('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>')
+  map('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>')
   if client.resolved_capabilities.implementation then
-    map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>")
+    map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
   end
 
   if client.resolved_capabilities.type_definition then
-    map("n", "<space>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>")
+    map('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
   end
 
   if not gl.has_map('<leader>ca', 'n') then
-    map("n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
-    map("v", "<space>ca", "<cmd>lua vim.lsp.buf.range_code_action()<CR>")
+    map('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>')
+    map('v', '<space>ca', '<cmd>lua vim.lsp.buf.range_code_action()<CR>')
   end
 
   if client.supports_method 'textDocument/rename' then
-    map("n", "<space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>")
+    map('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
   end
 end
 
@@ -184,4 +188,3 @@ end
 vim.g.lspconfig_has_setup = true
 
 gl.lsp.setup_servers()
-

@@ -1,4 +1,4 @@
-local utils = require "utils"
+local utils = require 'utils'
 
 local config = utils.load_config()
 local map = utils.map
@@ -14,19 +14,19 @@ local M = {}
 M.misc = function()
   local function non_config_mappings()
     -- Don't copy the replaced text after pasting in visual mode
-    map("v", "p", '"_dP')
+    map('v', 'p', '"_dP')
 
     -- Allow moving the cursor through wrapped lines with j, k, <Up> and <Down>
     -- http://www.reddit.com/r/vim/comments/2k4cbr/problem_with_gj_and_gk/
     -- empty mode is same as using :map
     -- also don't use g[j|k] when in operator pending mode, so it doesn't alter d, y or c behaviour
-    map("", "j", 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', { expr = true })
-    map("", "k", 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', { expr = true })
-    map("", "<Down>", 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', { expr = true })
-    map("", "<Up>", 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', { expr = true })
+    map('', 'j', 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', { expr = true })
+    map('', 'k', 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', { expr = true })
+    map('', '<Down>', 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', { expr = true })
+    map('', '<Up>', 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', { expr = true })
 
     -- use ESC to turn off search highlighting
-    map("n", "<Esc>", ":noh <CR>")
+    map('n', '<Esc>', ':noh <CR>')
 
     -----------------------------------------------------------------------------//
     -- MACROS {{{
@@ -251,58 +251,74 @@ M.misc = function()
   local function optional_mappings()
     -- don't yank text on cut ( x )
     if not config.options.copy_cut then
-      map({ "n", "v" }, "x", '"_x')
+      map({ 'n', 'v' }, 'x', '"_x')
     end
 
     -- don't yank text on delete ( dd )
     if not config.options.copy_del then
-      map({ "n", "v" }, "dd", '"_dd')
+      map({ 'n', 'v' }, 'dd', '"_dd')
     end
 
     -- navigation within insert mode
     if config.options.insert_nav then
       local inav = maps.insert_nav
 
-      map("i", inav.backward, "<Left>")
-      map("i", inav.end_of_line, "<End>")
-      map("i", inav.forward, "<Right>")
-      map("i", inav.next_line, "<Up>")
-      map("i", inav.prev_line, "<Down>")
-      map("i", inav.top_of_line, "<ESC>^i")
+      map('i', inav.backward, '<Left>')
+      map('i', inav.end_of_line, '<End>')
+      map('i', inav.forward, '<Right>')
+      map('i', inav.next_line, '<Up>')
+      map('i', inav.prev_line, '<Down>')
+      map('i', inav.top_of_line, '<ESC>^i')
     end
 
     -- check the theme toggler
     if config.ui.theme_toggler.enabled then
       map(
-        "n",
+        'n',
         maps.theme_toggler,
         ":lua require('utils').toggle_theme(require('utils').load_config().ui.theme_toggler.fav_themes) <CR>"
       )
-      map("n", plugin_maps.telescope.themes, ":lua require('utils').theme_switcher()<CR>")
+      map('n', plugin_maps.telescope.themes, ":lua require('utils').theme_switcher()<CR>")
     end
   end
 
   local function required_mappings()
-    map("n", maps.close_buffer, ":lua require('utils').close_buffer() <CR>") -- close  buffer
-    map("n", maps.copy_whole_file, ":%y+ <CR>") -- copy whole file content
-    map("n", maps.new_buffer, ":enew <CR>") -- new buffer
-    map("n", maps.new_tab, ":tabnew <CR>") -- new tabs
-    map("n", maps.save_file, ":w <CR>") -- ctrl + s to save file
-    map("n", maps.reload_theme, ":lua require('utils').reload_theme()<CR>") -- ctrl + s to save file
+    map('n', maps.close_buffer, ":lua require('utils').close_buffer() <CR>") -- close  buffer
+    map('n', maps.copy_whole_file, ':%y+ <CR>') -- copy whole file content
+    map('n', maps.new_buffer, ':enew <CR>') -- new buffer
+    map('n', maps.new_tab, ':tabnew <CR>') -- new tabs
+    map('n', maps.save_file, ':w <CR>') -- ctrl + s to save file
+    map('n', maps.reload_theme, ":lua require('utils').reload_theme()<CR>") -- ctrl + s to save file
 
     -- terminal mappings --
     local term_maps = maps.terminal
     -- get out of terminal mode
-    map("t", term_maps.esc_termmode, "<C-\\><C-n>")
+    map('t', term_maps.esc_termmode, '<C-\\><C-n>')
     -- hide a term from within terminal mode
-    map("t", term_maps.esc_hide_termmode, "<C-\\><C-n> :lua require('core.utils').close_buffer() <CR>")
+    map(
+      't',
+      term_maps.esc_hide_termmode,
+      "<C-\\><C-n> :lua require('core.utils').close_buffer() <CR>"
+    )
     -- pick a hidden term
-    map("n", term_maps.pick_term, ":Telescope terms <CR>")
+    map('n', term_maps.pick_term, ':Telescope terms <CR>')
     -- Open terminals
     -- TODO this opens on top of an existing vert/hori term, fixme
-    map("n", term_maps.new_horizontal, ":execute 15 .. 'new +terminal' | let b:term_type = 'hori' | startinsert <CR>")
-    map("n", term_maps.new_vertical, ":execute 'vnew +terminal' | let b:term_type = 'vert' | startinsert <CR>")
-    map("n", term_maps.new_window, ":execute 'terminal' | let b:term_type = 'wind' | startinsert <CR>")
+    map(
+      'n',
+      term_maps.new_horizontal,
+      ":execute 15 .. 'new +terminal' | let b:term_type = 'hori' | startinsert <CR>"
+    )
+    map(
+      'n',
+      term_maps.new_vertical,
+      ":execute 'vnew +terminal' | let b:term_type = 'vert' | startinsert <CR>"
+    )
+    map(
+      'n',
+      term_maps.new_window,
+      ":execute 'terminal' | let b:term_type = 'wind' | startinsert <CR>"
+    )
     -- terminal mappings end --
 
     -- Add Packer commands because we are not loading it at startup
@@ -318,8 +334,8 @@ M.misc = function()
   end
 
   local function user_config_mappings()
-    local custom_maps = config.custom.mappings or ""
-    if type(custom_maps) ~= "table" then
+    local custom_maps = config.custom.mappings or ''
+    if type(custom_maps) ~= 'table' then
       return
     end
 
@@ -339,20 +355,20 @@ end
 M.bufferline = function()
   local m = plugin_maps.bufferline
 
-  map("n", m.next_buffer, ":BufferLineCycleNext <CR>")
-  map("n", m.prev_buffer, ":BufferLineCyclePrev <CR>")
-  map("n", m.moveLeft, "<C-w>h")
-  map("n", m.moveRight, "<C-w>l")
-  map("n", m.moveUp, "<C-w>k")
-  map("n", m.moveDown, "<C-w>j")
+  map('n', m.next_buffer, ':BufferLineCycleNext <CR>')
+  map('n', m.prev_buffer, ':BufferLineCyclePrev <CR>')
+  map('n', m.moveLeft, '<C-w>h')
+  map('n', m.moveRight, '<C-w>l')
+  map('n', m.moveUp, '<C-w>k')
+  map('n', m.moveDown, '<C-w>j')
 end
 
 M.cheatsheet = function()
   local m = plugin_maps.cheatsheet
 
-  map("n", m.default_keys, ":lua require('cheatsheet').show_cheatsheet_telescope() <CR>")
+  map('n', m.default_keys, ":lua require('cheatsheet').show_cheatsheet_telescope() <CR>")
   map(
-    "n",
+    'n',
     m.user_keys,
     ":lua require('cheatsheet').show_cheatsheet_telescope{bundled_cheatsheets = false, bundled_plugin_cheatsheets = false } <CR>"
   )
@@ -360,57 +376,57 @@ end
 
 M.session = function()
   local m = plugin_maps.session
-  map("n", m.session_load, ":RestoreSession<CR>")
-  map("n", m.session_save, ":SaveSession<CR>")
+  map('n', m.session_load, ':RestoreSession<CR>')
+  map('n', m.session_save, ':SaveSession<CR>')
 end
 
 M.nvimtree = function()
-  map("n", plugin_maps.nvimtree.toggle, ":NvimTreeToggle <CR>")
-  map("n", plugin_maps.nvimtree.focus, ":NvimTreeFocus <CR>")
+  map('n', plugin_maps.nvimtree.toggle, ':NvimTreeToggle <CR>')
+  map('n', plugin_maps.nvimtree.focus, ':NvimTreeFocus <CR>')
 end
 
 M.truezen = function()
   local m = plugin_maps.truezen
 
-  map("n", m.ataraxis_mode, ":TZAtaraxis <CR>")
-  map("n", m.focus_mode, ":TZFocus <CR>")
-  map("n", m.minimalistic_mode, ":TZMinimalist <CR>")
+  map('n', m.ataraxis_mode, ':TZAtaraxis <CR>')
+  map('n', m.focus_mode, ':TZFocus <CR>')
+  map('n', m.minimalistic_mode, ':TZMinimalist <CR>')
 end
 
 M.vim_fugitive = function()
   local m = plugin_maps.vim_fugitive
 
-  map("n", m.git, ":Git <CR>")
-  map("n", m.git_blame, ":Git blame <CR>")
-  map("n", m.diff_get_2, ":diffget //2 <CR>")
-  map("n", m.diff_get_3, ":diffget //3 <CR>")
+  map('n', m.git, ':Git <CR>')
+  map('n', m.git_blame, ':Git blame <CR>')
+  map('n', m.diff_get_2, ':diffget //2 <CR>')
+  map('n', m.diff_get_3, ':diffget //3 <CR>')
 end
 
 M.treesitter_unit = function()
-  map("x", "iu", ':lua require"treesitter-unit".select()<CR>')
-  map("x", "au", ':lua require"treesitter-unit".select(true)<CR>')
-  map("o", "iu", '<Cmd>lua require"treesitter-unit".select()<CR>')
-  map("o", "au", '<Cmd>lua require"treesitter-unit".select(true)<CR>')
+  map('x', 'iu', ':lua require"treesitter-unit".select()<CR>')
+  map('x', 'au', ':lua require"treesitter-unit".select(true)<CR>')
+  map('o', 'iu', '<Cmd>lua require"treesitter-unit".select()<CR>')
+  map('o', 'au', '<Cmd>lua require"treesitter-unit".select(true)<CR>')
 end
 
-M.fastaction  = function ()
-  map("n", "<leader>ca", ":lua require('lsp-fastaction').code_action()<CR>")
-  map("x", "<leader>ca", "<esc><Cmd>lua require('lsp-fastaction').range_code_action()<CR>")
+M.fastaction = function()
+  map('n', '<leader>ca', ":lua require('lsp-fastaction').code_action()<CR>")
+  map('x', '<leader>ca', "<esc><Cmd>lua require('lsp-fastaction').range_code_action()<CR>")
 end
 
-M.todo_comments = function ()
+M.todo_comments = function()
   local m = plugin_maps.todo_comments
   map('n', m.toggle, '<Cmd>TodoTrouble<CR>')
 end
 
 M.hop = function()
-  map('n', 's', "<Cmd>HopChar1<CR>")
-  map({'n', 'o', 'v'}, 'F', "<Cmd>HopWordBC<CR>")
-  map({'n', 'o', 'v'}, 'f', "<Cmd>HopWordAC<CR>")
+  map('n', 's', '<Cmd>HopChar1<CR>')
+  map({ 'n', 'o', 'v' }, 'F', '<Cmd>HopWordBC<CR>')
+  map({ 'n', 'o', 'v' }, 'f', '<Cmd>HopWordAC<CR>')
 end
 
-M.undotree = function ()
-  map('n', "<leader>u", "<Cmd>UndotreeToggle<CR>")
+M.undotree = function()
+  map('n', '<leader>u', '<Cmd>UndotreeToggle<CR>')
 end
 
 return M

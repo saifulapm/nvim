@@ -129,7 +129,6 @@ function gl._execute(id, args)
   gl._store[id](args)
 end
 
-
 ---@class Autocommand
 ---@field events string[] list of autocommand events
 ---@field targets string[] list of autocommand patterns
@@ -181,7 +180,7 @@ function gl.source(path, prefix)
   if not prefix then
     vim.cmd(fmt('source %s', path))
   else
-    vim.cmd(fmt('source %s/%s', fn.stdpath('config'), path))
+    vim.cmd(fmt('source %s/%s', fn.stdpath 'config', path))
   end
 end
 
@@ -204,7 +203,6 @@ end
 function gl.executable(e)
   return fn.executable(e) > 0
 end
-
 
 -- https://stackoverflow.com/questions/1283388/lua-merge-tables
 function gl.deep_merge(t1, t2)

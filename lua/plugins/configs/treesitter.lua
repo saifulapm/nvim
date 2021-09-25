@@ -1,13 +1,13 @@
-local present, ts_config = pcall(require, "nvim-treesitter.configs")
+local present, ts_config = pcall(require, 'nvim-treesitter.configs')
 if not present then
   return
 end
 
 ts_config.setup {
   ensure_installed = {
-    "lua",
-    "javascript",
-    "php"
+    'lua',
+    'javascript',
+    'php',
   },
   highlight = {
     enable = true,
@@ -59,5 +59,5 @@ ts_config.setup {
         ['[['] = '@class.outer',
       },
     },
-  }
+  },
 }

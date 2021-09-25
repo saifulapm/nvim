@@ -2,7 +2,7 @@ local fn = vim.fn
 local api = vim.api
 local fmt = string.format
 local contains = vim.tbl_contains
-local utils = require("utils")
+local utils = require 'utils'
 local map = utils.map
 
 vim.api.nvim_exec(
@@ -114,7 +114,6 @@ gl.augroup('CheckOutsideTime', {
     command = 'silent! checktime',
   },
 })
-
 
 --- automatically clear commandline messages after a few seconds delay
 --- source: http://unix.stackexchange.com/a/613645
