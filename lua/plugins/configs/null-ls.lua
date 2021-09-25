@@ -15,6 +15,7 @@ null_ls.config {
     null_ls.builtins.formatting.prettier.with {
       filetypes = { 'html', 'json', 'yaml', 'graphql', 'markdown' },
     },
+    -- FIXME: It's working right now
     null_ls.builtins.formatting.phpcsfixer.with {
       args = {
         '--no-interaction',
