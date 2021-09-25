@@ -307,8 +307,7 @@ return packer.startup(function()
 
   use {
     'phaazon/hop.nvim',
-    cmd = {'HopChar1'},
-    keys = { { 'n', 'f' }, { 'n', 'F' }, { 'o', 'f' }, { 'x', 'f' }, { 'o', 'F' }, { 'x', 'F' } },
+    cmd = {'HopChar1', 'HopWordAC', 'HopWordBC'},
     config = function()
       require("plugins.configs.others").hop()
     end,

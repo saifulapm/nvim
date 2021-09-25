@@ -405,6 +405,8 @@ end
 
 M.hop = function()
   map('n', 's', "<Cmd>HopChar1<CR>")
+  map({'n', 'o', 'v'}, 'F', "<Cmd>HopWordBC<CR>")
+  map({'n', 'o', 'v'}, 'f', "<Cmd>HopWordAC<CR>")
 end
 
 M.undotree = function ()

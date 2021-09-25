@@ -1,7 +1,9 @@
-local present, tree_c = pcall(require, "nvim-tree.config")
+local present, tree = pcall(require, "nvim-tree")
 if not present then
    return
 end
+
+local action = require('nvim-tree.config').nvim_tree_callback
 
 vim.g.nvim_tree_icons = {
   default = '',
@@ -31,9 +33,20 @@ vim.g.nvim_tree_ignore = { '.DS_Store', 'fugitive:', '.git' }
 vim.g.nvim_tree_highlight_opened_files = 1
 vim.g.nvim_tree_auto_resize = 1
 
-local action = tree_c.nvim_tree_callback
 vim.g.nvim_tree_bindings = {
   { key = 'cd', cb = action 'cd' },
   { key = "v", cb = action("vsplit") },
   { key = "s", cb = action("split") },
+}
+
+tree.setup {
+  disable_netrw = true,
+  hijack_netrw = true,
+  open_on_setup = false,
+  hijack_cursor = true,
+  update_cwd = true,
+  update_focused_file = {
+    enable = true,
+    update_cwd = true,
+  },
 }

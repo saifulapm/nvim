@@ -205,32 +205,13 @@ M.null_ls = function ()
 end
 
 M.hop = function ()
-  local present1, hop = pcall(require, "hop")
-  local present2, hint = pcall(require, "hop.hint")
-  if not (present1 or present2) then
+  local present, hop = pcall(require, "hop")
+  if not present then
     return
   end
 
   -- remove h,j,k,l from hops list of keys
   hop.setup { keys = 'etovxqpdygfbzcisuran' }
-
-  local map = require("utils").map
-
-  -- NOTE: override F/f using hop motions
-  map('n', 'F', function()
-    hop.hint_words { direction = hint.HintDirection.BEFORE_CURSOR }
-  end)
-
-  map('n', 'f', function()
-    hop.hint_words { direction = hint.HintDirection.AFTER_CURSOR }
-  end)
-
-  map({ 'o', 'x' }, 'F', function()
-    hop.hint_char1 { direction = hint.HintDirection.BEFORE_CURSOR }
-  end)
-  map({ 'o', 'x' }, 'f', function()
-    hop.hint_char1 { direction = hint.HintDirection.AFTER_CURSOR }
-  end)
 end
 
 M.neoclip = function ()
