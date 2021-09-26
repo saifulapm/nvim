@@ -8,7 +8,7 @@ M.ui = {
   italic_comments = true,
 
   -- theme to be used, to see all available themes, open the theme switcher by <leader> + th
-  theme = "gruvchad",
+  theme = 'gruvchad',
 
   -- theme toggler, toggle between two themes, see theme_toggleer mappings
   theme_toggler = {
@@ -121,10 +121,6 @@ M.mappings.plugin = {
   -- note: this is an edditional mapping to escape, escape key will still work
   better_escape = {
     esc_insertmode = { 'jk' }, -- multiple mappings allowed
-  },
-  -- universal code formatter
-  neoformat = {
-    format = '<leader>lf',
   },
   nvimtree = {
     -- file tree
