@@ -429,4 +429,8 @@ M.undotree = function()
   map('n', '<leader>u', '<Cmd>UndotreeToggle<CR>')
 end
 
+M.neoformat = function()
+  map('n', plugin_maps.neoformat.format, ':Neoformat <CR>')
+end
+
 return M

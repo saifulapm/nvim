@@ -401,6 +401,14 @@ return packer.startup(function()
     end,
   }
 
+  use {
+    "sbdchd/neoformat",
+    cmd = "Neoformat",
+    setup = function()
+      require("core.mappings").neoformat()
+    end,
+  }
+
   --------------------------------------------------------------------------------
   -- TPOPE {{{1
   --------------------------------------------------------------------------------

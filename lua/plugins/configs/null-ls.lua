@@ -15,7 +15,7 @@ null_ls.config {
     null_ls.builtins.formatting.prettier.with {
       filetypes = { 'html', 'json', 'yaml', 'graphql', 'markdown' },
     },
-    -- FIXME: It's working right now
+    -- FIXME: It's not working right now. Using Neoformat instead
     null_ls.builtins.formatting.phpcsfixer.with {
       args = {
         '--no-interaction',

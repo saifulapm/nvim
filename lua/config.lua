@@ -122,6 +122,10 @@ M.mappings.plugin = {
   better_escape = {
     esc_insertmode = { 'jk' }, -- multiple mappings allowed
   },
+  -- universal code formatter
+  neoformat = {
+    format = '<leader>lf',
+  },
   nvimtree = {
     -- file tree
     toggle = '<C-n>',
