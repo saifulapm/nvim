@@ -401,6 +401,14 @@ return packer.startup(function()
     end,
   }
 
+  use {
+    'svermeulen/vim-subversive',
+    event = 'BufReadPre',
+    setup = function()
+      require('core.mappings').subversive()
+    end,
+  }
+
   --------------------------------------------------------------------------------
   -- TPOPE {{{1
   --------------------------------------------------------------------------------

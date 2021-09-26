@@ -119,6 +119,8 @@ M.misc = function()
     -- Visual shifting (does not exit Visual mode)
     map('v', '<', '<gv')
     map('v', '>', '>gv')
+    -- visually select the block of text I just pasted in Vim
+    map('n', 'gV', '`[v`]')
     --Remap back tick for jumping to marks more quickly back
     map('n', "'", '`')
 
@@ -357,10 +359,21 @@ M.bufferline = function()
 
   map('n', m.next_buffer, ':BufferLineCycleNext <CR>')
   map('n', m.prev_buffer, ':BufferLineCyclePrev <CR>')
+  map('n', '[b', '<Cmd>BufferLineMoveNext<CR>')
+  map('n', ']b', '<Cmd>BufferLineMovePrev<CR>')
   map('n', m.moveLeft, '<C-w>h')
   map('n', m.moveRight, '<C-w>l')
   map('n', m.moveUp, '<C-w>k')
   map('n', m.moveDown, '<C-w>j')
+  map('n', '<leader>1', '<Cmd>BufferLineGoToBuffer 1<CR>')
+  map('n', '<leader>2', '<Cmd>BufferLineGoToBuffer 2<CR>')
+  map('n', '<leader>3', '<Cmd>BufferLineGoToBuffer 3<CR>')
+  map('n', '<leader>4', '<Cmd>BufferLineGoToBuffer 4<CR>')
+  map('n', '<leader>5', '<Cmd>BufferLineGoToBuffer 5<CR>')
+  map('n', '<leader>6', '<Cmd>BufferLineGoToBuffer 6<CR>')
+  map('n', '<leader>7', '<Cmd>BufferLineGoToBuffer 7<CR>')
+  map('n', '<leader>8', '<Cmd>BufferLineGoToBuffer 8<CR>')
+  map('n', '<leader>9', '<Cmd>BufferLineGoToBuffer 9<CR>')
 end
 
 M.cheatsheet = function()
@@ -420,13 +433,27 @@ M.todo_comments = function()
 end
 
 M.hop = function()
-  map('n', 's', '<Cmd>HopChar1<CR>')
-  map({ 'n', 'o', 'v' }, 'F', '<Cmd>HopWordBC<CR>')
-  map({ 'n', 'o', 'v' }, 'f', '<Cmd>HopWordAC<CR>')
+  map('n', 'w', '<Cmd>HopChar1<CR>')
+  map({ 'n', 'o', 'v' }, 'Q', '<Cmd>HopWordBC<CR>')
+  map({ 'n', 'o', 'v' }, 'q', '<Cmd>HopWordAC<CR>')
+  -- <Leader>q for Macros
+  map('n', '<Leader>q', 'q')
 end
 
 M.undotree = function()
   map('n', '<leader>u', '<Cmd>UndotreeToggle<CR>')
+end
+
+M.subversive = function()
+  map('n', 's', '<Plug>(SubversiveSubstitute)')
+  map('x', 's', '<Plug>(SubversiveSubstitute)')
+  map('n', 'ss', '<Plug>(SubversiveSubstituteLine)')
+  map('n', 'S', '<Plug>(SubversiveSubstituteToEndOfLine)')
+  -- substitute word in 1st motion over 2nd motion
+  map('n', '<Leader>s', '<Plug>(SubversiveSubstituteRange)')
+  map('x', '<Leader>s', '<Plug>(SubversiveSubstituteRange)')
+  -- substitute current word over motion
+  map('n', '<Leader>ss', '<Plug>(SubversiveSubstituteWordRange)')
 end
 
 return M
