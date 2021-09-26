@@ -175,13 +175,16 @@ vim.opt.listchars = {
 -----------------------------------------------------------------------------//
 -- Indentation
 -----------------------------------------------------------------------------//
-vim.opt.wrap = true
+vim.opt.wrap = false
 vim.opt.wrapmargin = 2
 vim.opt.textwidth = 80
 vim.opt.autoindent = true
 vim.opt.shiftround = true
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 2
+vim.opt.tabstop = 2
+vim.opt.softtabstop = -1
+
 -----------------------------------------------------------------------------//
 -- vim.o.debug = "msg"
 --- NOTE: remove this once 0.6 lands, it is now default
