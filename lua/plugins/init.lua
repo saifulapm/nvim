@@ -323,6 +323,7 @@ return packer.startup(function()
 
   use {
     'rmagatti/auto-session',
+    cmd = { 'RestoreSession', 'SaveSession' },
     config = function()
       require('plugins.configs.others').session()
     end,
@@ -408,6 +409,8 @@ return packer.startup(function()
       require('core.mappings').subversive()
     end,
   }
+
+  use { 'itchyny/vim-highlighturl' }
 
   --------------------------------------------------------------------------------
   -- TPOPE {{{1

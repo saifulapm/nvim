@@ -92,10 +92,7 @@ fg('LineNr', grey)
 
 fg('NvimInternalError', red)
 
--- inactive statuslines as thin splitlines
-fg('StatusLineNC', one_bg2 .. ' gui=underline')
 fg('VertSplit', one_bg2)
--- fg_bg("Visual",light_grey, colors.lightbg)
 
 if ui.transparency then
   bg('Normal', 'NONE')
@@ -191,7 +188,7 @@ fg('NvimTreeFolderName', folder_bg)
 fg('NvimTreeGitDirty', red)
 fg('NvimTreeIndentMarker', one_bg2)
 bg('NvimTreeNormal', darker_black)
-bg('NvimTreeStatusLine', darker_black)
+-- bg('NvimTreeStatusLine', darker_black)
 fg('NvimTreeOpenedFolderName', blue)
 fg('NvimTreeRootFolder', red .. ' gui=underline') -- enable underline for root folder in nvim tree
 fg_bg('NvimTreeStatuslineNc', darker_black, darker_black)
@@ -215,3 +212,6 @@ fg('TelescopeResultsBorder', line)
 
 -- Whitespace
 fg('ExtraWhitespace', red)
+
+-- Highligh URL
+vim.g.highlighturl_guifg = grey_fg
