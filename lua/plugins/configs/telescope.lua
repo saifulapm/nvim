@@ -4,6 +4,7 @@ if not present then
 end
 
 local actions = require 'telescope.actions'
+local action_set = require 'telescope.actions.set'
 local utils = require 'utils'
 
 local plugin_maps = utils.load_config().mappings.plugin
@@ -53,70 +54,78 @@ telescope.setup {
       override_file_sorter = true, -- override the file sorter
     },
   },
-  pickers = {
-    buffers = {
-      sort_mru = true,
-      sort_lastused = true,
-      show_all_buffers = true,
-      ignore_current_buffer = true,
-      previewer = false,
-      theme = 'dropdown',
-      mappings = {
-        i = { ['<c-x>'] = 'delete_buffer' },
-        n = { ['<c-x>'] = 'delete_buffer' },
-      },
-    },
-    oldfiles = {
-      theme = 'dropdown',
-    },
-    live_grep = {
-      file_ignore_patterns = { '.git/' },
-    },
-    current_buffer_fuzzy_find = {
-      theme = 'dropdown',
-      previewer = false,
-      shorten_path = false,
-    },
-    lsp_code_actions = {
-      theme = 'cursor',
-    },
-    colorscheme = {
-      enable_preview = true,
-    },
-    find_files = {
-      hidden = false,
-    },
-    git_branches = {
-      theme = 'dropdown',
-    },
-    git_bcommits = {
-      layout_config = {
-        horizontal = {
-          preview_width = 0.55,
-        },
-      },
-    },
-    git_commits = {
-      layout_config = {
-        horizontal = {
-          preview_width = 0.55,
-        },
-      },
-    },
-    reloader = {
-      theme = 'dropdown',
+pickers = {
+  buffers = {
+    sort_mru = true,
+    sort_lastused = true,
+    show_all_buffers = true,
+    ignore_current_buffer = true,
+    previewer = false,
+    theme = 'dropdown',
+    mappings = {
+      i = { ['<c-x>'] = 'delete_buffer' },
+      n = { ['<c-x>'] = 'delete_buffer' },
     },
   },
+  oldfiles = {
+    theme = 'dropdown',
+  },
+  live_grep = {
+    file_ignore_patterns = { '.git/' },
+  },
+  current_buffer_fuzzy_find = {
+    theme = 'dropdown',
+    previewer = false,
+    shorten_path = false,
+  },
+  lsp_code_actions = {
+    theme = 'cursor',
+  },
+  colorscheme = {
+    enable_preview = true,
+  },
+  find_files = {
+    hidden = false,
+    attach_mappings = function(_)
+      action_set.select:enhance {
+        post = function()
+          vim.cmd ':normal! zx'
+        end,
+      }
+      return true
+    end,
+  },
+  git_branches = {
+    theme = 'dropdown',
+  },
+  git_bcommits = {
+    layout_config = {
+      horizontal = {
+        preview_width = 0.55,
+      },
+    },
+  },
+  git_commits = {
+    layout_config = {
+      horizontal = {
+        preview_width = 0.55,
+      },
+    },
+  },
+  reloader = {
+    theme = 'dropdown',
+  },
+},
 }
 
 local builtins = require 'telescope.builtin'
 
-local function project_files(opts)
-  local ok = pcall(builtins.git_files, opts)
-  if not ok then
-    builtins.find_files(opts)
-  end
-end
+-- local function project_files(opts)
+--   local ok = pcall(builtins.git_files, opts)
+--   if not ok then
+--     builtins.find_files(opts)
+--   end
+-- end
 
 local function nvim_config()
   builtins.find_files {

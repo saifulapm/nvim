@@ -40,7 +40,7 @@ vim.opt.eadirection = 'hor'
 -- do not use split or vsplit to ensure we don't open any new windows
 vim.o.switchbuf = 'useopen,uselast'
 vim.opt.fillchars = {
-  vert = '▕', -- alternatives │
+  vert = '│', -- alternatives │
   fold = ' ',
   eob = ' ', -- suppress ~ at EndOfBuffer
   diff = '╱', -- alternatives = ⣿ ░ ─
