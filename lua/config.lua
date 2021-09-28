@@ -1,4 +1,4 @@
--- IMPORTANT NOTE : This is default config, so dont change anything here. (check chadrc.lua instead)
+-- NOTE: This is default config, so dont change anything here. (check chadrc.lua instead)
 
 local M = {}
 M.ui, M.options, M.plugin_status, M.mappings, M.custom = {}, {}, {}, {}, {}
@@ -8,7 +8,7 @@ M.ui = {
   italic_comments = true,
 
   -- theme to be used, to see all available themes, open the theme switcher by <leader> + th
-  theme = "chadracula",
+  theme = "onenord",
 
   -- theme toggler, toggle between two themes, see theme_toggleer mappings
   theme_toggler = {

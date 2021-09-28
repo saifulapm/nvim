@@ -356,7 +356,6 @@ return packer.startup(function()
   use {
     'mbbill/undotree',
     cmd = 'UndotreeToggle',
-    keys = '<leader>u',
     setup = function()
       require('core.mappings').undotree()
     end,
@@ -405,8 +404,8 @@ return packer.startup(function()
   use {
     'svermeulen/vim-subversive',
     event = 'BufReadPre',
-    setup = function()
-      require('core.mappings').subversive()
+    config = function()
+      require('plugins.configs.others').subversive()
     end,
   }
 

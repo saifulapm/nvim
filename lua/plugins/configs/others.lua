@@ -214,7 +214,7 @@ M.hop = function()
   end
 
   -- remove h,j,k,l from hops list of keys
-  hop.setup { keys = 'etovxqpdygfbzcisuran' }
+  hop.setup { keys = 'asdfghjklqweyuioxcvbnmz' }
 end
 
 M.neoclip = function()
@@ -235,6 +235,19 @@ M.neoclip = function()
     local map = require('utils').map
     map('n', '<localleader>p', clip)
   end
+end
+
+M.subversive = function()
+  local map = require('utils').map
+  map('n', 's', '<Plug>(SubversiveSubstitute)', { noremap = false })
+  map('x', 's', '<Plug>(SubversiveSubstitute)', { noremap = false })
+  map('n', 'ss', '<Plug>(SubversiveSubstituteLine)', { noremap = false })
+  map('n', 'S', '<Plug>(SubversiveSubstituteToEndOfLine)', { noremap = false })
+  -- substitute word in 1st motion over 2nd motion
+  map('n', '<Leader>s', '<Plug>(SubversiveSubstituteRange)', { noremap = false })
+  map('x', '<Leader>s', '<Plug>(SubversiveSubstituteRange)', { noremap = false })
+  -- substitute current word over motion
+  map('n', '<Leader>ss', '<Plug>(SubversiveSubstituteWordRange)', { noremap = false })
 end
 
 return M
