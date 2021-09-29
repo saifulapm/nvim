@@ -840,5 +840,21 @@
   "Shopify Schema paragraph": {
     "prefix": "_paragraph",
     "body": ["{", "\t\"type\": \"paragraph\",", "\t\"content\": \"$1\"", "},$2"]
+  },
+  "Shopify Section Settings": {
+    "prefix": "_ss",
+    "body": ["{{ section.settings.${1:text} }}"]
+  },
+  "Shopify Section [Settings]": {
+    "prefix": "_ssb",
+    "body": ["{{ section.settings[${1:text}] }}"]
+  },
+  "Shopify Block Settings": {
+    "prefix": "_bs",
+    "body": ["{{ block.settings.${1:text} }}"]
+  },
+  "Shopify Block [Settings]": {
+    "prefix": "_bsb",
+    "body": ["{{ block.settings[${1:text}] }}"]
   }
 }
