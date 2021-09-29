@@ -1,6 +1,6 @@
 local M = {}
 
-M.close_buffer = function(bufexpr, force)
+M.close_buffer = function(_, force)
   -- This is a modification of a NeoVim plugin from
   -- Author: ojroques - Olivier Roques
   -- Src: https://github.com/ojroques/nvim-bufdel
@@ -586,6 +586,21 @@ M.theme_switcher = function(opts)
   else
     print('No themes found in ' .. vim.fn.stdpath 'config' .. '/lua/themes')
   end
+end
+
+-- Toggle (,) and (;) easily
+M.toggle_char = function(char)
+  local fn = vim.fn
+  local line = fn.getline '.'
+  local newline = ''
+
+  if char == string.sub(line, #line) then
+    newline = line:sub(1, -2)
+  else
+    newline = line .. char
+  end
+
+  return fn.setline('.', newline)
 end
 
 return M

@@ -72,6 +72,9 @@ M.misc = function()
     -- cursor happens to be.
     map('n', 'zO', [[zCzO]])
 
+    map('n', '<localleader>,', ":lua require('utils').toggle_char(',')<CR>")
+    map('n', '<localleader>;', ":lua require('utils').toggle_char(';')<CR>")
+
     ------------------------------------------------------------------------------
     -- Buffers
     ------------------------------------------------------------------------------
