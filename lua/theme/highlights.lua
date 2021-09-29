@@ -212,6 +212,10 @@ fg('TelescopePreviewBorder', grey)
 fg('TelescopePromptBorder', line)
 fg('TelescopeResultsBorder', line)
 
+-- CMP
+fg('CmpItemAbbrMatchFuzzy', grey_fg .. ' gui=italic')
+fg('CmpItemAbbrDeprecated', 'NONE gui=strikethrough')
+
 -- Whitespace
 fg('ExtraWhitespace', red)
 
