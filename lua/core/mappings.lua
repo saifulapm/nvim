@@ -436,9 +436,9 @@ M.todo_comments = function()
 end
 
 M.hop = function()
-  map('n', 'w', '<Cmd>HopChar1<CR>')
-  map({ 'n', 'o', 'v' }, 'F', '<Cmd>HopWordBC<CR>')
-  map({ 'n', 'o', 'v' }, 'f', '<Cmd>HopWordAC<CR>')
+  map('n', 's', '<Cmd>HopChar1<CR>')
+  map({ 'o', 'v' }, 'F', '<Cmd>HopWordBC<CR>')
+  map({ 'o', 'v' }, 'f', '<Cmd>HopWordAC<CR>')
 end
 
 M.undotree = function()

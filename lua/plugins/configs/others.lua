@@ -239,15 +239,8 @@ end
 
 M.subversive = function()
   local map = require('utils').map
-  map('n', 's', '<Plug>(SubversiveSubstitute)', { noremap = false })
-  map('x', 's', '<Plug>(SubversiveSubstitute)', { noremap = false })
-  map('n', 'ss', '<Plug>(SubversiveSubstituteLine)', { noremap = false })
-  map('n', 'S', '<Plug>(SubversiveSubstituteToEndOfLine)', { noremap = false })
-  -- substitute word in 1st motion over 2nd motion
-  map('n', '<Leader>s', '<Plug>(SubversiveSubstituteRange)', { noremap = false })
-  map('x', '<Leader>s', '<Plug>(SubversiveSubstituteRange)', { noremap = false })
-  -- substitute current word over motion
-  map('n', '<Leader>ss', '<Plug>(SubversiveSubstituteWordRange)', { noremap = false })
+  map('n', 'S', '<Plug>(SubversiveSubstitute)', { noremap = false })
+  map('x', 'S', '<Plug>(SubversiveSubstitute)', { noremap = false })
 end
 
 return M
