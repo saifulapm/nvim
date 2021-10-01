@@ -243,4 +243,10 @@ M.subversive = function()
   map('x', 'S', '<Plug>(SubversiveSubstitute)', { noremap = false })
 end
 
+M.asterisk = function()
+  local map = require('utils').map
+  map('n', '*', '<Plug>(asterisk-*)', { noremap = false })
+  map('n', '#', '<Plug>(asterisk-#)', { noremap = false })
+end
+
 return M

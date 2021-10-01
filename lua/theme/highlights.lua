@@ -218,6 +218,3 @@ fg('CmpItemAbbrDeprecated', 'NONE gui=strikethrough')
 
 -- Whitespace
 fg('ExtraWhitespace', red)
-
--- Highligh URL
-vim.g.highlighturl_guifg = grey_fg

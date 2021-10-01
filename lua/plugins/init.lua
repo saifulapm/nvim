@@ -181,7 +181,6 @@ return packer.startup(function()
     event = 'InsertEnter',
     requires = {
       { 'hrsh7th/cmp-nvim-lsp' },
-      { 'f3fora/cmp-spell', after = 'nvim-cmp' },
       { 'hrsh7th/cmp-path', after = 'nvim-cmp' },
       { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' },
       { 'saadparwaiz1/cmp_luasnip', after = 'nvim-cmp' },
@@ -379,21 +378,6 @@ return packer.startup(function()
   }
 
   use {
-    'Pocco81/TrueZen.nvim',
-    cmd = {
-      'TZAtaraxis',
-      'TZMinimalist',
-      'TZFocus',
-    },
-    config = function()
-      require 'plugins.configs.zenmode'
-    end,
-    setup = function()
-      require('core.mappings').truezen()
-    end,
-  }
-
-  use {
     'monaqa/dial.nvim',
     keys = { { 'n', '-' }, { 'n', '+' }, { 'v', '-' }, { 'v', '+' } },
     config = function()
@@ -409,8 +393,17 @@ return packer.startup(function()
     end,
   }
 
-  use { 'itchyny/vim-highlighturl' }
-
+  use { 'dart-lang/dart-vim-plugin', ft = 'dart' }
+  use { 'plasticboy/vim-markdown', ft = 'markdown' }
+  use { 'mtdl9/vim-log-highlighting' }
+  use { 'fladson/vim-kitty' }
+  use {
+    'haya14busa/vim-asterisk',
+    keys = { '*', '#' },
+    config = function()
+      require('plugins.configs.others').asterisk()
+    end,
+  }
   --------------------------------------------------------------------------------
   -- TPOPE {{{1
   --------------------------------------------------------------------------------

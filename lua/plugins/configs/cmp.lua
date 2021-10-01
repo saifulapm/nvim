@@ -88,10 +88,7 @@ cmp.setup {
   sources = {
     { name = 'luasnip' },
     { name = 'nvim_lsp' },
-    { name = 'spell' },
     { name = 'path' },
     { name = 'buffer' },
-    { name = 'neorg' },
-    { name = 'orgmode' },
   },
 }
