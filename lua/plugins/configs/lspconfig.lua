@@ -53,7 +53,7 @@ local function setup_mappings(client, bufnr)
   map('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>')
   map('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>')
   map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
-  map('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
+  map('n', 'ge', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
   map('n', '[d', function()
     diagnostics.goto_prev {
       popup_opts = { border = 'rounded', focusable = false, source = 'always' },
