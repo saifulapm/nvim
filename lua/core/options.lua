@@ -138,6 +138,8 @@ vim.opt.wildignore = {
   '.lock',
   '.DS_Store',
   'tags.lock',
+  '*/node_modules/*',
+  '*/vendor/*',
 }
 vim.opt.wildoptions = 'pum'
 vim.opt.pumblend = 3 -- Make popup window translucent

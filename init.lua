@@ -6,6 +6,7 @@ vim.g.start_time = vim.fn.reltime()
 local init_modules = {
   'core',
   'core.options',
+  'statusline',
 }
 
 for _, module in ipairs(init_modules) do

@@ -221,6 +221,7 @@ M.neoclip = function()
   local present, neoclip = pcall(require, 'neoclip')
   if present then
     neoclip.setup {
+      enable_persistant_history = true,
       keys = {
         i = { select = '<CR>', paste = '<c-p>', paste_behind = '<c-k>' },
         n = { select = '<CR>', paste = 'p', paste_behind = 'P' },

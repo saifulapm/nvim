@@ -20,6 +20,10 @@ local red = colors.red
 local white = colors.white
 local yellow = colors.yellow
 local orange = colors.orange
+local pink = colors.pink
+local cyan = colors.cyan
+local dark_purple = colors.dark_purple
+local statusline_bg = colors.statusline_bg
 
 local lsp = {
   error = red,
@@ -218,3 +222,33 @@ fg('CmpItemAbbrDeprecated', 'NONE gui=strikethrough')
 
 -- Whitespace
 fg('ExtraWhitespace', red)
+
+-- Statusline
+fg_bg('StModeNormal', red, statusline_bg)
+fg_bg('StModeInsert', dark_purple, statusline_bg)
+fg_bg('StModeVisual', cyan, statusline_bg)
+fg_bg('StModeReplace', orange, statusline_bg)
+fg_bg('StModeCommand', pink, statusline_bg)
+fg_bg('StatusLine', grey_fg, statusline_bg)
+fg('StatusLineNC', grey .. ' gui=NONE')
+fg_bg('StMetadata', grey, statusline_bg .. ' gui=italic')
+fg_bg('StMetadataPrefix', green, statusline_bg)
+fg_bg('StIndicator', red, statusline_bg)
+fg_bg('StModified', yellow, statusline_bg)
+fg_bg('StGit', purple, statusline_bg)
+fg_bg('StGreen', green, statusline_bg)
+fg_bg('StBlue', blue, statusline_bg .. ' gui=bold')
+fg_bg('StNumber', grey, statusline_bg)
+fg_bg('StCount', red, statusline_bg .. ' gui=bold')
+fg_bg('StPrefix', pmenu_bg, statusline_bg)
+fg_bg('StDirectory', grey, statusline_bg .. ' gui=italic')
+fg_bg('StParentDirectory', grey_fg, statusline_bg .. ' gui=bold')
+fg_bg('StIdentifier', yellow, statusline_bg)
+fg('StTitle', grey .. ' gui=bold')
+fg_bg('StComment', grey, statusline_bg .. ' gui=bold,italic')
+fg_bg('StInactive', grey_fg, darker_black)
+fg_bg('StInfo', lsp.info, statusline_bg .. ' gui=bold')
+fg_bg('StWarning', lsp.warn, statusline_bg)
+fg_bg('StError', lsp.error, statusline_bg)
+fg_bg('StFilename', nord_blue, statusline_bg .. ' gui=bold')
+fg_bg('StFilenameInactive', green, statusline_bg .. ' gui=italic,bold')

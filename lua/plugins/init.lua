@@ -32,13 +32,13 @@ return packer.startup(function()
     end,
   }
 
-  use {
-    'famiu/feline.nvim',
-    after = 'nvim-web-devicons',
-    config = function()
-      require 'plugins.configs.statusline'
-    end,
-  }
+  -- use {
+  --   'famiu/feline.nvim',
+  --   after = 'nvim-web-devicons',
+  --   config = function()
+  --     require 'plugins.configs.statusline'
+  --   end,
+  -- }
 
   use {
     'akinsho/bufferline.nvim',

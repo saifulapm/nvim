@@ -250,7 +250,7 @@ M.misc = function()
       toggle_list 'l'
     end)
 
-    gl.command { 'Todo', [[noautocmd silent! grep! 'TODO\|FIXME\|BUG\|HACK' | copen]] }
+    gl.command { 'Todo', [[noautocmd silent! grep! 'TODO:\|FIXME:\|BUG:\|HACK:' | copen]] }
   end
 
   local function optional_mappings()
