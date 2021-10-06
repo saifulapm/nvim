@@ -1,4 +1,5 @@
 -- Saifulapm Neovim Config --
+vim.g.did_load_filetypes = 1
 
 -- Store startup time in seconds
 vim.g.start_time = vim.fn.reltime()

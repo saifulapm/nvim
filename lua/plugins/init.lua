@@ -110,6 +110,8 @@ return packer.startup(function()
     end,
   }
 
+  use { 'nathom/filetype.nvim' }
+
   -- smooth scroll
   use {
     'karb94/neoscroll.nvim',
