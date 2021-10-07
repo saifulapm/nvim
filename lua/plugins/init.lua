@@ -110,7 +110,18 @@ return packer.startup(function()
     end,
   }
 
-  use { 'nathom/filetype.nvim' }
+  use {
+    'nathom/filetype.nvim',
+    config = function()
+      require('filetype').setup {
+        overrides = {
+          literal = {
+            ['kitty.conf'] = 'kitty',
+          },
+        },
+      }
+    end,
+  }
 
   -- smooth scroll
   use {
@@ -398,10 +409,10 @@ return packer.startup(function()
   use { 'dart-lang/dart-vim-plugin', ft = 'dart' }
   use { 'plasticboy/vim-markdown', ft = 'markdown' }
   use { 'mtdl9/vim-log-highlighting' }
-  use { 'fladson/vim-kitty' }
+  -- use { 'fladson/vim-kitty' }
   use {
     'haya14busa/vim-asterisk',
-    keys = { '*', '#' },
+    event = 'BufReadPre',
     config = function()
       require('plugins.configs.others').asterisk()
     end,
