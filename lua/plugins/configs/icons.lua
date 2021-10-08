@@ -122,5 +122,25 @@ icons.setup {
       color = colors.sun,
       name = 'zip',
     },
+    ['robots.txt'] = {
+      icon = 'ﮧ',
+      color = colors.red,
+      name = 'robots',
+    },
+    woff = {
+      icon = '',
+      color = colors.white,
+      name = 'WebOpenFontFormat',
+    },
+    woff2 = {
+      icon = '',
+      color = colors.white,
+      name = 'WebOpenFontFormat2',
+    },
+    ttf = {
+      icon = '',
+      color = colors.white,
+      name = 'TrueTypeFont',
+    },
   },
 }
