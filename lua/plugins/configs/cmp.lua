@@ -23,8 +23,8 @@ end
 
 local function tab(_)
   local luasnip = get_luasnip()
-  if fn.pumvisible() == 1 then
-    feed('<C-n>', 'n')
+  if cmp.visible() then
+    cmp.select_next_item()
   elseif luasnip and luasnip.expand_or_jumpable() then
     luasnip.expand_or_jump()
   else
@@ -34,8 +34,8 @@ end
 
 local function shift_tab(_)
   local luasnip = get_luasnip()
-  if fn.pumvisible() == 1 then
-    feed('<C-p>', 'n')
+  if cmp.visible() then
+    cmp.select_prev_item()
   elseif luasnip and luasnip.jumpable(-1) then
     luasnip.jump(-1)
   else
