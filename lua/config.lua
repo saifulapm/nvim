@@ -8,7 +8,7 @@ M.ui = {
   italic_comments = true,
 
   -- theme to be used, to see all available themes, open the theme switcher by <leader> + th
-  theme = "onenord",
+  theme = "onedark",
 
   -- theme toggler, toggle between two themes, see theme_toggleer mappings
   theme_toggler = {

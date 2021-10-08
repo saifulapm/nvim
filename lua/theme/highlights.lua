@@ -10,6 +10,7 @@ local folder_bg = colors.folder_bg
 local green = colors.green
 local grey = colors.grey
 local grey_fg = colors.grey_fg
+local light_grey = colors.light_grey
 local line = colors.line
 local nord_blue = colors.nord_blue
 local one_bg = colors.one_bg
@@ -22,8 +23,7 @@ local yellow = colors.yellow
 local orange = colors.orange
 local pink = colors.pink
 local cyan = colors.cyan
-local dark_purple = colors.dark_purple
-local statusline_bg = colors.statusline_bg
+local bg_color = colors.statusline_bg
 
 local lsp = {
   error = red,
@@ -31,10 +31,16 @@ local lsp = {
   hint = yellow,
   info = nord_blue,
 }
-local hint_line = theme.alter_color(lsp.hint, -80)
-local error_line = theme.alter_color(lsp.error, -80)
-local warn_line = theme.alter_color(lsp.warn, -80)
-local info_line = theme.alter_color(lsp.info, -80)
+local hint_line = theme.alter_color(lsp.hint, -70)
+local error_line = theme.alter_color(lsp.error, -70)
+local warn_line = theme.alter_color(lsp.warn, -70)
+local info_line = theme.alter_color(lsp.info, -70)
+
+local comment_fg = theme.get_hl('Comment', 'fg')
+local string_fg = theme.get_hl('String', 'fg')
+local number_fg = theme.get_hl('Number', 'fg')
+local identifier_fg = theme.get_hl('Identifier', 'fg')
+-- local bg_color = theme.alter_color(theme.get_hl('Normal', 'bg'), -16)
 
 local ui = require('utils').load_config().ui
 
@@ -224,31 +230,31 @@ fg('CmpItemAbbrDeprecated', 'NONE gui=strikethrough')
 fg('ExtraWhitespace', red)
 
 -- Statusline
-fg_bg('StModeNormal', red, statusline_bg)
-fg_bg('StModeInsert', dark_purple, statusline_bg)
-fg_bg('StModeVisual', cyan, statusline_bg)
-fg_bg('StModeReplace', orange, statusline_bg)
-fg_bg('StModeCommand', pink, statusline_bg)
-fg_bg('StatusLine', grey_fg, statusline_bg)
+fg_bg('StModeNormal', white, bg_color)
+fg_bg('StModeInsert', red, bg_color)
+fg_bg('StModeVisual', cyan, bg_color)
+fg_bg('StModeReplace', orange, bg_color)
+fg_bg('StModeCommand', pink, bg_color)
+bg('StatusLine', bg_color)
 fg('StatusLineNC', grey .. ' gui=NONE')
-fg_bg('StMetadata', grey, statusline_bg .. ' gui=italic')
-fg_bg('StMetadataPrefix', green, statusline_bg)
-fg_bg('StIndicator', red, statusline_bg)
-fg_bg('StModified', yellow, statusline_bg)
-fg_bg('StGit', purple, statusline_bg)
-fg_bg('StGreen', green, statusline_bg)
-fg_bg('StBlue', blue, statusline_bg .. ' gui=bold')
-fg_bg('StNumber', grey, statusline_bg)
-fg_bg('StCount', red, statusline_bg .. ' gui=bold')
-fg_bg('StPrefix', pmenu_bg, statusline_bg)
-fg_bg('StDirectory', grey, statusline_bg .. ' gui=italic')
-fg_bg('StParentDirectory', grey_fg, statusline_bg .. ' gui=bold')
-fg_bg('StIdentifier', yellow, statusline_bg)
-fg('StTitle', grey .. ' gui=bold')
-fg_bg('StComment', grey, statusline_bg .. ' gui=bold,italic')
+fg_bg('StMetadata', comment_fg, bg_color .. ' gui=italic')
+fg_bg('StMetadataPrefix', comment_fg, bg_color .. ' gui=NONE')
+fg_bg('StIndicator', identifier_fg, bg_color)
+fg_bg('StModified', string_fg, bg_color)
+fg_bg('StGit', purple, bg_color)
+fg_bg('StGreen', green, bg_color)
+fg_bg('StBlue', blue, bg_color .. ' gui=bold')
+fg_bg('StNumber', number_fg, bg_color)
+fg_bg('StCount', 'bg', blue .. ' gui=bold')
+fg_bg('StPrefix', pmenu_bg, bg_color)
+fg_bg('StDirectory', grey, bg_color .. ' gui=italic')
+fg_bg('StParentDirectory', string_fg, bg_color .. ' gui=bold')
+fg_bg('StIdentifier', blue, bg_color)
+fg_bg('StTitle', light_grey, bg_color .. ' gui=bold')
+fg_bg('StComment', comment_fg, bg_color .. ' gui=bold,italic')
 fg_bg('StInactive', grey_fg, darker_black)
-fg_bg('StInfo', lsp.info, statusline_bg .. ' gui=bold')
-fg_bg('StWarning', lsp.warn, statusline_bg)
-fg_bg('StError', lsp.error, statusline_bg)
-fg_bg('StFilename', nord_blue, statusline_bg .. ' gui=bold')
-fg_bg('StFilenameInactive', green, statusline_bg .. ' gui=italic,bold')
+fg_bg('StInfo', lsp.info, bg_color .. ' gui=bold')
+fg_bg('StWarning', lsp.warn, bg_color)
+fg_bg('StError', lsp.error, bg_color)
+fg_bg('StFilename', light_grey, bg_color .. ' gui=bold')
+fg_bg('StFilenameInactive', green, bg_color .. ' gui=italic,bold')

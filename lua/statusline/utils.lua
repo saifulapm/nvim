@@ -3,6 +3,7 @@ local expand = fn.expand
 local strwidth = fn.strwidth
 local fnamemodify = fn.fnamemodify
 local contains = vim.tbl_contains
+local theme = require 'theme'
 
 local M = {}
 
@@ -254,14 +255,13 @@ local function highlight_ft_icon(hl, bg_hl)
   end
   local name = hl .. 'Statusline'
   -- TODO: find a mechanism to cache this so it isn't repeated constantly
-  -- local fg_color = H.get_hl(hl, 'fg')
-  -- local bg_color = H.get_hl(bg_hl, 'bg')
-  -- if bg_color and fg_color then
-  --   local cmd = { 'highlight ', name, ' guibg=', bg_color, ' guifg=', fg_color }
-  --   local str = table.concat(cmd)
-  --   as.augroup(name, { { events = { 'ColorScheme' }, targets = { '*' }, command = str } })
-  --   vim.cmd(string.format("silent execute '%s'", str))
-  -- end
+  local fg_color = theme.get_hl(hl, 'fg')
+  local bg_color = theme.get_hl(bg_hl, 'bg')
+  if bg_color and fg_color then
+    local cmd = { 'highlight ', name, ' guibg=', bg_color, ' guifg=', fg_color }
+    local str = table.concat(cmd)
+    vim.cmd(string.format("silent execute '%s'", str))
+  end
   return name
 end
 
