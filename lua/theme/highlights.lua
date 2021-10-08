@@ -258,3 +258,7 @@ fg_bg('StWarning', lsp.warn, bg_color)
 fg_bg('StError', lsp.error, bg_color)
 fg_bg('StFilename', light_grey, bg_color .. ' gui=bold')
 fg_bg('StFilenameInactive', green, bg_color .. ' gui=italic,bold')
+
+-- Quickfix
+fg('BqfPreviewBorder', grey_fg)
+fg('qfPosition', green)

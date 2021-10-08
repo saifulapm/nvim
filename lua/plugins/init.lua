@@ -305,7 +305,7 @@ return packer.startup(function()
   }
 
   use {
-    'b3nj5m1n/kommentary',
+    'numToStr/Comment.nvim',
     event = 'BufReadPre',
     config = function()
       require('plugins.configs.others').comment()
@@ -351,8 +351,17 @@ return packer.startup(function()
     end,
   }
 
+  -- Quickfix
   use {
     'kevinhwang91/nvim-bqf',
+  }
+
+  use {
+    'https://gitlab.com/yorickpeterse/nvim-pqf',
+    event = 'VimEnter',
+    config = function()
+      require('pqf').setup()
+    end,
   }
 
   use {

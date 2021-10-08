@@ -111,13 +111,9 @@ M.colorizer = function()
 end
 
 M.comment = function()
-  local present, nvim_comment = pcall(require, 'kommentary.config')
+  local present, nvim_comment = pcall(require, 'Comment')
   if present then
-    nvim_comment.configure_language(
-      'default',
-      { ignore_whitespace = true, use_consistent_indentation = true }
-    )
-    nvim_comment.configure_language({ 'lua', 'php' }, { prefer_single_line_comments = true })
+    nvim_comment.setup()
   end
 end
 

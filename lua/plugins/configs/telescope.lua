@@ -10,9 +10,23 @@ local utils = require 'utils'
 local plugin_maps = utils.load_config().mappings.plugin
 local map = utils.map
 
+---@param opts table
+---@return table
+local function dropdown(opts)
+  return require('telescope.themes').get_dropdown(vim.tbl_deep_extend('force', opts, {
+    borderchars = {
+      { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
+      prompt = { '─', '│', ' ', '│', '┌', '┐', '│', '│' },
+      results = { '─', '│', '─', '│', '├', '┤', '┘', '└' },
+      preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
+    },
+  }))
+end
+
 telescope.setup {
   defaults = {
     set_env = { ['TERM'] = vim.env.TERM },
+    borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
     prompt_prefix = ' ',
     selection_caret = '» ',
     mappings = {
@@ -54,68 +68,68 @@ telescope.setup {
       override_file_sorter = true, -- override the file sorter
     },
   },
-pickers = {
-  buffers = {
-    sort_mru = true,
-    sort_lastused = true,
-    show_all_buffers = true,
-    ignore_current_buffer = true,
-    previewer = false,
-    theme = 'dropdown',
-    mappings = {
-      i = { ['<c-x>'] = 'delete_buffer' },
-      n = { ['<c-x>'] = 'delete_buffer' },
-    },
-  },
-  oldfiles = {
-    theme = 'dropdown',
-  },
-  live_grep = {
-    file_ignore_patterns = { '.git/' },
-  },
-  current_buffer_fuzzy_find = {
-    theme = 'dropdown',
-    previewer = false,
-    shorten_path = false,
-  },
-  lsp_code_actions = {
-    theme = 'cursor',
-  },
-  colorscheme = {
-    enable_preview = true,
-  },
-  find_files = {
-    hidden = false,
-    attach_mappings = function(_)
-      action_set.select:enhance {
-        post = function()
-          vim.cmd ':normal! zx'
-        end,
-      }
-      return true
-    end,
-  },
-  git_branches = {
-    theme = 'dropdown',
-  },
-  git_bcommits = {
-    layout_config = {
-      horizontal = {
-        preview_width = 0.55,
+  pickers = {
+    buffers = {
+      sort_mru = true,
+      sort_lastused = true,
+      show_all_buffers = true,
+      ignore_current_buffer = true,
+      previewer = false,
+      theme = 'dropdown',
+      mappings = {
+        i = { ['<c-x>'] = 'delete_buffer' },
+        n = { ['<c-x>'] = 'delete_buffer' },
       },
     },
-  },
-  git_commits = {
-    layout_config = {
-      horizontal = {
-        preview_width = 0.55,
+    oldfiles = {
+      theme = 'dropdown',
+    },
+    live_grep = {
+      file_ignore_patterns = { '.git/' },
+    },
+    current_buffer_fuzzy_find = {
+      theme = 'dropdown',
+      previewer = false,
+      shorten_path = false,
+    },
+    lsp_code_actions = {
+      theme = 'cursor',
+    },
+    colorscheme = {
+      enable_preview = true,
+    },
+    find_files = {
+      hidden = false,
+      attach_mappings = function(_)
+        action_set.select:enhance {
+          post = function()
+            vim.cmd ':normal! zx'
+          end,
+        }
+        return true
+      end,
+    },
+    git_branches = {
+      theme = 'dropdown',
+    },
+    git_bcommits = {
+      layout_config = {
+        horizontal = {
+          preview_width = 0.55,
+        },
       },
     },
+    git_commits = {
+      layout_config = {
+        horizontal = {
+          preview_width = 0.55,
+        },
+      },
+    },
+    reloader = {
+      theme = 'dropdown',
+    },
   },
-  reloader = {
-    theme = 'dropdown',
-  },
-},
 }
 
 local builtins = require 'telescope.builtin'
@@ -150,8 +164,7 @@ local function orgfiles()
 end
 
 local function frecency()
-  local themes = require 'telescope.themes'
-  telescope.extensions.frecency.frecency(themes.get_dropdown {
+  telescope.extensions.frecency.frecency(dropdown {
     default_text = ':CWD:',
     winblend = 10,
     border = true,
