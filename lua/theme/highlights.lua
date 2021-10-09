@@ -262,3 +262,7 @@ fg_bg('StFilenameInactive', green, bg_color .. ' gui=italic,bold')
 -- Quickfix
 fg('BqfPreviewBorder', grey_fg)
 fg('qfPosition', green)
+
+-- Orgmode
+fg('OrgDone', 'Green' .. ' gui=bold')
+fg('OrgAgendaScheduled', 'Teal')

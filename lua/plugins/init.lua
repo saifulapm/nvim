@@ -32,14 +32,6 @@ return packer.startup(function()
     end,
   }
 
-  -- use {
-  --   'famiu/feline.nvim',
-  --   after = 'nvim-web-devicons',
-  --   config = function()
-  --     require 'plugins.configs.statusline'
-  --   end,
-  -- }
-
   use {
     'akinsho/bufferline.nvim',
     after = 'nvim-web-devicons',
@@ -424,6 +416,25 @@ return packer.startup(function()
     event = 'BufReadPre',
     config = function()
       require('plugins.configs.others').asterisk()
+    end,
+  }
+
+  use {
+    'vhyrro/neorg',
+    ft = 'norg',
+    branch = 'unstable',
+    requires = { 'vhyrro/neorg-telescope' },
+    config = function()
+      require 'plugins.configs.neorg'
+    end,
+  }
+
+  use {
+    'kristijanhusak/orgmode.nvim',
+    ft = { 'org' },
+    -- TODO: Need to setup Mapping
+    config = function()
+      require 'plugins.configs.orgmode'
     end,
   }
   --------------------------------------------------------------------------------

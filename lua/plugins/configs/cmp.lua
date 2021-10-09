@@ -4,10 +4,8 @@ if not present then
   return
 end
 
-local fn = vim.fn
 local api = vim.api
 local t = gl.replace_termcodes
-local fmt = string.format
 
 local function feed(key, mode)
   api.nvim_feedkeys(t(key), mode or '', true)
@@ -71,7 +69,7 @@ cmp.setup {
   formatting = {
     deprecated = true,
     format = function(entry, vim_item)
-      vim_item.kind = fmt('%s %s', gl.style.lsp.kinds[vim_item.kind], vim_item.kind)
+      vim_item.kind = gl.style.lsp.kinds[vim_item.kind]
       -- FIXME: automate this using a regex to normalise names
       vim_item.menu = ({
         nvim_lsp = '[LSP]',
@@ -95,5 +93,7 @@ cmp.setup {
     { name = 'nvim_lsp' },
     { name = 'path' },
     { name = 'buffer' },
+    { name = 'neorg' },
+    { name = 'orgmode' },
   },
 }
