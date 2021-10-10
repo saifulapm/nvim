@@ -1,11 +1,3 @@
---- =====================================================================
---- Resources:
---- =====================================================================
---- 1. https://gabri.me/blog/diy-vim-statusline
---- 2. https://github.com/elenapan/dotfiles/blob/master/config/nvim/statusline.vim
---- 3. https://got-ravings.blogspot.com/2008/08/vim-pr0n-making-statuslines-that-own.html
---- 4. Right sided truncation - https://stackoverflow.com/a/20899652
-
 local utils = require 'statusline.utils'
 local M = {}
 

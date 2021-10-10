@@ -1,9 +1,6 @@
 -- Saifulapm Neovim Config --
 vim.g.did_load_filetypes = 1
 
--- Store startup time in seconds
-vim.g.start_time = vim.fn.reltime()
-
 local init_modules = {
   'core',
   'core.options',
@@ -21,4 +18,3 @@ end
 vim.defer_fn(function()
   require('core.mappings').misc()
 end, 20)
-P(vim.fn.reltimefloat(vim.fn.reltime(vim.g.start_time)))
