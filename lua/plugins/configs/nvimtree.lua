@@ -30,13 +30,24 @@ tree.setup {
   view = {
     width = '20%',
     auto_resize = true,
-    list = {
-      { key = 'cd', cb = action 'cd' },
-      { key = 'v', cb = action 'vsplit' },
-      { key = 's', cb = action 'split' },
+    mappings = {
+      custom_only = false,
+      list = {
+        { key = 'cd', cb = action 'cd' },
+        { key = 'v', cb = action 'vsplit' },
+        { key = 's', cb = action 'split' },
+      }
     },
   },
-  lsp_diagnostics = true,
+  diagnostics = {
+    enable = false,
+    icons = {
+      error = '✗',
+      warning = '',
+      info = '',
+      hint = '',
+    }
+  },
   disable_netrw = true,
   hijack_netrw = true,
   open_on_setup = false,
