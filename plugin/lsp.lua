@@ -49,7 +49,7 @@ fn.sign_define(vim.tbl_map(function(t)
     name = hl,
     text = t.icon,
     texthl = hl,
-    linehl = fmt('%sLine', hl),
+    -- linehl = fmt('%sLine', hl),
   }
 end, diagnostic_types))
 
