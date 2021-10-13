@@ -1,3 +1,8 @@
+local present, _ = pcall(require, 'nvim-web-devicons')
+if not present then
+  return
+end
+
 local utils = require 'statusline.utils'
 local M = {}
 
