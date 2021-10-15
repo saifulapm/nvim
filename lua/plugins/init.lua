@@ -446,6 +446,24 @@ return packer.startup(function()
       vim.g.startuptime_exe_args = { '+let g:auto_session_enabled = 0' }
     end,
   }
+
+  use {
+    'mattn/emmet-vim',
+    event = 'InsertEnter',
+    ft = {
+      'html',
+      'css',
+      'liquid',
+      'javascript',
+      'javascriptreact',
+      'vue',
+      'typescript',
+      'typescriptreact',
+    },
+    config = function()
+      require('plugins.configs.others').emmet()
+    end,
+  }
   --------------------------------------------------------------------------------
   -- TPOPE {{{1
   --------------------------------------------------------------------------------
