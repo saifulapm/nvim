@@ -440,6 +440,15 @@ return packer.startup(function()
       require('plugins.configs.others').emmet()
     end,
   }
+
+  use {
+    'kana/vim-operator-replace',
+    keys = { { 'x', 'p' } },
+    config = function()
+      vim.api.nvim_set_keymap('x', 'p', '<Plug>(operator-replace)', { silent = true })
+    end,
+    requires = 'kana/vim-operator-user',
+  }
   --------------------------------------------------------------------------------
   -- TPOPE {{{1
   --------------------------------------------------------------------------------
