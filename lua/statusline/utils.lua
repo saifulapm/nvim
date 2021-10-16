@@ -279,8 +279,11 @@ local function filetype(ctx, opts)
   end
   local icon, hl
   local extension = fnamemodify(ctx.bufname, ':e')
-  local icons_loaded, devicons = gl.safe_require 'nvim-web-devicons'
-  if icons_loaded then
+  local icons_loaded, devicons = pcall(require, 'nvim-web-devicons')
+  if not icons_loaded then
+    icon = ""
+    hl = nil
+  else
     icon, hl = devicons.get_icon(ctx.bufname, extension, { default = true })
     hl = highlight_ft_icon(hl, opts.icon_bg)
   end

@@ -130,37 +130,13 @@ return packer.startup(function()
   -- lsp stuff
   use {
     'neovim/nvim-lspconfig',
-    event = 'BufReadPre',
     config = function()
       require 'plugins.configs.lspconfig'
     end,
   }
-
+  use { 'williamboman/nvim-lsp-installer', requires = 'nvim-lspconfig' }
   use { 'folke/lua-dev.nvim' }
-
-  use {
-    'kabouzeid/nvim-lspinstall',
-    module = 'lspinstall',
-    requires = 'nvim-lspconfig',
-    config = function()
-      require('lspinstall').post_install_hook = function()
-        require('plugins.configs.lspconfig').setup_servers()
-        vim.cmd 'bufdo e'
-      end
-    end,
-  }
-
-  use {
-    'jose-elias-alvarez/null-ls.nvim',
-    run = function()
-      require('utils').install('write-good', 'npm', 'install -g')
-      require('utils').install('prettier', 'npm', 'install -g')
-    end,
-    event = 'User LspServersStarted',
-    config = function()
-      require('plugins.configs.others').null_ls()
-    end,
-  }
+  use { 'jose-elias-alvarez/null-ls.nvim' }
 
   use {
     'ray-x/lsp_signature.nvim',
@@ -182,10 +158,10 @@ return packer.startup(function()
 
   use {
     'hrsh7th/nvim-cmp',
-    module = 'cmp',
     event = 'InsertEnter',
     requires = {
-      { 'hrsh7th/cmp-nvim-lsp' },
+      { 'hrsh7th/cmp-nvim-lua', after = 'nvim-cmp' },
+      { 'hrsh7th/cmp-nvim-lsp', after = 'nvim-cmp' },
       { 'hrsh7th/cmp-path', after = 'nvim-cmp' },
       { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' },
       { 'saadparwaiz1/cmp_luasnip', after = 'nvim-cmp' },

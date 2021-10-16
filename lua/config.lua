@@ -1,5 +1,3 @@
--- NOTE: This is default config, so dont change anything here. (check chadrc.lua instead)
-
 local M = {}
 M.ui, M.options, M.plugin_status, M.mappings, M.custom = {}, {}, {}, {}, {}
 
@@ -8,7 +6,7 @@ M.ui = {
   italic_comments = true,
 
   -- theme to be used, to see all available themes, open the theme switcher by <leader> + th
-  theme = "onedark",
+  theme = 'onedark',
 
   -- theme toggler, toggle between two themes, see theme_toggleer mappings
   theme_toggler = {
@@ -159,8 +157,8 @@ M.mappings.plugin = {
     minimalistic_mode = '<leader>zm', -- as it is
   },
   session = {
-    session_save = '<leader>s',
-    session_load = '<leader>l',
+    session_save = '<leader>ss',
+    session_load = '<leader>ll',
   },
 }
 
