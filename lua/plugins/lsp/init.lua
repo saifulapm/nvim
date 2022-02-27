@@ -16,7 +16,7 @@ capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 for _, server in ipairs {
   'intelephense',
-  -- 'shopify',
+  'shopify',
   -- 'eslint',
   -- 'jsonls',
   'null_ls',

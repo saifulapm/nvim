@@ -91,7 +91,7 @@ return packer.startup(function()
   use {
     {
       'neovim/nvim-lspconfig',
-      ft = { 'lua', 'php' },
+      ft = { 'lua', 'php', 'liquid' },
       config = function()
         require 'plugins.lsp'
       end,
@@ -194,7 +194,7 @@ return packer.startup(function()
       --   vim.g.user_emmet_install_command = 0
       --   vim.g.user_emmet_mode = 'i'
       -- end,
-    }
+    },
   }
   -- }}}
 

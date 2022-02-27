@@ -22,7 +22,6 @@ local kinds = {
   Enum = '',
   Keyword = '',
   Snippet = '',
-  Emmet = '',
   Color = '',
   File = '',
   Reference = '',
@@ -164,7 +163,6 @@ cmp.setup {
         fuzzy_path = '[Fuzzy Path]',
         spell = '[Spell]',
         cmdline = '[Command]',
-        emmet = '[Emmet]',
       })[name]
 
       vim_item.menu = menu
@@ -180,7 +178,6 @@ cmp.setup {
     { name = 'nvim_lua' },
     { name = 'spell' },
     { name = 'path' },
-    { name = 'emmet' },
   }, {
     { name = 'buffer' },
   }),
