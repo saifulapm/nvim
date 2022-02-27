@@ -1,49 +1,124 @@
-local present, cmp = pcall(require, 'cmp')
+local present, cmp = pcall(require, "cmp")
 
 if not present then
-  return
+   return
 end
 
 local api = vim.api
-local t = gl.replace_termcodes
+local u = require('utils.color')
+local kinds = {
+  Text = '',
+  Method = '',
+  Function = '',
+  Constructor = '',
+  Field = 'ﰠ',
+  Variable = '',
+  Class = 'ﴯ',
+  Interface = '',
+  Module = '',
+  Property = 'ﰠ',
+  Unit = '塞',
+  Value = '',
+  Enum = '',
+  Keyword = '',
+  Snippet = '',
+  Emmet = '',
+  Color = '',
+  File = '',
+  Reference = '',
+  Folder = '',
+  EnumMember = '',
+  Constant = '',
+  Struct = 'פּ',
+  Event = '',
+  Operator = '',
+  TypeParameter = '',
+}
+
+local kind_highlights = G.style.kinds
+
+local kind_hls = vim.tbl_map(function(key)
+  return {
+      string.format('CmpItemKind%s', key),
+      { inherit = kind_highlights[key], italic = false, bold = false, underline = false },
+    }
+end, vim.tbl_keys(kind_highlights))
+
+-- Highligh Overwite
+local keyword_fg = u.get_hl('Keyword', 'fg')
+u.overwrite {
+    { 'CmpItemAbbr', { inherit = 'Comment', italic = false, bold = false } },
+    { 'CmpItemMenu', { inherit = 'NonText', italic = false, bold = false } },
+    { 'CmpItemAbbrMatch', { inherit = 'Pmenu', bold = true } },
+    { 'CmpItemAbbrDeprecated', { strikethrough = true, inherit = 'Comment' } },
+    { 'CmpItemAbbrMatchFuzzy', { italic = true, foreground = keyword_fg } }
+}
+u.overwrite {unpack(kind_hls)}
+
+local t = function(str)
+  return api.nvim_replace_termcodes(str, true, true, true)
+end
 
 local function feed(key, mode)
   api.nvim_feedkeys(t(key), mode or '', true)
 end
 
 local function get_luasnip()
-  local ok, luasnip = gl.safe_require('luasnip', { silent = true })
+  local ok, luasnip = pcall(require, 'luasnip')
   if not ok then
     return nil
   end
   return luasnip
 end
 
-local function tab(_)
+local function cntlh(fallback)
   local luasnip = get_luasnip()
-  if cmp.visible() then
-    cmp.select_next_item()
-  elseif luasnip and luasnip.expand_or_jumpable() then
+  if luasnip and luasnip.expand_or_locally_jumpable() then
     luasnip.expand_or_jump()
   else
-    feed '<Plug>(Tabout)'
+    fallback()
   end
 end
 
-local function shift_tab(_)
+local function tab(fallback)
+  local luasnip = get_luasnip()
+  local copilot_keys = vim.fn['copilot#Accept']()
+  if cmp.visible() then
+    cmp.select_next_item()
+  elseif copilot_keys ~= '' then -- prioritise copilot over snippets
+    -- Copilot keys do not need to be wrapped in termcodes
+    feed(copilot_keys, 'i')
+  elseif luasnip and luasnip.expand_or_locally_jumpable() then
+    luasnip.expand_or_jump()
+  else
+    fallback()
+  end
+end
+
+local function shift_tab(fallback)
   local luasnip = get_luasnip()
   if cmp.visible() then
     cmp.select_prev_item()
   elseif luasnip and luasnip.jumpable(-1) then
     luasnip.jump(-1)
+  elseif api.nvim_get_mode().mode == 'c' then
+    fallback()
   else
-    feed '<Plug>(TaboutBack)'
+    local copilot_keys = vim.fn['copilot#Accept']()
+    if copilot_keys ~= '' then
+      feed(copilot_keys, 'i')
+    else
+      fallback()
+    end
   end
 end
 
 cmp.setup {
+  completion = {
+    keyword_length = 2, -- avoid keyword completion
+  },
   experimental = {
-    ghost_text = false,
+    ghost_text = false, -- disable whilst using copilot
   },
   snippet = {
     expand = function(args)
@@ -51,16 +126,17 @@ cmp.setup {
     end,
   },
   mapping = {
-    ['<Tab>'] = cmp.mapping(tab, { 'i', 's' }),
-    ['<S-Tab>'] = cmp.mapping(shift_tab, { 'i', 's' }),
-    ['<C-n>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
-    ['<C-p>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
-    ['<Down>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select },
-    ['<Up>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select },
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.close(),
+    ['<c-h>'] = cmp.mapping(function()
+      vim.api.nvim_feedkeys(vim.fn['copilot#Accept'](t '<Tab>'), 'n', true)
+    end),
+    ['<c-j>'] = cmp.mapping(cntlh, { 'i' }),
+    ['<Tab>'] = cmp.mapping(tab, { 'i', 'c' }),
+    ['<S-Tab>'] = cmp.mapping(shift_tab, { 'i', 'c' }),
+    ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+    ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+    ['<C-y>'] = cmp.config.disable,
+    ['<C-e>'] = cmp.config.disable,
+    ['<C-space>'] = cmp.mapping.complete(),
     ['<CR>'] = cmp.mapping.confirm {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
@@ -68,32 +144,72 @@ cmp.setup {
   },
   formatting = {
     deprecated = true,
+    fields = { 'kind', 'abbr', 'menu' },
     format = function(entry, vim_item)
-      vim_item.kind = gl.style.lsp.kinds[vim_item.kind]
+      vim_item.kind = kinds[vim_item.kind]
+      local name = entry.source.name
       -- FIXME: automate this using a regex to normalise names
-      vim_item.menu = ({
+      local menu = ({
         nvim_lsp = '[LSP]',
+        nvim_lua = '[Lua]',
         emoji = '[Emoji]',
         path = '[Path]',
         calc = '[Calc]',
         neorg = '[Neorg]',
         orgmode = '[Org]',
+        cmp_tabnine = '[TN]',
         luasnip = '[Luasnip]',
         buffer = '[Buffer]',
+        fuzzy_buffer = '[Fuzzy Buffer]',
+        fuzzy_path = '[Fuzzy Path]',
         spell = '[Spell]',
-      })[entry.source.name]
+        cmdline = '[Command]',
+        emmet = '[Emmet]',
+      })[name]
+
+      vim_item.menu = menu
       return vim_item
     end,
   },
   documentation = {
     border = 'rounded',
   },
-  sources = {
-    { name = 'luasnip' },
+  sources = cmp.config.sources({
     { name = 'nvim_lsp' },
+    { name = 'luasnip' },
+    { name = 'nvim_lua' },
+    { name = 'spell' },
     { name = 'path' },
+    { name = 'emmet' }
+  }, {
     { name = 'buffer' },
-    { name = 'neorg' },
-    { name = 'orgmode' },
-  },
+  }),
 }
+
+local search_sources = {
+  completion = {
+    keyword_length = 2, -- avoid keyword completion
+  },
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp_document_symbol' },
+  }, {
+    { name = 'buffer' },
+  }),
+}
+
+-- Use buffer source for `/`.
+cmp.setup.cmdline('/', search_sources)
+
+cmp.setup.cmdline('?', search_sources)
+
+-- Use cmdline & path source for ':'.
+cmp.setup.cmdline(':', {
+  completion = {
+    keyword_length = 2, -- avoid keyword completion
+  },
+  sources = cmp.config.sources({
+    { name = 'path' },
+  }, {
+    { name = 'cmdline' },
+  }),
+})

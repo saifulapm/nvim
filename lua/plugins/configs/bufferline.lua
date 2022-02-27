@@ -1,4 +1,4 @@
-local colors = require('theme').get()
+local colors = require('colors').get 'onedark'
 
 local present, bufferline = pcall(require, 'bufferline')
 if not present then
@@ -44,7 +44,6 @@ local function sort_by_mtime(a, b)
 end
 
 local groups = require 'bufferline.groups'
-local List = require 'plenary.collections.py_list'
 
 bufferline.setup {
   options = {
@@ -76,7 +75,7 @@ bufferline.setup {
       },
       {
         filetype = 'NvimTree',
-        text = 'Explorer',
+        text = 'פּ Files',
         highlight = 'PanelHeading',
         padding = 1,
       },
@@ -130,8 +129,11 @@ bufferline.setup {
           name = 'docs',
           auto_close = true,
           matcher = function(buf)
-            local list = List { 'md', 'txt', 'org', 'norg', 'wiki' }
-            return list:contains(fn.fnamemodify(buf.path, ':e'))
+            for _, ext in ipairs { 'md', 'txt', 'org', 'norg', 'wiki' } do
+              if ext == fn.fnamemodify(buf.path, ':e') then
+                return true
+              end
+            end
           end,
         },
       },

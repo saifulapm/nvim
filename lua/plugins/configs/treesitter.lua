@@ -1,27 +1,13 @@
-local present, ts_config = pcall(require, 'nvim-treesitter.configs')
-if not present then
-  return
-end
-
--- local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
--- parser_configs.norg = {
---   install_info = {
---     url = 'https://github.com/nvim-neorg/tree-sitter-norg',
---     files = { 'src/parser.c', 'src/scanner.cc' },
---     branch = 'main',
---   },
--- }
-
-ts_config.setup {
+require('nvim-treesitter.configs').setup {
   ensure_installed = {
     'lua',
     'javascript',
     'php',
+    'dart',
     -- 'norg',
   },
   highlight = {
     enable = true,
-    use_languagetree = true,
   },
   incremental_selection = {
     enable = true,
@@ -69,5 +55,30 @@ ts_config.setup {
         ['[['] = '@class.outer',
       },
     },
+    lsp_interop = {
+      enable = true,
+      border = 'rounded',
+      peek_definition_code = {
+        ['<leader>df'] = '@function.outer',
+        ['<leader>dF'] = '@class.outer',
+      },
+    },
+  },
+  rainbow = {
+    enable = true,
+    disable = { 'json', 'html', 'lua' },
+    colors = {
+      'royalblue3',
+      'darkorange3',
+      'seagreen3',
+      'firebrick',
+      'darkorchid3',
+    },
+  },
+  autopairs = { enable = true },
+  query_linter = {
+    enable = true,
+    use_virtual_text = true,
+    lint_events = { 'BufWrite', 'CursorHold' },
   },
 }

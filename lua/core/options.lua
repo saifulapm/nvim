@@ -1,14 +1,15 @@
+local opt = vim.opt
+local g = vim.g
 local fn = vim.fn
-------------------------------------------------------------------------
--- Leader bindings
-------------------------------------------------------------------------
-vim.g.mapleader = ' ' -- Remap leader key
-vim.g.maplocalleader = ',' -- Local leader is ,
+
+-- Leaders
+g.mapleader = ' '
+g.maplocalleader = ','
 
 -----------------------------------------------------------------------------//
 -- Message output on vim actions {{{1
 -----------------------------------------------------------------------------//
-vim.opt.shortmess = {
+opt.shortmess = {
   t = true, -- truncate file messages at start
   A = true, -- ignore annoying swap file messages
   o = true, -- file-read message overwrites previous
@@ -19,28 +20,29 @@ vim.opt.shortmess = {
   s = true,
   c = true,
   W = true, -- Don't show [w] or written when writing
-  I = true, -- Disable nvim intro
+  I = true, -- Disable Nvim Intro
 }
+
 -----------------------------------------------------------------------------//
 -- Timings {{{1
 -----------------------------------------------------------------------------//
-vim.opt.updatetime = 300
-vim.opt.timeout = true
-vim.opt.timeoutlen = 500
-vim.opt.ttimeoutlen = 10
+opt.updatetime = 300
+opt.timeout = true
+opt.timeoutlen = 500
+opt.ttimeoutlen = 10
+
 -----------------------------------------------------------------------------//
 -- Window splitting and buffers {{{1
 -----------------------------------------------------------------------------//
 --- NOTE: remove this once 0.6 lands as it is now default
-vim.opt.hidden = true
-vim.opt.splitbelow = true
-vim.opt.splitright = true
-vim.opt.eadirection = 'hor'
+opt.splitbelow = true
+opt.splitright = true
+opt.eadirection = 'hor'
 -- exclude usetab as we do not want to jump to buffers in already open tabs
 -- do not use split or vsplit to ensure we don't open any new windows
 vim.o.switchbuf = 'useopen,uselast'
-vim.opt.fillchars = {
-  vert = '│', -- alternatives │
+opt.fillchars = {
+  vert = '▕', -- alternatives │
   fold = ' ',
   eob = ' ', -- suppress ~ at EndOfBuffer
   diff = '╱', -- alternatives = ⣿ ░ ─
@@ -49,11 +51,12 @@ vim.opt.fillchars = {
   foldsep = '│',
   foldclose = '▸',
 }
+
 -----------------------------------------------------------------------------//
 -- Diff {{{1
 -----------------------------------------------------------------------------//
 -- Use in vertical diff mode, blank lines to keep sides aligned, Ignore whitespace changes
-vim.opt.diffopt = vim.opt.diffopt
+opt.diffopt = opt.diffopt
   + {
     'vertical',
     'iwhite',
@@ -63,10 +66,11 @@ vim.opt.diffopt = vim.opt.diffopt
     'algorithm:histogram',
     'indent-heuristic',
   }
+
 -----------------------------------------------------------------------------//
 -- Format Options {{{1
 -----------------------------------------------------------------------------//
-vim.opt.formatoptions = {
+opt.formatoptions = {
   ['1'] = true,
   ['2'] = true, -- Use indent from 2nd line of a paragraph
   q = true, -- continue comments with gq"
@@ -81,39 +85,44 @@ vim.opt.formatoptions = {
   l = true,
   v = true,
 }
+
+-----------------------------------------------------------------------------//
+-- Number {{{1
+-----------------------------------------------------------------------------//
+opt.number = true
+opt.numberwidth = 2
+opt.relativenumber = true
+
 -----------------------------------------------------------------------------//
 -- Folds {{{1
 -----------------------------------------------------------------------------//
-vim.opt.foldtext = 'v:lua.gl.folds()'
-vim.opt.foldopen = vim.opt.foldopen + 'search'
-vim.opt.foldlevelstart = 3
-vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
-vim.opt.foldmethod = 'expr'
------------------------------------------------------------------------------//
--- Quickfix {{{1
------------------------------------------------------------------------------//
---- FIXME: Need to use a lambda rather than a lua function directly
---- @see https://github.com/neovim/neovim/pull/14886
--- vim.o.quickfixtextfunc = '{i -> v:lua.gl.qftf(i)}'
+-- opt.foldtext = 'v:lua.G.folds()'
+opt.foldopen = opt.foldopen + 'search'
+opt.foldlevelstart = 99
+opt.foldexpr = 'nvim_treesitter#foldexpr()'
+-- opt.foldmethod = 'expr'
+opt.foldmethod = 'indent'
+
 -----------------------------------------------------------------------------//
 -- Grepprg {{{1
 -----------------------------------------------------------------------------//
 -- Use faster grep alternatives if possible
-if gl.executable 'rg' then
+if fn.executable 'rg' > 0 then
   vim.o.grepprg = [[rg --glob "!.git" --no-heading --vimgrep --follow $*]]
-  vim.opt.grepformat = vim.opt.grepformat ^ { '%f:%l:%c:%m' }
-elseif gl.executable 'ag' then
+  opt.grepformat = opt.grepformat ^ { '%f:%l:%c:%m' }
+elseif fn.executable 'ag' > 0 then
   vim.o.grepprg = [[ag --nogroup --nocolor --vimgrep]]
-  vim.opt.grepformat = vim.opt.grepformat ^ { '%f:%l:%c:%m' }
+  opt.grepformat = opt.grepformat ^ { '%f:%l:%c:%m' }
 end
+
 -----------------------------------------------------------------------------//
 -- Wild and file globbing stuff in command mode {{{1
 -----------------------------------------------------------------------------//
-vim.opt.wildcharm = fn.char2nr(gl.replace_termcodes [[<Tab>]])
-vim.opt.wildmode = 'longest:full,full' -- Shows a menu bar as opposed to an enormous list
-vim.opt.wildignorecase = true -- Ignore case when completing file names and directories
+opt.wildcharm = fn.char2nr(vim.api.nvim_replace_termcodes([[<Tab>]], true, true, true))
+opt.wildmode = 'longest:full,full' -- Shows a menu bar as opposed to an enormous list
+opt.wildignorecase = true -- Ignore case when completing file names and directories
 -- Binary
-vim.opt.wildignore = {
+opt.wildignore = {
   '*.aux',
   '*.out',
   '*.toc',
@@ -138,23 +147,22 @@ vim.opt.wildignore = {
   '.lock',
   '.DS_Store',
   'tags.lock',
-  '*/node_modules/*',
-  '*/vendor/*',
 }
-vim.opt.wildoptions = 'pum'
-vim.opt.pumblend = 3 -- Make popup window translucent
+opt.wildoptions = 'pum'
+opt.pumblend = 3 -- Make popup window translucent
+
 -----------------------------------------------------------------------------//
 -- Display {{{1
 -----------------------------------------------------------------------------//
-vim.opt.conceallevel = 2
-vim.opt.breakindentopt = 'sbr'
-vim.opt.linebreak = true -- lines wrap at words rather than random characters
-vim.opt.synmaxcol = 1024 -- don't syntax highlight long lines
-vim.opt.signcolumn = 'yes:2'
-vim.opt.ruler = false
-vim.opt.cmdheight = 1 -- Set command line height to two lines
-vim.opt.showbreak = [[↪ ]] -- Options include -> '…', '↳ ', '→','↪ '
---- This is used to handle markdown code blocks where the language might
+opt.conceallevel = 2
+opt.breakindentopt = 'sbr'
+opt.linebreak = true -- lines wrap at words rather than random characters
+opt.synmaxcol = 1024 -- don't syntax highlight long lines
+-- FIXME: use 'auto:2-4' when the ability to set only a single lsp sign is restored
+--@see: https://github.com/neovim/neovim/issues?q=set_signs
+opt.signcolumn = 'yes:2'
+opt.ruler = false
+opt.cmdheight = 1 -- Set command line height to two lines
 --- be set to a value that isn't equivalent to a vim filetype
 vim.g.markdown_fenced_languages = {
   'js=javascript',
@@ -163,88 +171,69 @@ vim.g.markdown_fenced_languages = {
   'bash=sh',
   'console=sh',
 }
+
 -----------------------------------------------------------------------------//
 -- List chars {{{1
 -----------------------------------------------------------------------------//
-vim.opt.list = true -- invisible chars
-vim.opt.listchars = {
+opt.list = true -- invisible chars
+opt.listchars = {
   eol = nil,
   tab = '│ ',
   extends = '›', -- Alternatives: … »
   precedes = '‹', -- Alternatives: … «
   trail = '•', -- BULLET (U+2022, UTF-8: E2 80 A2)
 }
+
 -----------------------------------------------------------------------------//
 -- Indentation
 -----------------------------------------------------------------------------//
-vim.opt.wrap = false
-vim.opt.wrapmargin = 2
-vim.opt.textwidth = 80
-vim.opt.autoindent = true
-vim.opt.shiftround = true
-vim.opt.expandtab = true
-vim.opt.shiftwidth = 2
-vim.opt.tabstop = 2
-vim.opt.softtabstop = -1
-vim.opt.whichwrap:append '<>[]hl'
+opt.wrap = true
+opt.wrapmargin = 2
+opt.textwidth = 80
+opt.autoindent = true
+opt.shiftround = true
+opt.expandtab = true
+opt.shiftwidth = 2
+opt.smartindent = true
+opt.tabstop = 2
+opt.softtabstop = -1
+-- go to previous/next line with h,l,left arrow and right arrow
+-- when cursor reaches end/beginning of line
+opt.whichwrap:append '<>[]hl'
 
------------------------------------------------------------------------------//
--- vim.o.debug = "msg"
---- NOTE: remove this once 0.6 lands, it is now default
-vim.opt.joinspaces = false
-vim.opt.gdefault = true
-vim.opt.pumheight = 15
-vim.opt.confirm = true -- make vim prompt me to save before doing destructive things
-vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
-vim.opt.hlsearch = false
-vim.opt.autowriteall = true -- automatically :write before running commands and changing files
-vim.opt.clipboard = { 'unnamedplus' }
-vim.opt.laststatus = 2
-vim.opt.termguicolors = true
--- vim.opt.guifont = 'Operator Mono Lig:h18'
+opt.joinspaces = false
+opt.gdefault = true
+opt.pumheight = 15
+opt.confirm = true -- make vim prompt me to save before doing destructive things
+opt.completeopt = { 'menuone', 'noselect' }
+opt.hlsearch = true
+opt.autowriteall = true -- automatically :write before running commands and changing files
+opt.clipboard = { 'unnamedplus' }
+opt.termguicolors = true
+-- opt.guifont = 'Fira Code Regular Nerd Font Complete Mono:h14'
+
 -----------------------------------------------------------------------------//
 -- Emoji {{{1
 -----------------------------------------------------------------------------//
 -- emoji is true by default but makes (n)vim treat all emoji as double width
 -- which breaks rendering so we turn this off.
 -- CREDIT: https://www.youtube.com/watch?v=F91VWOelFNE
-vim.opt.emoji = false
------------------------------------------------------------------------------//
---- NOTE: remove this once 0.6 lands, it is now default
-vim.opt.inccommand = 'nosplit'
------------------------------------------------------------------------------//
--- Cursor {{{1
------------------------------------------------------------------------------//
--- This is from the help docs, it enables mode shapes, "Cursor" highlight, and blinking
-vim.opt.guicursor = {
-  [[n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50]],
-  [[a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor]],
-  [[sm:block-blinkwait175-blinkoff150-blinkon175]],
-}
+opt.emoji = false
 
-if gl.nightly then
-  vim.opt.cursorlineopt = 'screenline,number'
-end
 -----------------------------------------------------------------------------//
 -- Title {{{1
 -----------------------------------------------------------------------------//
--- vim.opt.titlestring = require('gl.external').title_string() or ' ❐ %t %r %m'
-vim.opt.titleold = fn.fnamemodify(vim.loop.os_getenv 'SHELL', ':t')
-vim.opt.title = true
-vim.opt.titlelen = 70
+opt.titlestring = ' ❐ %t %r %m'
+opt.titleold = fn.fnamemodify(vim.loop.os_getenv 'SHELL', ':t')
+opt.title = true
+opt.titlelen = 70
 
------------------------------------------------------------------------------//
--- Provider {{{1
------------------------------------------------------------------------------//
-vim.g.python3_host_prog = '/usr/local/bin/python3'
-vim.g.loaded_perl_provider = 0
-vim.g.loaded_python_provider = 0
-vim.g.loaded_ruby_provider = 0
 -----------------------------------------------------------------------------//
 -- Utilities {{{1
 -----------------------------------------------------------------------------//
-vim.opt.showmode = false
-vim.opt.sessionoptions = {
+g.did_load_filetypes = 0
+opt.showmode = false
+opt.sessionoptions = {
   'globals',
   'buffers',
   'curdir',
@@ -252,65 +241,75 @@ vim.opt.sessionoptions = {
   'winpos',
   -- "tabpages",
 }
-vim.opt.viewoptions = { 'cursor', 'folds' } -- save/restore just these (with `:{mk,load}view`)
-vim.opt.virtualedit = 'block' -- allow cursor to move where there is no text in visual block mode
------------------------------------------------------------------------------//
--- Shada (Shared Data)
------------------------------------------------------------------------------//
--- NOTE: don't store marks as they are currently broke i.e.
--- are incorrectly resurrected after deletion
--- replace '100 with '0 the default which stores 100 marks
--- add f0 so file marks aren't stored
--- @credit: wincent
-vim.opt.shada = "!,'0,f0,<50,s10,h"
+opt.viewoptions = { 'cursor', 'folds' } -- save/restore just these (with `:{mk,load}view`)
+opt.virtualedit = 'block' -- allow cursor to move where there is no text in visual block mode
+
 -------------------------------------------------------------------------------
 -- BACKUP AND SWAPS {{{
 -------------------------------------------------------------------------------
-vim.opt.backup = false
-vim.opt.writebackup = false
+opt.backup = false
+opt.writebackup = false
 if fn.isdirectory(vim.o.undodir) == 0 then
   fn.mkdir(vim.o.undodir, 'p')
 end
-vim.opt.undofile = true
-vim.opt.swapfile = false
+opt.undofile = true
+opt.swapfile = false
 -- The // at the end tells Vim to use the absolute path to the file to create the swap file.
 -- This will ensure that swap file name is unique, so there are no collisions between files
 -- with the same name from different directories.
-vim.opt.directory = fn.stdpath 'data' .. '/swap//'
+opt.directory = fn.stdpath 'data' .. '/swap/'
 if fn.isdirectory(vim.o.directory) == 0 then
   fn.mkdir(vim.o.directory, 'p')
 end
 --}}}
+
 -----------------------------------------------------------------------------//
 -- Match and search {{{1
 -----------------------------------------------------------------------------//
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
-vim.opt.wrapscan = true -- Searches wrap around the end of the file
-vim.opt.scrolloff = 9
-vim.opt.sidescrolloff = 10
-vim.opt.sidescroll = 1
------------------------------------------------------------------------------//
--- Spelling {{{1
------------------------------------------------------------------------------//
-vim.opt.spellsuggest:prepend { 12 }
-vim.opt.spelloptions = 'camel'
-vim.opt.spellcapcheck = '' -- don't check for capital letters at start of sentence
-vim.opt.fileformats = { 'unix', 'mac', 'dos' }
+opt.ignorecase = true
+opt.smartcase = true
+opt.wrapscan = true -- Searches wrap around the end of the file
+opt.scrolloff = 9
+opt.sidescrolloff = 10
+opt.sidescroll = 1
+
 -----------------------------------------------------------------------------//
 -- Mouse {{{1
 -----------------------------------------------------------------------------//
-vim.opt.mouse = 'a'
-vim.opt.mousefocus = true
+opt.mouse = 'a'
+opt.mousefocus = true
 -----------------------------------------------------------------------------//
--- these only read ".vim" files
-vim.opt.secure = true -- Disable autocmd etc for project local vimrc files.
-vim.opt.exrc = true -- Allow project local vimrc files example .nvimrc see :h exrc
------------------------------------------------------------------------------//
--- Git editor
------------------------------------------------------------------------------//
-if gl.executable 'nvr' then
-  vim.env.GIT_EDITOR = "nvr -cc split --remote-wait +'set bufhidden=wipe'"
-  vim.env.EDITOR = "nvr -cc split --remote-wait +'set bufhidden=wipe'"
+
+-- Others {{{1
+opt.cul = true -- cursor line
+
+g.python3_host_prog = '/usr/local/bin/python3'
+g.loaded_python_provider = 0
+g.loaded_ruby_provider = 0
+g.loaded_perl_provider = 0
+
+-- disable some builtin vim plugins
+local disabled_built_ins = {
+  '2html_plugin',
+  'getscript',
+  'getscriptPlugin',
+  'gzip',
+  'logipat',
+  'netrw',
+  'netrwPlugin',
+  'netrwSettings',
+  'netrwFileHandlers',
+  'matchit',
+  'tar',
+  'tarPlugin',
+  'rrhelper',
+  'spellfile_plugin',
+  'vimball',
+  'vimballPlugin',
+  'zip',
+  'zipPlugin',
+}
+
+for _, plugin in pairs(disabled_built_ins) do
+  g['loaded_' .. plugin] = 1
 end
--- vim:foldmethod=marker
