@@ -1,4 +1,4 @@
-<h1 align="center">Saiful's Neovim Config</h1>
+<h1 align="center">Saiful's Neovim Config (Neovim 0.7+)</h1>
 
 ## Screenshots
 <img width="1504" alt="Screenshot 2022-02-27 at 8 56 36 PM" src="https://user-images.githubusercontent.com/3833316/155889130-f62cba30-3bc7-49e0-9a55-fc5cc7b36790.png">
