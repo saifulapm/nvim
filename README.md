@@ -1,33 +1,15 @@
 <h1 align="center">Saiful's Neovim Config</h1>
 
-## Features
+## Screenshots
+<img width="1504" alt="Screenshot 2022-02-27 at 8 56 36 PM" src="https://user-images.githubusercontent.com/3833316/155889130-f62cba30-3bc7-49e0-9a55-fc5cc7b36790.png">
+<img width="1504" alt="Screenshot 2022-02-27 at 8 56 58 PM" src="https://user-images.githubusercontent.com/3833316/155889134-ef1c5bd4-6fbd-469c-9bd6-c6f8a24a925d.png">
+![Uploading Screenshot 2022-02-27 at 8.57.42 PM.png…]()
 
-- Lots of beautiful themes to choose from.
-- Distraction free modes.
-- Fast plugin loading. (55+ Plugins. Loaded 15-20ms (Depends on SSD))
-- Smooth scrolling.
-- Autosaving.
-- File navigation with [nvim-tree.lua](https://github.com/kyazdani42/nvim-tree.lua).
-- Managing tabs, buffers with [buftabline.nvim](https://github.com/jose-elias-alvarez/buftabline.nvim).
-- Beautiful and configurable icons with [nvim-web-devicons](https://github.com/kyazdani42/nvim-web-devicons).
-- Git diffs and more with [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim) .
-- NeoVim Lsp configuration with [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig).
-- Autocompletion with [nvim-cmp](https://github.com/hrsh7th/nvim-cmp).
-- File searching, previewing image and text files and more with [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim).
-- Syntax highlighting with [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter).
-- Autoclosing braces and html tags with [nvim-autopairs](https://github.com/windwp/nvim-autopairs).
-- Formatting code with [null-ls](https://github.com/jose-elias-alvarez/null-ls.nvim).
-- Indentlines with [indent-blankline.nvim](https://github.com/lukas-reineke/indent-blankline.nvim).
-- Useful snippets with [LuaSnip](https://github.com/L3MON4D3/LuaSnip).
-- Handling Project with Session manager
-- Nice Starter UI (Ported from mini.nvim)
-- & Much more
+## How to know keymaps
 
-# TODO
-
-- Improving base plugins configurations
-- Doc for All Mappings
-- Adding more themes.
+```
+<leader>ch (To Open Cheatsheet)
+```
 
 ## How to Install this config
 
