@@ -1,11 +1,11 @@
-local present, cmp = pcall(require, "cmp")
+local present, cmp = pcall(require, 'cmp')
 
 if not present then
-   return
+  return
 end
 
 local api = vim.api
-local u = require('utils.color')
+local u = require 'utils.color'
 local kinds = {
   Text = '',
   Method = '',
@@ -39,21 +39,21 @@ local kind_highlights = G.style.kinds
 
 local kind_hls = vim.tbl_map(function(key)
   return {
-      string.format('CmpItemKind%s', key),
-      { inherit = kind_highlights[key], italic = false, bold = false, underline = false },
-    }
+    string.format('CmpItemKind%s', key),
+    { inherit = kind_highlights[key], italic = false, bold = false, underline = false },
+  }
 end, vim.tbl_keys(kind_highlights))
 
 -- Highligh Overwite
 local keyword_fg = u.get_hl('Keyword', 'fg')
 u.overwrite {
-    { 'CmpItemAbbr', { inherit = 'Comment', italic = false, bold = false } },
-    { 'CmpItemMenu', { inherit = 'NonText', italic = false, bold = false } },
-    { 'CmpItemAbbrMatch', { inherit = 'Pmenu', bold = true } },
-    { 'CmpItemAbbrDeprecated', { strikethrough = true, inherit = 'Comment' } },
-    { 'CmpItemAbbrMatchFuzzy', { italic = true, foreground = keyword_fg } }
+  { 'CmpItemAbbr', { inherit = 'Comment', italic = false, bold = false } },
+  { 'CmpItemMenu', { inherit = 'NonText', italic = false, bold = false } },
+  { 'CmpItemAbbrMatch', { inherit = 'Pmenu', bold = true } },
+  { 'CmpItemAbbrDeprecated', { strikethrough = true, inherit = 'Comment' } },
+  { 'CmpItemAbbrMatchFuzzy', { italic = true, foreground = keyword_fg } },
 }
-u.overwrite {unpack(kind_hls)}
+u.overwrite { unpack(kind_hls) }
 
 local t = function(str)
   return api.nvim_replace_termcodes(str, true, true, true)
@@ -180,7 +180,7 @@ cmp.setup {
     { name = 'nvim_lua' },
     { name = 'spell' },
     { name = 'path' },
-    { name = 'emmet' }
+    { name = 'emmet' },
   }, {
     { name = 'buffer' },
   }),

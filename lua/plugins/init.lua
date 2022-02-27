@@ -98,6 +98,8 @@ return packer.startup(function()
       requires = {
         { 'folke/lua-dev.nvim' },
         { 'hrsh7th/cmp-nvim-lsp' },
+        { 'jose-elias-alvarez/null-ls.nvim' },
+        { 'b0o/schemastore.nvim' },
       },
     },
     {
@@ -135,8 +137,8 @@ return packer.startup(function()
   use {
     {
       'hrsh7th/nvim-cmp',
-      -- module = 'cmp',
-      -- event = { 'InsertEnter', 'CmdlineEnter' },
+      module = 'cmp',
+      event = { 'InsertEnter' },
       requires = {
         { 'hrsh7th/cmp-nvim-lua', after = 'nvim-cmp' },
         { 'hrsh7th/cmp-cmdline', after = 'nvim-cmp' },

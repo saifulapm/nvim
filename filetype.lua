@@ -9,6 +9,6 @@ vim.filetype.add {
     ['.gitignore'] = 'conf',
     ['*.gradle'] = 'groovy',
     ['Podfile'] = 'ruby',
-    ['*.env.*'] = 'sh'
+    ['*.env.*'] = 'sh',
   },
 }

@@ -13,25 +13,10 @@ M.basic = function()
   map('n', '<C-h>', '<C-w>h')
   map('', 'j', 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', { expr = true })
   map('', 'k', 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', { expr = true })
-  map(
-    '',
-    '<Down>',
-    'v:count || mode(1)[0:1] == "no" ? "j" : "gj"',
-    { expr = true }
-  )
-  map(
-    '',
-    '<Up>',
-    'v:count || mode(1)[0:1] == "no" ? "k" : "gk"',
-    { expr = true }
-  )
+  map('', '<Down>', 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', { expr = true })
+  map('', '<Up>', 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', { expr = true })
   map('n', mappings.misc.no_highlight, ':nohl<CR>')
-  map(
-    { 'n', 'x', 'o' },
-    mappings.misc.go_to_matching,
-    '%',
-    { noremap = false }
-  )
+  map({ 'n', 'x', 'o' }, mappings.misc.go_to_matching, '%', { noremap = false })
   map('n', mappings.misc.line_number_toggle, ':set nu! <CR>') -- toggle numbers
   map('n', mappings.misc.relative_line_number_toggle, ':set rnu! <CR>') -- toggle relative numbers
   --
@@ -59,12 +44,7 @@ M.basic = function()
   -- -- Commandline Mapping
   map('c', mappings.command_nav.backward, '<Left>', { silent = false })
   map('c', mappings.command_nav.forward, '<Right>', { silent = false })
-  map(
-    'c',
-    mappings.command_nav.beginning_of_line,
-    '<Home>',
-    { silent = false }
-  )
+  map('c', mappings.command_nav.beginning_of_line, '<Home>', { silent = false })
   map('c', mappings.command_nav.end_of_line, '<End>', { silent = false })
   map('c', mappings.command_nav.delete, '<Del>', { silent = false })
   map(
@@ -83,18 +63,10 @@ M.basic = function()
   )
 
   -- -- search visual selection
-  map(
-    'v',
-    mappings.visual_mode_mappings.search_on_selected_area,
-    [[y/<C-R>"<CR>]]
-  )
+  map('v', mappings.visual_mode_mappings.search_on_selected_area, [[y/<C-R>"<CR>]])
 
   -- -- Credit: Justinmk
-  map(
-    'n',
-    mappings.misc.recent_40_messages,
-    [[<cmd>set nomore<bar>40messages<bar>set more<CR>]]
-  )
+  map('n', mappings.misc.recent_40_messages, [[<cmd>set nomore<bar>40messages<bar>set more<CR>]])
   -- -- Refocus folds
   map('n', mappings.misc.refocus_fold, [[zMzvzz]])
   -- -- Make zO recursively open whatever top level fold we're in, no matter where the
@@ -102,16 +74,8 @@ M.basic = function()
   map('n', mappings.misc.open_all_folds, [[zCzO]])
   --
   -- -- Add Empty space above and below
-  map(
-    'n',
-    mappings.misc.blank_line_above,
-    [[<cmd>put! =repeat(nr2char(10), v:count1)<cr>'[]]
-  )
-  map(
-    'n',
-    mappings.misc.blank_line_below,
-    [[<cmd>put =repeat(nr2char(10), v:count1)<cr>]]
-  )
+  map('n', mappings.misc.blank_line_above, [[<cmd>put! =repeat(nr2char(10), v:count1)<cr>'[]])
+  map('n', mappings.misc.blank_line_below, [[<cmd>put =repeat(nr2char(10), v:count1)<cr>]])
   --
   -- -- ToggleChar
   map(
@@ -133,29 +97,13 @@ M.basic = function()
 
   --
   -- -- Buffer
-  map(
-    'n',
-    mappings.misc.delete_other_buffers,
-    ':lua require("utils").buf_only()<CR>'
-  )
+  map('n', mappings.misc.delete_other_buffers, ':lua require("utils").buf_only()<CR>')
   map('n', mappings.misc.toggle_last_file, '<C-^>')
   map('n', mappings.misc.close_buffer, ':bd<CR>')
-  map(
-    'n',
-    mappings.misc.clear_all_buffers,
-    ':lua require("utils").clear()<CR>'
-  )
+  map('n', mappings.misc.clear_all_buffers, ':lua require("utils").clear()<CR>')
   map('n', mappings.misc.scratch_buffer, ':lua require("utils").scratch()<CR>')
-  map(
-    'n',
-    mappings.plugins.bufferline.next_buffer,
-    ':BufNext <CR>'
-  )
-  map(
-    'n',
-    mappings.plugins.bufferline.prev_buffer,
-    ':BufPrev <CR>'
-  )
+  map('n', mappings.plugins.bufferline.next_buffer, ':BufNext <CR>')
+  map('n', mappings.plugins.bufferline.prev_buffer, ':BufPrev <CR>')
 
   -- -- Session
   map('n', mappings.plugins.session.restore_session, ':lua require("utils.session").load()<CR>')
@@ -172,10 +120,7 @@ M.basic = function()
   map(
     'n',
     '<leader>ep',
-    string.format(
-      '<Cmd>vsplit %s/lua/plugins/init.lua<CR>',
-      vim.fn.stdpath 'config'
-    )
+    string.format('<Cmd>vsplit %s/lua/plugins/init.lua<CR>', vim.fn.stdpath 'config')
   )
 
   -- Windows
@@ -198,34 +143,14 @@ M.basic = function()
   map('n', "'", '`')
 
   -- Quick find/replace
-  map(
-    'n',
-    '<leader>[',
-    [[:%s/\<<C-r>=expand("<cword>")<CR>\>/]],
-    { silent = false }
-  )
-  map(
-    'n',
-    '<leader>]',
-    [[:s/\<<C-r>=expand("<cword>")<CR>\>/]],
-    { silent = false }
-  )
+  map('n', '<leader>[', [[:%s/\<<C-r>=expand("<cword>")<CR>\>/]], { silent = false })
+  map('n', '<leader>]', [[:s/\<<C-r>=expand("<cword>")<CR>\>/]], { silent = false })
   map('v', '<leader>[', [["zy:%s/<C-r><C-o>"/]], { silent = false })
 
   --open a new file in the same directory
-  map(
-    'n',
-    '<leader>nf',
-    [[:e <C-R>=expand("%:p:h") . "/" <CR>]],
-    { silent = false }
-  )
+  map('n', '<leader>nf', [[:e <C-R>=expand("%:p:h") . "/" <CR>]], { silent = false })
   --open a new file in the same directory
-  map(
-    'n',
-    '<leader>ns',
-    [[:vsp <C-R>=expand("%:p:h") . "/" <CR>]],
-    { silent = false }
-  )
+  map('n', '<leader>ns', [[:vsp <C-R>=expand("%:p:h") . "/" <CR>]], { silent = false })
 
   -- Quickfix
   map('n', ']q', '<cmd>cnext<CR>zz')
@@ -270,29 +195,39 @@ M.basic = function()
   map({ 'n', 'v' }, 'cN', '*``cgN')
 end
 
-M.lspconfig = function()
+M.lspconfig = function(client, bufnr)
   -- See `:help vim.lsp.*` for documentation on any of the below functions
-  map('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>')
-  map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
-  map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
-  map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
-  map('n', 'gk', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
-  map('n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>')
-  map('n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>')
+  map('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', { buffer = bufnr })
+  map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', { buffer = bufnr })
+  map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', { buffer = bufnr })
+  map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', { buffer = bufnr })
+  map('n', 'gk', '<cmd>lua vim.lsp.buf.signature_help()<CR>', { buffer = bufnr })
+  map('n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', { buffer = bufnr })
+  map('n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', { buffer = bufnr })
   map(
     'n',
     '<leader>wl',
-    '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>'
+    '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>',
+    { buffer = bufnr }
   )
-  map('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
-  map('n', '<leader>ra', '<cmd>lua vim.lsp.buf.rename()<CR>')
-  map('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>')
-  map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
-  map('n', 'ge', '<cmd>lua vim.diagnostic.open_float()<CR>')
-  map('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>')
-  map('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>')
-  map('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>')
-  map('n', '<leader>fm', '<cmd>lua vim.lsp.buf.formatting()<CR>')
+  map('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', { buffer = bufnr })
+  map('n', '<leader>ra', '<cmd>lua vim.lsp.buf.rename()<CR>', { buffer = bufnr })
+  map('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', { buffer = bufnr })
+  map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', { buffer = bufnr })
+  map('n', 'ge', '<cmd>lua vim.diagnostic.open_float()<CR>', { buffer = bufnr })
+  map('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', { buffer = bufnr })
+  map('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', { buffer = bufnr })
+  map('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', { buffer = bufnr })
+  -- map('n', '<leader>fm', '<cmd>lua vim.lsp.buf.formatting()<CR>', { buffer = bufnr })
+
+  if client.supports_method 'textDocument/formatting' then
+    vim.cmd [[
+        augroup LspFormatting
+            autocmd! * <buffer>
+            autocmd BufWritePost <buffer> silent! lua require('utils.lsp').formatting(vim.fn.expand("<abuf>"))
+        augroup END
+        ]]
+  end
 end
 
 M.nvimtree = function()
@@ -303,11 +238,7 @@ end
 M.telescope = function()
   map('n', '<leader>fb', ':Telescope buffers <CR>')
   map('n', '<leader>ff', ':Telescope find_files <CR>')
-  map(
-    'n',
-    '<leader>fa',
-    ':Telescope find_files follow=true no_ignore=true hidden=true <CR>'
-  )
+  map('n', '<leader>fa', ':Telescope find_files follow=true no_ignore=true hidden=true <CR>')
   map('n', '<leader>cm', ':Telescope git_commits <CR>')
   map('n', '<leader>gt', ':Telescope git_status <CR>')
   map('n', '<leader>fh', ':Telescope help_tags <CR>')

@@ -49,11 +49,7 @@ local function display_cheatsheet(mappings)
 
   for main_sec, section_contents in pairs(mappings) do
     -- table.insert(lines, " ")
-    table.insert(
-      lines,
-      spaces(math.floor(width * 0.4 / 2) - math.floor(#main_sec / 2))
-        .. main_sec
-    )
+    table.insert(lines, spaces(math.floor(width * 0.4 / 2) - math.floor(#main_sec / 2)) .. main_sec)
 
     line_nr = line_nr + 1
     table.insert(section_titles, line_nr)
@@ -70,13 +66,7 @@ local function display_cheatsheet(mappings)
         lines[#lines + 1] = ' '
         line_nr = line_nr + 1
 
-        table.insert(
-          lines,
-          spaces(spacing)
-            .. '┌'
-            .. string.rep('─', popup_width - 8)
-            .. '┐'
-        )
+        table.insert(lines, spaces(spacing) .. '┌' .. string.rep('─', popup_width - 8) .. '┐')
         table.insert(border_lines, line_nr)
 
         line_nr = line_nr + 1
@@ -104,10 +94,7 @@ local function display_cheatsheet(mappings)
                 spaces(spacing)
                   .. '│ '
                   .. format(mapping)
-                  .. string.rep(
-                    ' ',
-                    popup_width - 10 - #mapping - #key[1]
-                  )
+                  .. string.rep(' ', popup_width - 10 - #mapping - #key[1])
                   .. key[1]
                   .. ' │'
               )
@@ -134,10 +121,7 @@ local function display_cheatsheet(mappings)
                   spaces(spacing)
                     .. '│ '
                     .. format(mapping_name)
-                    .. string.rep(
-                      ' ',
-                      popup_width - 10 - #mapping_name - 2 - #keystroke
-                    )
+                    .. string.rep(' ', popup_width - 10 - #mapping_name - 2 - #keystroke)
                     .. keystroke
                     .. ' │'
                 )
@@ -149,13 +133,7 @@ local function display_cheatsheet(mappings)
           end
         end
 
-        table.insert(
-          lines,
-          spaces(spacing)
-            .. '└'
-            .. string.rep('─', popup_width - 8)
-            .. '┘'
-        )
+        table.insert(lines, spaces(spacing) .. '└' .. string.rep('─', popup_width - 8) .. '┘')
         table.insert(border_lines, line_nr)
 
         line_nr = line_nr + 1
@@ -177,13 +155,7 @@ local function display_cheatsheet(mappings)
         table.insert(section_lines, line_nr)
         line_nr = line_nr + 1
 
-        table.insert(
-          lines,
-          spaces(spacing)
-            .. '└'
-            .. string.rep('─', popup_width - 8)
-            .. '┘'
-        )
+        table.insert(lines, spaces(spacing) .. '└' .. string.rep('─', popup_width - 8) .. '┘')
         table.insert(section_lines, line_nr)
         line_nr = line_nr + 1
       end

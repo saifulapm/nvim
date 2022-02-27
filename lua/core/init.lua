@@ -1,5 +1,5 @@
 -- Global Object
-_G.G = { }
+_G.G = {}
 
 G.cache = {}
 
@@ -87,4 +87,3 @@ function _G.P(...)
   print(table.concat(objects, '\n'))
   return ...
 end
-

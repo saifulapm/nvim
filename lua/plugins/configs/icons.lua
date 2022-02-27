@@ -12,5 +12,5 @@ icons.setup {
       color = colors.teal,
       name = 'Default',
     },
-  }
+  },
 }

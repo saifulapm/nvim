@@ -91,13 +91,15 @@ function _G.__statusline()
   ----------------------------------------------------------------------------//
   if minimal then
     add(
-    { item('▌', 'StIndicator', { before = '', after = '' }), 0 },
-    { utils.spacer(1), 0 },
-    { readonly_item, 1 }, { dir_item, 3 }, { parent_item, 2 }, { file_item, 0 }
+      { item('▌', 'StIndicator', { before = '', after = '' }), 0 },
+      { utils.spacer(1), 0 },
+      { readonly_item, 1 },
+      { dir_item, 3 },
+      { parent_item, 2 },
+      { file_item, 0 }
     )
     return display(statusline, available_space)
   end
-
 
   local status = vim.b.gitsigns_status_dict or {}
   local updates = vim.g.git_statusline_updates or {}
@@ -108,13 +110,19 @@ function _G.__statusline()
   local diagnostics = utils.diagnostic_info(ctx)
   local flutter = vim.g.flutter_tools_decorations or {}
 
-
   -----------------------------------------------------------------------------//
   -- Left section
   -----------------------------------------------------------------------------//
   add(
     { item(utils.mode()), 0 },
-    { item(status.head and status.head .. " ", 'StGit', { prefix = ' ', prefix_color = 'StGit', after = '' }), 1 },
+    {
+      item(
+        status.head and status.head .. ' ',
+        'StGit',
+        { prefix = ' ', prefix_color = 'StGit', after = '' }
+      ),
+      1,
+    },
     { utils.spacer(1), 0 },
     { readonly_item, 2 },
     { dir_item, 3 },

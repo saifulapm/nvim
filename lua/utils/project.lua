@@ -3,7 +3,7 @@ local uv = vim.loop
 local config = {
   -- All the patterns used to detect root dir, when **"pattern"** is in
   -- detection_methods
-  patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json" },
+  patterns = { '.git', '_darcs', '.hg', '.bzr', '.svn', 'Makefile', 'package.json' },
 
   -- Don't calculate root dir on specific directories
   -- Ex: { "~/.cargo/*", ... }
@@ -12,17 +12,17 @@ local config = {
 }
 
 function M.globtopattern(g)
-  local p = "^" -- pattern being built
+  local p = '^' -- pattern being built
   local i = 0 -- index in g
   local c -- char at index i in g.
 
   -- unescape glob char
   local function unescape()
-    if c == "\\" then
+    if c == '\\' then
       i = i + 1
       c = g:sub(i, i)
-      if c == "" then
-        p = "[^]"
+      if c == '' then
+        p = '[^]'
         return false
       end
     end
@@ -31,17 +31,17 @@ function M.globtopattern(g)
 
   -- escape pattern char
   local function escape(ch)
-    return ch:match("^%w$") and ch or "%" .. ch
+    return ch:match '^%w$' and ch or '%' .. ch
   end
 
   -- Convert tokens at end of charset.
   local function charset_end()
     while 1 do
-      if c == "" then
-        p = "[^]"
+      if c == '' then
+        p = '[^]'
         return false
-      elseif c == "]" then
-        p = p .. "]"
+      elseif c == ']' then
+        p = p .. ']'
         break
       else
         if not unescape() then
@@ -50,26 +50,26 @@ function M.globtopattern(g)
         local c1 = c
         i = i + 1
         c = g:sub(i, i)
-        if c == "" then
-          p = "[^]"
+        if c == '' then
+          p = '[^]'
           return false
-        elseif c == "-" then
+        elseif c == '-' then
           i = i + 1
           c = g:sub(i, i)
-          if c == "" then
-            p = "[^]"
+          if c == '' then
+            p = '[^]'
             return false
-          elseif c == "]" then
-            p = p .. escape(c1) .. "%-]"
+          elseif c == ']' then
+            p = p .. escape(c1) .. '%-]'
             break
           else
             if not unescape() then
               break
             end
-            p = p .. escape(c1) .. "-" .. escape(c)
+            p = p .. escape(c1) .. '-' .. escape(c)
           end
-        elseif c == "]" then
-          p = p .. escape(c1) .. "]"
+        elseif c == ']' then
+          p = p .. escape(c1) .. ']'
           break
         else
           p = p .. escape(c1)
@@ -86,22 +86,22 @@ function M.globtopattern(g)
   local function charset()
     i = i + 1
     c = g:sub(i, i)
-    if c == "" or c == "]" then
-      p = "[^]"
+    if c == '' or c == ']' then
+      p = '[^]'
       return false
-    elseif c == "^" or c == "!" then
+    elseif c == '^' or c == '!' then
       i = i + 1
       c = g:sub(i, i)
-      if c == "]" then
+      if c == ']' then
         -- ignored
       else
-        p = p .. "[^"
+        p = p .. '[^'
         if not charset_end() then
           return false
         end
       end
     else
-      p = p .. "["
+      p = p .. '['
       if not charset_end() then
         return false
       end
@@ -113,22 +113,22 @@ function M.globtopattern(g)
   while 1 do
     i = i + 1
     c = g:sub(i, i)
-    if c == "" then
-      p = p .. "$"
+    if c == '' then
+      p = p .. '$'
       break
-    elseif c == "?" then
-      p = p .. "."
-    elseif c == "*" then
-      p = p .. ".*"
-    elseif c == "[" then
+    elseif c == '?' then
+      p = p .. '.'
+    elseif c == '*' then
+      p = p .. '.*'
+    elseif c == '[' then
       if not charset() then
         break
       end
-    elseif c == "\\" then
+    elseif c == '\\' then
       i = i + 1
       c = g:sub(i, i)
-      if c == "" then
-        p = p .. "\\$"
+      if c == '' then
+        p = p .. '\\$'
         break
       end
       p = p .. escape(c)
@@ -139,21 +139,20 @@ function M.globtopattern(g)
   return p
 end
 
-
 function M.set_pwd(dir, method)
   if dir ~= nil then
-    vim.cmd([[
+    vim.cmd [[
       augroup Persistence
         autocmd!
         autocmd VimLeavePre * lua require("utils.session").save()
       augroup end
-    ]])
+    ]]
 
     if vim.fn.getcwd() ~= dir then
       vim.api.nvim_set_current_dir(dir)
 
       if config.silent_chdir == false then
-        vim.notify("Set CWD to " .. dir .. " using " .. method)
+        vim.notify('Set CWD to ' .. dir .. ' using ' .. method)
       end
     end
     return true
@@ -163,14 +162,14 @@ function M.set_pwd(dir, method)
 end
 
 function M.get_project_root()
-  local search_dir = vim.fn.expand("%:p:h", true)
-  local last_dir_cache = ""
+  local search_dir = vim.fn.expand('%:p:h', true)
+  local last_dir_cache = ''
   local curr_dir_cache = {}
 
   local function get_parent(path)
-    path = path:match("^(.*)/")
-    if path == "" then
-      path = "/"
+    path = path:match '^(.*)/'
+    if path == '' then
+      path = '/'
     end
     return path
   end
@@ -195,7 +194,7 @@ function M.get_project_root()
   end
 
   local function is(dir, identifier)
-    dir = dir:match(".*/(.*)")
+    dir = dir:match '.*/(.*)'
     return dir == identifier
   end
 
@@ -233,11 +232,11 @@ function M.get_project_root()
 
   local function match(dir, pattern)
     local first_char = pattern:sub(1, 1)
-    if first_char == "=" then
+    if first_char == '=' then
       return is(dir, pattern:sub(2))
-    elseif first_char == "^" then
+    elseif first_char == '^' then
       return sub(dir, pattern:sub(2))
-    elseif first_char == ">" then
+    elseif first_char == '>' then
       return child(dir, pattern:sub(2))
     else
       return has(dir, pattern)
@@ -248,7 +247,7 @@ function M.get_project_root()
   while true do
     for _, pattern in ipairs(config.patterns) do
       local exclude = false
-      if pattern:sub(1, 1) == "!" then
+      if pattern:sub(1, 1) == '!' then
         exclude = true
         pattern = pattern:sub(2)
       end
@@ -256,7 +255,7 @@ function M.get_project_root()
         if exclude then
           break
         else
-          return search_dir, "pattern " .. pattern
+          return search_dir, 'pattern ' .. pattern
         end
       end
     end
@@ -271,9 +270,9 @@ function M.get_project_root()
 end
 
 function M.is_file()
-  local buf_type = vim.api.nvim_buf_get_option(0, "buftype")
+  local buf_type = vim.api.nvim_buf_get_option(0, 'buftype')
 
-  local whitelisted_buf_type = { "", "acwrite" }
+  local whitelisted_buf_type = { '', 'acwrite' }
   local is_in_whitelist = false
   for _, wtype in ipairs(whitelisted_buf_type) do
     if buf_type == wtype then
@@ -289,10 +288,10 @@ function M.is_file()
 end
 
 function M.is_excluded(dir)
-  local home = vim.fn.expand("~")
+  local home = vim.fn.expand '~'
   local exclude_dirs = vim.tbl_map(function(pattern)
-    if vim.startswith(pattern, "~/") then
-      pattern = home .. "/" .. pattern:sub(3, #pattern)
+    if vim.startswith(pattern, '~/') then
+      pattern = home .. '/' .. pattern:sub(3, #pattern)
     end
     return M.globtopattern(pattern)
   end, config.exclude_dirs)
@@ -315,7 +314,7 @@ function M.on_buf_enter()
     return
   end
 
-  local current_dir = vim.fn.expand("%:p:h", true)
+  local current_dir = vim.fn.expand('%:p:h', true)
   if M.is_excluded(current_dir) then
     return
   end

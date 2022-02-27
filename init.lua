@@ -20,6 +20,5 @@ end
 
 -- Load keybindings module at the end because the keybindings module cost is high
 vim.defer_fn(function()
-  require("core.mappings").basic()
+  require('core.mappings').basic()
 end, 20)
-

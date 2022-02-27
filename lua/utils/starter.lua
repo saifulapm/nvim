@@ -1,7 +1,7 @@
 -- From: https://github.com/echasnovski/mini.nvim#ministarter
 local M = {}
 local H = {}
-local sessions = require('utils.session')
+local sessions = require 'utils.session'
 
 --- Module config
 M.config = {
@@ -41,9 +41,9 @@ function M.open(buf_id)
   -- Setup buffer behavior
   H.apply_buffer_options()
   H.apply_buffer_mappings()
-  vim.cmd([[au VimResized <buffer> lua require('utils.starter').refresh()]])
-  vim.cmd([[au CursorMoved <buffer> lua require('utils.starter').on_cursormoved()]])
-  vim.cmd([[au BufLeave <buffer> echo '']])
+  vim.cmd [[au VimResized <buffer> lua require('utils.starter').refresh()]]
+  vim.cmd [[au CursorMoved <buffer> lua require('utils.starter').on_cursormoved()]]
+  vim.cmd [[au BufLeave <buffer> echo '']]
 
   -- Populate buffer
   M.refresh()
@@ -104,7 +104,7 @@ function M.sections.builtin_actions()
 end
 
 function M.normalize_name(name)
-  return string.match(name:gsub("%%", "_"):gsub("%.%w+", ""), '_(%w+)$'):gsub('^%l', string.upper)
+  return string.match(name:gsub('%%', '_'):gsub('%.%w+', ''), '_(%w+)$'):gsub('^%l', string.upper)
 end
 
 --- Section with sessions
@@ -124,7 +124,13 @@ function M.sections.sessions(n, recent)
     end
 
     if vim.tbl_count(items) == 0 then
-      return { { name = [[There are no detected sessions in 'Starter']], action = '', section = 'Sessions' } }
+      return {
+        {
+          name = [[There are no detected sessions in 'Starter']],
+          action = '',
+          section = 'Sessions',
+        },
+      }
     end
 
     local sort_fun
@@ -158,7 +164,7 @@ function M.sections.recent_files(n, current_dir, show_path)
   show_path = show_path == nil and true or show_path
 
   if current_dir then
-    vim.cmd([[au DirChanged * lua require('utils.starter').refresh()]])
+    vim.cmd [[au DirChanged * lua require('utils.starter').refresh()]]
   end
 
   return function()
@@ -170,7 +176,13 @@ function M.sections.recent_files(n, current_dir, show_path)
     end, vim.v.oldfiles or {})
 
     if #files == 0 then
-      return { { name = [[There are no recent files (`v:oldfiles` is empty)]], action = '', section = section } }
+      return {
+        {
+          name = [[There are no recent files (`v:oldfiles` is empty)]],
+          action = '',
+          section = section,
+        },
+      }
     end
 
     -- Possibly filter files from current directory
@@ -183,7 +195,13 @@ function M.sections.recent_files(n, current_dir, show_path)
     end
 
     if #files == 0 then
-      return { { name = [[There are no recent files in current directory]], action = '', section = section } }
+      return {
+        {
+          name = [[There are no recent files in current directory]],
+          action = '',
+          section = section,
+        },
+      }
     end
 
     -- Create items
@@ -192,7 +210,10 @@ function M.sections.recent_files(n, current_dir, show_path)
     for _, f in ipairs(vim.list_slice(files, 1, n)) do
       local path = show_path and (' (%s)'):format(fmodify(f, ':~:.')) or ''
       local name = ('%s%s'):format(fmodify(f, ':t'), path)
-      table.insert(items, { action = ('edit %s'):format(fmodify(f, ':p')), name = name, section = section })
+      table.insert(
+        items,
+        { action = ('edit %s'):format(fmodify(f, ':p')), name = name, section = section }
+      )
     end
 
     return items
@@ -203,12 +224,12 @@ end
 function M.sections.telescope()
   return function()
     return {
-      {action = 'Telescope file_browser',    name = 'Browser',         section = 'Telescope'},
-      {action = 'Telescope command_history', name = 'Command history', section = 'Telescope'},
-      {action = 'Telescope find_files',      name = 'Files',           section = 'Telescope'},
-      {action = 'Telescope help_tags',       name = 'Help tags',       section = 'Telescope'},
-      {action = 'Telescope live_grep',       name = 'Live grep',       section = 'Telescope'},
-      {action = 'Telescope oldfiles',        name = 'Old files',       section = 'Telescope'},
+      { action = 'Telescope file_browser', name = 'Browser', section = 'Telescope' },
+      { action = 'Telescope command_history', name = 'Command history', section = 'Telescope' },
+      { action = 'Telescope find_files', name = 'Files', section = 'Telescope' },
+      { action = 'Telescope help_tags', name = 'Help tags', section = 'Telescope' },
+      { action = 'Telescope live_grep', name = 'Live grep', section = 'Telescope' },
+      { action = 'Telescope oldfiles', name = 'Old files', section = 'Telescope' },
     }
   end
 end
@@ -344,15 +365,15 @@ end
 
 --- Convert content to buffer lines
 function M.content_to_lines(content)
-  return vim.tbl_map(
-    function(content_line)
-      return table.concat(
+  return vim.tbl_map(function(content_line)
+    return table.concat(
       -- Ensure that each content line is indeed a single buffer line
-        vim.tbl_map(function(x) return x.string:gsub('\n', ' ') end, content_line), ''
-      )
-    end,
-    content or M.content
-  )
+      vim.tbl_map(function(x)
+        return x.string:gsub('\n', ' ')
+      end, content_line),
+      ''
+    )
+  end, content or M.content)
 end
 
 --- Convert content to items
@@ -439,7 +460,7 @@ end
 function M.set_query(query)
   query = query or ''
   if type(query) ~= 'string' then
-    H.notify('`query` should be either `nil` or string.')
+    H.notify '`query` should be either `nil` or string.'
   end
 
   H.query = query
@@ -465,7 +486,7 @@ H.default_items = {
 }
 
 H.default_header = function()
-  local hour = tonumber(vim.fn.strftime('%H'))
+  local hour = tonumber(vim.fn.strftime '%H')
   -- [04:00, 12:00) - morning, [12:00, 20:00) - day, [20:00, 04:00) - evening
   local part_id = math.floor((hour + 4) / 8) + 1
   local day_part = ({ 'evening', 'morning', 'afternoon', 'evening' })[part_id]
@@ -497,9 +518,9 @@ H.buf_id = nil
 
 -- Namespaces for highlighting
 H.ns = {
-  activity = vim.api.nvim_create_namespace(''),
-  current_item = vim.api.nvim_create_namespace(''),
-  general = vim.api.nvim_create_namespace(''),
+  activity = vim.api.nvim_create_namespace '',
+  current_item = vim.api.nvim_create_namespace '',
+  general = vim.api.nvim_create_namespace '',
 }
 
 -- Current search query
@@ -532,7 +553,7 @@ function H.make_initial_content(items)
 
   -- Add header lines
   for _, l in ipairs(H.header) do
-    H.content_add_line({ H.content_unit(l, 'header', 'StarterHeader') })
+    H.content_add_line { H.content_unit(l, 'header', 'StarterHeader') }
   end
   H.content_add_empty_lines(#H.header > 0 and 1 or 0)
 
@@ -542,7 +563,7 @@ function H.make_initial_content(items)
   -- Add footer lines
   H.content_add_empty_lines(#H.footer > 0 and 1 or 0)
   for _, l in ipairs(H.footer) do
-    H.content_add_line({ H.content_unit(l, 'footer', 'StarterFooter') })
+    H.content_add_line { H.content_unit(l, 'footer', 'StarterFooter') }
   end
 end
 
@@ -556,7 +577,7 @@ end
 
 function H.content_add_empty_lines(n)
   for _ = 1, n do
-    H.content_add_line({ H.content_unit('', 'empty', nil) })
+    H.content_add_line { H.content_unit('', 'empty', nil) }
   end
 end
 
@@ -567,11 +588,11 @@ function H.content_add_items(items)
     if cur_section ~= item.section then
       -- Don't add empty line before first section line
       H.content_add_empty_lines(cur_section == nil and 0 or 1)
-      H.content_add_line({ H.content_unit(item.section, 'section', 'StarterSection') })
+      H.content_add_line { H.content_unit(item.section, 'section', 'StarterSection') }
       cur_section = item.section
     end
 
-    H.content_add_line({ H.content_unit(item.name, 'item', 'StarterItem', { item = item }) })
+    H.content_add_line { H.content_unit(item.name, 'item', 'StarterItem', { item = item }) }
   end
 end
 
@@ -603,7 +624,7 @@ function H.items_flatten(items)
     while type(x) == 'function' do
       n_nested = n_nested + 1
       if n_nested > 100 then
-        H.notify('Too many nested functions in `config.items`.')
+        H.notify 'Too many nested functions in `config.items`.'
       end
       x = x()
     end
@@ -644,7 +665,13 @@ end
 
 function H.items_highlight()
   for _, item in ipairs(H.items) do
-    H.buf_hl(H.ns.general, 'StarterItemPrefix', item._line, item._start_col, item._start_col + item._nprefix)
+    H.buf_hl(
+      H.ns.general,
+      'StarterItemPrefix',
+      item._line,
+      item._start_col,
+      item._start_col + item._nprefix
+    )
   end
 end
 
@@ -682,7 +709,7 @@ function H.make_query(query)
 
   -- Move to next active item if current is not active
   if not H.items[H.current_item_id]._active then
-    M.update_current_item('next')
+    M.update_current_item 'next'
   end
 
   -- Update activity highlighting. This should go before `evaluate_single`
@@ -708,11 +735,11 @@ end
 -- Work with starter buffer ---------------------------------------------------
 function H.apply_buffer_options()
   -- Force Normal mode
-  vim.cmd([[normal! <ESC>]])
+  vim.cmd [[normal! <ESC>]]
 
   vim.api.nvim_buf_set_name(H.buf_id, 'Starter')
   -- Having `noautocmd` is crucial for performance: ~9ms without it, ~1.6ms with it
-  vim.cmd([[noautocmd silent! set filetype=starter]])
+  vim.cmd [[noautocmd silent! set filetype=starter]]
 
   local options = {
     [[bufhidden=wipe]],
@@ -741,8 +768,14 @@ function H.apply_buffer_options()
   -- Hide tabline on single tab by setting `showtabline` to default value (but
   -- not statusline as it weirdly feels 'naked' without it). Restore previous
   -- value on buffer leave if wasn't changed (like in tabline plugin to 2).
-  vim.cmd(('au BufLeave <buffer> if &showtabline==1 | set showtabline=%s | endif'):format(vim.o.showtabline))
-  vim.cmd(('au BufLeave <buffer> if &laststatus==0 | set laststatus=%s | endif'):format(vim.o.laststatus))
+  vim.cmd(
+    ('au BufLeave <buffer> if &showtabline==1 | set showtabline=%s | endif'):format(
+      vim.o.showtabline
+    )
+  )
+  vim.cmd(
+    ('au BufLeave <buffer> if &laststatus==0 | set laststatus=%s | endif'):format(vim.o.laststatus)
+  )
   vim.o.showtabline = 1
   vim.o.laststatus = 0
 end
@@ -780,7 +813,13 @@ end
 
 function H.add_hl_current_item()
   local cur_item = H.items[H.current_item_id]
-  H.buf_hl(H.ns.current_item, 'StarterCurrent', cur_item._line, cur_item._start_col, cur_item._end_col)
+  H.buf_hl(
+    H.ns.current_item,
+    'StarterCurrent',
+    cur_item._line,
+    cur_item._start_col,
+    cur_item._end_col
+  )
 end
 
 -- Predicates -----------------------------------------------------------------
@@ -800,7 +839,7 @@ function H.is_to_autoopen()
   local listed_buffers = vim.tbl_filter(function(buf_id)
     return vim.fn.buflisted(buf_id) == 1
   end, vim.api.nvim_list_bufs())
-  return vim.fn.line2byte('$') > 0 or #listed_buffers > 1 or vim.fn.argc() > 0
+  return vim.fn.line2byte '$' > 0 or #listed_buffers > 1 or vim.fn.argc() > 0
 end
 
 -- Utilities ------------------------------------------------------------------
@@ -818,7 +857,13 @@ function H.eval_fun_or_string(x, string_as_cmd)
 end
 
 function H.buf_keymap(key, cmd)
-  vim.api.nvim_buf_set_keymap(H.buf_id, 'n', key, ('<Cmd>lua %s<CR>'):format(cmd), { nowait = true, silent = true })
+  vim.api.nvim_buf_set_keymap(
+    H.buf_id,
+    'n',
+    key,
+    ('<Cmd>lua %s<CR>'):format(cmd),
+    { nowait = true, silent = true }
+  )
 end
 
 function H.buf_hl(ns_id, hl_group, line, col_start, col_end)

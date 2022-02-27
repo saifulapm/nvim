@@ -1,18 +1,18 @@
 local M = {}
 local defaults = {
-  dir = vim.fn.expand(vim.fn.stdpath("data") .. "/sessions/"), -- directory where session files are saved
-  options = { "buffers", "curdir", "tabpages", "winsize" }, -- sessionoptions used for saving
+  dir = vim.fn.expand(vim.fn.stdpath 'data' .. '/sessions/'), -- directory where session files are saved
+  options = { 'buffers', 'curdir', 'tabpages', 'winsize' }, -- sessionoptions used for saving
 }
 
 local e = vim.fn.fnameescape
 
 function M.get_current()
-  local pattern = "/"
-  if vim.fn.has("win32") == 1 then
+  local pattern = '/'
+  if vim.fn.has 'win32' == 1 then
     pattern = '[\\:]'
   end
-  local name = vim.fn.getcwd():gsub(pattern, "%%")
-  return defaults.dir .. name .. ".vim"
+  local name = vim.fn.getcwd():gsub(pattern, '%%')
+  return defaults.dir .. name .. '.vim'
 end
 
 function M.get_last()
@@ -26,23 +26,23 @@ end
 function M.save()
   local exist = vim.loop.fs_stat(defaults.dir)
   if not exist then
-    vim.fn.mkdir(defaults.dir, "p")
+    vim.fn.mkdir(defaults.dir, 'p')
   end
   local tmp = vim.o.sessionoptions
-  vim.o.sessionoptions = table.concat(defaults.options, ",")
-  vim.cmd("mks! " .. e(M.get_current()))
+  vim.o.sessionoptions = table.concat(defaults.options, ',')
+  vim.cmd('mks! ' .. e(M.get_current()))
   vim.o.sessionoptions = tmp
 end
 
 function M.load(file)
   local sfile = file and defaults.dir .. file or M.get_current()
   if sfile and vim.fn.filereadable(sfile) ~= 0 then
-    vim.cmd("source " .. e(sfile))
+    vim.cmd('source ' .. e(sfile))
   end
 end
 
 function M.list()
-  local globs = vim.fn.glob(defaults.dir .. "*.vim")
+  local globs = vim.fn.glob(defaults.dir .. '*.vim')
   if #globs == 0 then
     return {}
   end

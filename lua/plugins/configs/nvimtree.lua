@@ -10,9 +10,8 @@ u.overwrite {
   { 'NvimTreeVertSplit', { link = 'PanelVertSplit' } },
   { 'NvimTreeStatusLine', { link = 'PanelSt' } },
   { 'NvimTreeStatusLineNC', { link = 'PanelStNC' } },
-  { 'NvimTreeRootFolder', { bold = true, italic = true, foreground = 'LightMagenta' } }
+  { 'NvimTreeRootFolder', { bold = true, italic = true, foreground = 'LightMagenta' } },
 }
-
 
 g.nvim_tree_special_files = {}
 g.nvim_tree_add_trailing = 0 -- append a trailing slash to folder names

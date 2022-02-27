@@ -285,14 +285,9 @@ local function filename(ctx, modifier)
     return '', '', 'No Name'
   end
 
-  local path = (ctx.buftype == '' and not ctx.preview)
-      and buf_expand(ctx.bufnum, ':~:.:h')
-    or nil
+  local path = (ctx.buftype == '' and not ctx.preview) and buf_expand(ctx.bufnum, ':~:.:h') or nil
   local is_root = path and #path == 1 -- "~" or "."
-  local dir = path
-      and not is_root
-      and fn.pathshorten(fnamemodify(path, ':h')) .. '/'
-    or ''
+  local dir = path and not is_root and fn.pathshorten(fnamemodify(path, ':h')) .. '/' or ''
   local parent = path and (is_root and path or fnamemodify(path, ':t')) or ''
   parent = parent ~= '' and parent .. '/' or ''
 
@@ -477,7 +472,9 @@ function M.mode()
     ['!'] = 'SHELL',
     ['t'] = 'TERMINAL',
   }
-  return ((" " .. math_letters[mode_map[current_mode]:byte(1)] .. " ") or ' '), hl, { before = '', after = '' }
+  return ((' ' .. math_letters[mode_map[current_mode]:byte(1)] .. ' ') or ' '),
+    hl,
+    { before = '', after = '' }
 end
 
 function M.count_words()
@@ -538,13 +535,9 @@ function M.file(ctx, minimal)
   local directory_hl = minimal and 'StInactiveSep' or 'StDirectory'
   local parent_hl = minimal and directory_hl or 'StParentDirectory'
 
-  local ft_icon, icon_highlight = filetype(
-    ctx,
-    { icon_bg = 'StatusLine', default = 'StComment' }
-  )
+  local ft_icon, icon_highlight = filetype(ctx, { icon_bg = 'StatusLine', default = 'StComment' })
 
-  local file_opts, parent_opts, dir_opts =
-    empty_opts(), empty_opts(), empty_opts()
+  local file_opts, parent_opts, dir_opts = empty_opts(), empty_opts(), empty_opts()
   local directory, parent, file = filename(ctx)
 
   -- Depending on which filename segments are empty we select a section to add the file icon to
@@ -564,8 +557,8 @@ end
 
 function M.ScrollBar()
   local current_mode = vim.fn.mode()
-  local hl = "Bar" .. mode_highlight(current_mode)
-  local sbar = { "▁", "▂", "▃", "▄", "▅", "▆", "▇", "█" }
+  local hl = 'Bar' .. mode_highlight(current_mode)
+  local sbar = { '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█' }
   local curr_line = vim.api.nvim_win_get_cursor(0)[1]
   local lines = vim.api.nvim_buf_line_count(0)
   local i = math.floor(curr_line / lines * (#sbar - 1)) + 1

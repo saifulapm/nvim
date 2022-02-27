@@ -1,34 +1,39 @@
 local null_ls = require 'null-ls'
 local b = null_ls.builtins
 
-local sources = {
-  b.formatting.prettier.with({
-    disabled_filetypes = { "typescript", "typescriptreact" },
-  }),
-  b.formatting.stylua.with {
+local with_diagnostics_code = function(builtin)
+  return builtin.with {
+    diagnostics_format = '#{m} [#{c}]',
+  }
+end
+
+local with_root_file = function(builtin, file)
+  return builtin.with {
     condition = function(utils)
-      return utils.root_has_file 'stylua.toml'
+      return utils.root_has_file(file)
     end,
-  },
-  b.formatting.phpcsfixer.with {
-    args = {
-      '--no-interaction',
-      '--quiet',
-      -- '--config=~/.dotfiles/.php-cs-fixer.php',
-      'fix',
-      '$FILENAME',
-    },
-  },
-  b.formatting.trim_whitespace.with { filetypes = { 'tmux', 'teal', 'zsh' } },
-  b.formatting.shfmt,
-  b.diagnostics.write_good,
-  b.diagnostics.markdownlint,
+  }
+end
+
+local sources = {
+  -- formatting
+  b.formatting.prettier,
+  -- b.formatting.fish_indent,
+  -- b.formatting.shfmt,
+  -- b.formatting.trim_whitespace.with({ filetypes = { "tmux", "teal" } }),
+  with_root_file(b.formatting.stylua, 'stylua.toml'),
+  -- diagnostics
+  -- with_root_file(b.diagnostics.selene, "selene.toml"),
+  -- b.diagnostics.write_good,
+  -- b.diagnostics.markdownlint,
   -- b.diagnostics.teal,
-  b.diagnostics.shellcheck.with { diagnostics_format = '#{m} [#{c}]' },
-  b.code_actions.gitsigns,
-  b.code_actions.gitrebase,
-  b.hover.dictionary,
-  b.diagnostics.tsc,
+  -- b.diagnostics.tsc,
+  with_diagnostics_code(b.diagnostics.shellcheck),
+  -- -- code actions
+  -- b.code_actions.gitsigns,
+  -- b.code_actions.gitrebase,
+  -- -- hover
+  -- b.hover.dictionary,
 }
 
 local M = {}

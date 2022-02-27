@@ -39,12 +39,12 @@ M.lazy = function(plugin, timer)
   end
 end
 
-M.scratch = function (win)
-	api.nvim_win_set_buf(win or 0, api.nvim_create_buf(false, true))
+M.scratch = function(win)
+  api.nvim_win_set_buf(win or 0, api.nvim_create_buf(false, true))
 end
 
 local function notify(msg)
-	vim.notify("Buffers: " .. msg)
+  vim.notify('Buffers: ' .. msg)
 end
 
 M.buf_only = function()
@@ -68,36 +68,36 @@ M.buf_only = function()
     end
   end
 
-  notify("Buffers: " .. ("%s deleted, %s modified"):format(deleted, modified))
+  notify('Buffers: ' .. ('%s deleted, %s modified'):format(deleted, modified))
 end
 
 ---Remove all the buffers
 ---@param opts table
 function M.clear(opts)
-	opts = opts or {}
+  opts = opts or {}
 
-	local deleted, modified = 0, 0
-	for _, buf in ipairs(api.nvim_list_bufs()) do
-		-- If the iter buffer is modified one, then don't do anything
-		if option(buf, "modified") then
-			-- iter is not equal to current buffer
-			-- iter is modifiable or del_non_modifiable == true
-			-- `modifiable` check is needed as it will prevent closing file tree ie. NERD_tree
-			modified = modified + 1
-		elseif (option(buf, "modifiable") or opts.non_modifiable) and option(buf, "buflisted") then
-			api.nvim_buf_delete(buf, { force = true })
-			deleted = deleted + 1
-		end
-	end
+  local deleted, modified = 0, 0
+  for _, buf in ipairs(api.nvim_list_bufs()) do
+    -- If the iter buffer is modified one, then don't do anything
+    if option(buf, 'modified') then
+      -- iter is not equal to current buffer
+      -- iter is modifiable or del_non_modifiable == true
+      -- `modifiable` check is needed as it will prevent closing file tree ie. NERD_tree
+      modified = modified + 1
+    elseif (option(buf, 'modifiable') or opts.non_modifiable) and option(buf, 'buflisted') then
+      api.nvim_buf_delete(buf, { force = true })
+      deleted = deleted + 1
+    end
+  end
 
-	-- If current buffer is not scratch then and only create scratch buffer
-	local cur_buf = api.nvim_get_current_buf()
-	if option(cur_buf, "buflisted") then
-		M.scratch()
-		api.nvim_buf_delete(cur_buf, { force = true })
-	end
+  -- If current buffer is not scratch then and only create scratch buffer
+  local cur_buf = api.nvim_get_current_buf()
+  if option(cur_buf, 'buflisted') then
+    M.scratch()
+    api.nvim_buf_delete(cur_buf, { force = true })
+  end
 
-  notify("Buffers: " .. ("%s deleted, %s modified"):format(deleted, modified))
+  notify('Buffers: ' .. ('%s deleted, %s modified'):format(deleted, modified))
 end
 
 M.visual_macro = function()
