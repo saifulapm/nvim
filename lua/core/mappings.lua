@@ -1,6 +1,6 @@
 -- My Keymaps
 local map = require('utils').map
-local mappings = require('utils.mappings').mappings
+local mappings = require('core.keymaps').mappings
 local M = {}
 
 M.basic = function()
@@ -165,7 +165,7 @@ M.basic = function()
   map(
     'n',
     mappings.misc.cheatsheet,
-    ":lua require('utils.mappings').show(require('utils.mappings').mappings)<CR>"
+    ":lua require('utils.cheatsheet').show(require('core.keymaps').mappings)<CR>"
   )
 
   -- This line opens my plugins file in a vertical split

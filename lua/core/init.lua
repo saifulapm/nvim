@@ -1,6 +1,8 @@
 -- Global Object
 _G.G = { }
 
+G.cache = {}
+
 G.style = {
   icons = {
     error = '✗',

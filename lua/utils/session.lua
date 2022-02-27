@@ -24,6 +24,10 @@ function M.get_last()
 end
 
 function M.save()
+  local exist = vim.loop.fs_stat(defaults.dir)
+  if not exist then
+    vim.fn.mkdir(defaults.dir, "p")
+  end
   local tmp = vim.o.sessionoptions
   vim.o.sessionoptions = table.concat(defaults.options, ",")
   vim.cmd("mks! " .. e(M.get_current()))

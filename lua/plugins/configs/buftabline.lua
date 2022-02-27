@@ -1,11 +1,10 @@
 local u = require('utils.color')
---
-local tabline_bg = u.alter_color(u.get_hl('Normal', 'bg'), -16)
+local P = G.style.doom
 
 u.overwrite {
-  { 'TabLineSel', {background = "Background", foreground = 'white', italic = true} },
-  { 'TabLine', {background = tabline_bg, foreground = 'grey', } },
-  { 'TabLineFill', {background = tabline_bg } },
+  { 'TabLineSel', {background = "Background", foreground = P.teal, italic = true, bold = false} },
+  { 'TabLine', {background = "Background", foreground = 'None', } },
+  { 'TabLineFill', {background = "Background", foreground = P.comment_grey, bold= false } },
 }
 
 require('buftabline').setup {

@@ -302,24 +302,26 @@ end
 --- @param hl string
 --- @param bg_hl string
 local function highlight_ft_icon(hl, bg_hl)
-  if not hl or not bg_hl then
+  if not hl or not bg_hl or not G.theme_loaded then
     return
   end
   local name = hl .. 'Statusline'
-  -- TODO: find a mechanism to cache this so it isn't repeated constantly
-  local fg_color = H.get_hl(hl, 'fg')
-  local bg_color = H.get_hl(bg_hl, 'bg')
-  if bg_color and fg_color then
-    local cmd = {
-      'highlight ',
-      name,
-      ' guibg=',
-      bg_color,
-      ' guifg=',
-      fg_color,
-    }
-    local str = table.concat(cmd)
-    vim.cmd(string.format("silent execute '%s'", str))
+  if not vim.tbl_contains(G.cache, name) then
+    local fg_color = H.get_hl(hl, 'fg')
+    local bg_color = H.get_hl(bg_hl, 'bg')
+    if bg_color and fg_color then
+      local cmd = {
+        'highlight ',
+        name,
+        ' guibg=',
+        bg_color,
+        ' guifg=',
+        fg_color,
+      }
+      local str = table.concat(cmd)
+      vim.cmd(string.format("silent execute '%s'", str))
+    end
+    table.insert(G.cache, name)
   end
   return name
 end

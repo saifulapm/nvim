@@ -5,8 +5,6 @@ if not present then
 end
 
 local use = packer.use
-local use_rocks = packer.use_rocks
-local map = require('utils').map
 
 -- cfilter plugin allows filter down an existing quickfix list
 vim.cmd 'packadd! cfilter'
@@ -17,12 +15,6 @@ return packer.startup(function()
     { 'wbthomason/packer.nvim', opt = true },
     { 'nvim-lua/plenary.nvim' },
     { 'lewis6991/impatient.nvim' },
-    {
-      'kyazdani42/nvim-web-devicons',
-      config = function()
-        require 'plugins.configs.icons'
-      end,
-    },
     {
       'lewis6991/gitsigns.nvim',
       config = function()
@@ -40,6 +32,15 @@ return packer.startup(function()
         }
         -- Apply my own overwrite
         require('colors.doom').apply()
+      end,
+      setup = function()
+        G.theme_loaded = true
+      end,
+    },
+    {
+      'kyazdani42/nvim-web-devicons',
+      config = function()
+        require 'plugins.configs.icons'
       end,
     },
     {
