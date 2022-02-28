@@ -79,6 +79,8 @@ M.mappings.plugins = {
     prev_buffer = '<S-Tab>',
     move_buffer_next = ']b',
     move_buffer_prev = '[b',
+    pick_buffer = 'gb',
+    pick_close = 'gB',
   },
   comment = {
     toggle = '<leader>/',

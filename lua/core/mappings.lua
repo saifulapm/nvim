@@ -3,10 +3,6 @@ local map = require('utils').map
 local mappings = require('core.keymaps').mappings
 local M = {}
 
-local t = function(str)
-  return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
-
 M.basic = function()
   -- Basic Mapping
   map('n', '\\', ',')
@@ -135,8 +131,21 @@ M.basic = function()
   map('n', mappings.misc.close_buffer, ':bd<CR>')
   map('n', mappings.misc.clear_all_buffers, ':lua require("utils").clear()<CR>')
   map('n', mappings.misc.scratch_buffer, ':lua require("utils").scratch()<CR>')
-  map('n', mappings.plugins.bufferline.next_buffer, ':BufNext <CR>')
-  map('n', mappings.plugins.bufferline.prev_buffer, ':BufPrev <CR>')
+  map('n', mappings.plugins.bufferline.next_buffer, ':BufferLineCycleNext <CR>')
+  map('n', mappings.plugins.bufferline.prev_buffer, ':BufferLineCyclePrev <CR>')
+  map('n', mappings.plugins.bufferline.move_buffer_next, ':BufferLineMoveNext <CR>')
+  map('n', mappings.plugins.bufferline.move_buffer_prev, ':BufferLineMovePrev <CR>')
+  map('n', mappings.plugins.bufferline.pick_buffer, ':BufferLinePick <CR>')
+  map('n', mappings.plugins.bufferline.pick_close, ':BufferLinePickClose <CR>')
+  map('n', '<leader>1', ':BufferLineGoToBuffer 1<CR>')
+  map('n', '<leader>2', ':BufferLineGoToBuffer 2<CR>')
+  map('n', '<leader>3', ':BufferLineGoToBuffer 3<CR>')
+  map('n', '<leader>4', ':BufferLineGoToBuffer 4<CR>')
+  map('n', '<leader>5', ':BufferLineGoToBuffer 5<CR>')
+  map('n', '<leader>6', ':BufferLineGoToBuffer 6<CR>')
+  map('n', '<leader>7', ':BufferLineGoToBuffer 7<CR>')
+  map('n', '<leader>8', ':BufferLineGoToBuffer 8<CR>')
+  map('n', '<leader>9', ':BufferLineGoToBuffer 9<CR>')
 
   -- -- Session
   map('n', mappings.plugins.session.restore_session, ':lua require("utils.session").load()<CR>')

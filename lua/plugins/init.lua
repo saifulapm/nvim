@@ -56,10 +56,10 @@ return packer.startup(function()
   -- UI Plugin {{{
   use {
     {
-      'jose-elias-alvarez/buftabline.nvim',
+      'akinsho/bufferline.nvim',
       event = 'BufAdd',
       config = function()
-        require 'plugins.configs.buftabline'
+        require 'plugins.configs.bufferline'
       end,
     },
     {
