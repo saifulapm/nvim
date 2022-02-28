@@ -3,7 +3,7 @@ local uv = vim.loop
 local config = {
   -- All the patterns used to detect root dir, when **"pattern"** is in
   -- detection_methods
-  patterns = { '.git', '_darcs', '.hg', '.bzr', '.svn', 'Makefile', 'package.json' },
+  patterns = { '.git', '_darcs', '.hg', '.bzr', '.svn', 'Makefile', 'package.json', 'config.yml' },
 
   -- Don't calculate root dir on specific directories
   -- Ex: { "~/.cargo/*", ... }
