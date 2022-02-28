@@ -98,7 +98,7 @@ opt.relativenumber = true
 -----------------------------------------------------------------------------//
 -- opt.foldtext = 'v:lua.G.folds()'
 opt.foldopen = opt.foldopen + 'search'
-opt.foldlevelstart = 99
+opt.foldlevelstart = 2
 opt.foldexpr = 'nvim_treesitter#foldexpr()'
 -- opt.foldmethod = 'expr'
 opt.foldmethod = 'indent'
