@@ -187,13 +187,13 @@ return packer.startup(function()
     },
     {
       'mattn/emmet-vim',
-      -- cmd = 'EmmetInstall',
-      -- setup = function()
-      --   vim.g.user_emmet_complete_tag = 0
-      --   vim.g.user_emmet_install_global = 0
-      --   vim.g.user_emmet_install_command = 0
-      --   vim.g.user_emmet_mode = 'i'
-      -- end,
+      cmd = 'EmmetInstall',
+      setup = function()
+        vim.g.user_emmet_complete_tag = 0
+        vim.g.user_emmet_install_global = 0
+        vim.g.user_emmet_install_command = 0
+        vim.g.user_emmet_mode = 'i'
+      end,
     },
   }
   -- }}}
@@ -250,6 +250,74 @@ return packer.startup(function()
           RGB = false,
           mode = 'background',
         })
+      end,
+    },
+    {
+      'anuvyklack/pretty-fold.nvim',
+      event = 'BufRead',
+      config = function()
+        require 'plugins.configs.prettyfold'
+      end,
+    },
+    {
+      'monaqa/dial.nvim',
+      disable = true,
+      config = function()
+        local augend = require 'dial.augend'
+        require('dial.config').augends:register_group {
+          default = {
+            augend.integer.alias.decimal,
+            augend.integer.alias.hex,
+            augend.date.alias['%Y/%m/%d'],
+            augend.constant.alias.bool,
+          },
+          typescript = {
+            augend.integer.alias.decimal,
+            augend.integer.alias.hex,
+            augend.constant.new { elements = { 'let', 'const' } },
+          },
+          visual = {
+            augend.integer.alias.decimal,
+            augend.integer.alias.hex,
+            augend.date.alias['%Y/%m/%d'],
+            augend.constant.alias.alpha,
+            augend.constant.alias.Alpha,
+          },
+        }
+      end,
+    },
+    {
+      'numToStr/FTerm.nvim',
+      opt = true,
+      config = function()
+        require('FTerm').setup {
+          border = 'single',
+          dimensions = {
+            height = 0.6,
+            width = 0.9,
+          },
+        }
+      end,
+    },
+    {
+      'mbbill/undotree',
+      cmd = 'UndotreeToggle',
+      config = function()
+        vim.g.undotree_TreeNodeShape = '◉' -- Alternative: '◦'
+        vim.g.undotree_SetFocusWhenToggle = 1
+      end,
+    },
+    {
+      'kana/vim-operator-replace',
+      keys = { { 'x', 'p' } },
+      requires = 'kana/vim-operator-user',
+      config = function()
+        vim.api.nvim_set_keymap(
+          'x',
+          'p',
+          '<Plug>(operator-replace)',
+          { silent = true, noremap = false }
+        )
       end,
     },
   }

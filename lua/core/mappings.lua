@@ -3,6 +3,10 @@ local map = require('utils').map
 local mappings = require('core.keymaps').mappings
 local M = {}
 
+local t = function(str)
+  return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
+
 M.basic = function()
   -- Basic Mapping
   map('n', '\\', ',')
@@ -39,6 +43,15 @@ M.basic = function()
   map('i', mappings.insert_nav.save, '<Esc>:w<CR>')
   -- Complete curly brackets using K&R style
   map('i', mappings.insert_nav.curly_brackets, '<Esc>A {<cr>}<Esc>O')
+
+  -- Terminal
+  map('n', mappings.terminal.toggle_terminal, function()
+    if not packer_plugins['FTerm.nvim'].loaded then
+      vim.cmd [[packadd FTerm.nvim]]
+    end
+    require('FTerm').toggle()
+  end)
+  map('t', mappings.terminal.toggle_terminal, '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
 
   --
   -- -- Commandline Mapping
@@ -88,7 +101,27 @@ M.basic = function()
     mappings.plugins.toggle_character.toggle_semicolon,
     ":lua require('utils').toggle_char(';')<CR>"
   )
-  --
+
+  -- Dial.nvim
+  -- TODO: Configure Dial Properly
+  -- change augends in VISUAL mode
+  -- vim.api.nvim_set_keymap("v", "<C-a>", require("dial.map").inc_normal("visual"), {noremap = true})
+  -- vim.api.nvim_set_keymap("v", "<C-x>", require("dial.map").dec_normal("visual"), {noremap = true})
+  -- " enable only for specific FileType
+  -- autocmd FileType typescript lua vim.api.nvim_buf_set_keymap(0, "n", "<C-a>", require("dial.map").inc_normal("typescript"), {noremap = true})
+  -- map('n', '-', function()
+  --   if not packer_plugins['dial.nvim'].loaded then
+  --     vim.cmd [[packadd dial.nvim]]
+  --   end
+  --   require('dial.map').dec_normal()
+  -- end)
+  -- map('n', '+', function()
+  --   if not packer_plugins['dial.nvim'].loaded then
+  --     vim.cmd [[packadd dial.nvim]]
+  --   end
+  --   require('dial.map').inc_normal()
+  -- end)
+
   -- -- Move
   map('n', mappings.misc.line_move_down, '<cmd>move+<CR>==')
   map('n', mappings.misc.line_move_up, '<cmd>move-2<CR>==')
