@@ -84,6 +84,22 @@ return packer.startup(function()
         }
       end,
     },
+    {
+      'folke/todo-comments.nvim',
+      event = 'BufRead',
+      config = function()
+        -- this plugin is not safe to reload
+        if vim.g.packer_compiled_loaded then
+          return
+        end
+        require('todo-comments').setup {
+          highlight = {
+            exclude = { 'org', 'orgagenda', 'vimwiki', 'markdown' },
+          },
+        }
+        vim.keymap.set('n', '<leader>lt', '<Cmd>TodoTrouble<CR>')
+      end,
+    },
   }
   -- }}}
 
@@ -287,16 +303,53 @@ return packer.startup(function()
         vim.g.undotree_SetFocusWhenToggle = 1
       end,
     },
+  }
+  --}}}
+
+  -- Text Objects {{{
+  use {
+    { 'kana/vim-textobj-user' },
+    {
+      'coderifous/textobj-word-column.vim',
+      keys = { { 'x', 'ik' }, { 'x', 'ak' }, { 'o', 'ik' }, { 'o', 'ak' } },
+      setup = function()
+        vim.g.skip_default_textobj_word_column_mappings = 1
+        vim.keymap.set('x', 'ik', ':<C-u>call TextObjWordBasedColumn("aw")<CR>', { silent = false })
+        vim.keymap.set('x', 'ak', ':<C-u>call TextObjWordBasedColumn("aw")<CR>', { silent = false })
+        vim.keymap.set('o', 'ik', ':call TextObjWordBasedColumn("aw")<CR>', { silent = false })
+        vim.keymap.set('o', 'ak', ':call TextObjWordBasedColumn("aw")<CR>', { silent = false })
+      end,
+    },
+    {
+      'kana/vim-textobj-indent',
+      keys = { { 'x', 'ii' }, { 'o', 'ii' } },
+    },
+    {
+      'gcmt/wildfire.vim',
+      keys = { { 'n', '<CR>' }, { 'n', '<BS' } },
+    },
+    {
+      'phaazon/hop.nvim',
+      keys = { { 'n', 's' }, 'f', 'F' },
+      config = function()
+        require 'plugins.configs.hop'
+      end,
+    },
+  }
+  -- }}}
+
+  -- Operators {{{
+  use {
+    { 'kana/vim-operator-user' },
     {
       'kana/vim-operator-replace',
       keys = { { 'x', 'p' } },
-      requires = 'kana/vim-operator-user',
       config = function()
         vim.keymap.set('x', 'p', '<Plug>(operator-replace)', { silent = true, noremap = false })
       end,
     },
   }
-  --}}}
+  -- }}}
 
   --- Devs {{{
   use {

@@ -104,7 +104,8 @@ function M.sections.builtin_actions()
 end
 
 function M.normalize_name(name)
-  return string.match(name:gsub('%%', '_'):gsub('%.%w+', ''), '_(%w+)$'):gsub('^%l', string.upper)
+  return name:gsub('%%', '/'):gsub(vim.fn.expand '~/', ''):gsub('Sites/', '')
+  -- return name
 end
 
 --- Section with sessions
