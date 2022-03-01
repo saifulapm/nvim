@@ -22,11 +22,6 @@ g.nvim_tree_root_folder_modifier = ':t'
 g.nvim_tree_group_empty = 1
 g.nvim_tree_git_hl = 1
 
-g.nvim_tree_window_picker_exclude = {
-  filetype = { 'notify', 'packer', 'qf' },
-  buftype = { 'terminal' },
-}
-
 g.nvim_tree_show_icons = {
   folders = 1,
   files = 1,
