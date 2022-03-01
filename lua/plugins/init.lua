@@ -261,29 +261,9 @@ return packer.startup(function()
     },
     {
       'monaqa/dial.nvim',
-      disable = true,
+      keys = { { 'n', '<C-a>' }, { 'n', '<C-x>' }, { 'v', '<C-a>' }, { 'v', '<C-x>' } },
       config = function()
-        local augend = require 'dial.augend'
-        require('dial.config').augends:register_group {
-          default = {
-            augend.integer.alias.decimal,
-            augend.integer.alias.hex,
-            augend.date.alias['%Y/%m/%d'],
-            augend.constant.alias.bool,
-          },
-          typescript = {
-            augend.integer.alias.decimal,
-            augend.integer.alias.hex,
-            augend.constant.new { elements = { 'let', 'const' } },
-          },
-          visual = {
-            augend.integer.alias.decimal,
-            augend.integer.alias.hex,
-            augend.date.alias['%Y/%m/%d'],
-            augend.constant.alias.alpha,
-            augend.constant.alias.Alpha,
-          },
-        }
+        require 'plugins.configs.dial'
       end,
     },
     {
@@ -312,12 +292,7 @@ return packer.startup(function()
       keys = { { 'x', 'p' } },
       requires = 'kana/vim-operator-user',
       config = function()
-        vim.api.nvim_set_keymap(
-          'x',
-          'p',
-          '<Plug>(operator-replace)',
-          { silent = true, noremap = false }
-        )
+        vim.keymap.set('x', 'p', '<Plug>(operator-replace)', { silent = true, noremap = false })
       end,
     },
   }

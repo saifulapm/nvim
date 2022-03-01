@@ -8,7 +8,6 @@ M.mappings = {
     scratch_buffer = '<leader>B',
     delete_other_buffers = '<Leader>on',
     toggle_last_file = '<Leader><Leader>',
-    copy_whole_file = '<C-a>', -- copy all contents of current buffer
     line_number_toggle = '<leader>n', -- toggle line number
     relative_line_number_toggle = '<leader>rn',
     go_to_matching = '<Tab>',
@@ -84,6 +83,11 @@ M.mappings.plugins = {
   },
   comment = {
     toggle = '<leader>/',
+  },
+
+  dial = {
+    increase = '<C-a>',
+    decrease = '<C-x>',
   },
 
   toggle_character = {

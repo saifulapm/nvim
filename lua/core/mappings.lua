@@ -21,7 +21,7 @@ M.basic = function()
   map('n', mappings.misc.relative_line_number_toggle, ':set rnu! <CR>') -- toggle relative numbers
   --
   -- -- required_mappings
-  map('n', mappings.misc.copy_whole_file, ':%y+ <CR>') -- copy whole file content
+  -- map('n', mappings.misc.copy_whole_file, ':%y+ <CR>') -- copy whole file content
   map('n', mappings.misc.new_buffer, ':enew <CR>') -- new buffer
   map('n', mappings.misc.new_tab, ':tabnew <CR>') -- new tabs
   map('n', mappings.misc.save_file, ':w <CR>')
