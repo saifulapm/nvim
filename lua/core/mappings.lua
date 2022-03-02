@@ -277,15 +277,4 @@ M.nvimtree = function()
   map('n', '<C-f>', ':NvimTreeFocus <CR>')
 end
 
-M.telescope = function()
-  map('n', '<leader>fb', ':Telescope buffers <CR>')
-  map('n', '<leader>ff', ':Telescope find_files <CR>')
-  map('n', '<leader>fa', ':Telescope find_files follow=true no_ignore=true hidden=true <CR>')
-  map('n', '<leader>cm', ':Telescope git_commits <CR>')
-  map('n', '<leader>gt', ':Telescope git_status <CR>')
-  map('n', '<leader>fh', ':Telescope help_tags <CR>')
-  map('n', '<leader>fw', ':Telescope live_grep <CR>')
-  map('n', '<leader>fo', ':Telescope oldfiles <CR>')
-end
-
 return M

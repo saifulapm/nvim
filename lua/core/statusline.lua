@@ -102,9 +102,9 @@ function _G.__statusline()
   end
 
   local status = vim.b.gitsigns_status_dict or {}
-  local updates = vim.g.git_statusline_updates or {}
-  local ahead = updates.ahead and tonumber(updates.ahead) or 0
-  local behind = updates.behind and tonumber(updates.behind) or 0
+  -- local updates = vim.g.git_statusline_updates or {}
+  -- local ahead = updates.ahead and tonumber(updates.ahead) or 0
+  -- local behind = updates.behind and tonumber(updates.behind) or 0
 
   -- LSP Diagnostics
   local diagnostics = utils.diagnostic_info(ctx)
@@ -174,15 +174,15 @@ function _G.__statusline()
     { item(status.changed, 'StTitle', { prefix = '', prefix_color = 'StWarning' }), 3 },
     { item(status.removed, 'StTitle', { prefix = '', prefix_color = 'StError' }), 3 },
     { item(status.added, 'StTitle', { prefix = '', prefix_color = 'StGreen' }), 3 },
-    {
-      item(
-        ahead,
-        'StTitle',
-        { prefix = '⇡', prefix_color = 'StGreen', after = behind > 0 and '' or ' ', before = '' }
-      ),
-      5,
-    },
-    { item(behind, 'StTitle', { prefix = '⇣', prefix_color = 'StNumber', after = ' ' }), 5 },
+    -- {
+    --   item(
+    --     ahead,
+    --     'StTitle',
+    --     { prefix = '⇡', prefix_color = 'StGreen', after = behind > 0 and '' or ' ', before = '' }
+    --   ),
+    --   5,
+    -- },
+    -- { item(behind, 'StTitle', { prefix = '⇣', prefix_color = 'StNumber', after = ' ' }), 5 },
     -- Word count for MD
     { item_if(utils.count_words(), markdown_type, 'StIndicator'), 1 },
     -- Current line number/total line number,  alternatives 

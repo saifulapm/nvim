@@ -11,9 +11,9 @@ local kinds = {
   Method = '',
   Function = '',
   Constructor = '',
-  Field = 'ﰠ',
+  Field = '',
   Variable = '',
-  Class = 'ﴯ',
+  Class = '',
   Interface = '',
   Module = '',
   Property = 'ﰠ',
@@ -37,22 +37,19 @@ local kinds = {
 local kind_highlights = G.style.kinds
 
 local kind_hls = vim.tbl_map(function(key)
-  return {
-    string.format('CmpItemKind%s', key),
-    { inherit = kind_highlights[key], italic = false, bold = false, underline = false },
-  }
+  return { 'CmpItemKind' .. key, { foreground = u.get_hl(kind_highlights[key], 'fg') } }
 end, vim.tbl_keys(kind_highlights))
 
 -- Highligh Overwite
 local keyword_fg = u.get_hl('Keyword', 'fg')
 u.overwrite {
-  { 'CmpItemAbbr', { inherit = 'Comment', italic = false, bold = false } },
+  { 'CmpItemAbbr', { foreground = 'fg', background = 'NONE', italic = false, bold = false } },
   { 'CmpItemMenu', { inherit = 'NonText', italic = false, bold = false } },
-  { 'CmpItemAbbrMatch', { inherit = 'Pmenu', bold = true } },
+  { 'CmpItemAbbrMatch', { foreground = keyword_fg } },
   { 'CmpItemAbbrDeprecated', { strikethrough = true, inherit = 'Comment' } },
   { 'CmpItemAbbrMatchFuzzy', { italic = true, foreground = keyword_fg } },
+  unpack(kind_hls),
 }
-u.overwrite { unpack(kind_hls) }
 
 local t = function(str)
   return api.nvim_replace_termcodes(str, true, true, true)
@@ -113,6 +110,15 @@ local function shift_tab(fallback)
 end
 
 cmp.setup {
+  window = {
+    completion = {
+      -- TODO: consider 'shadow', and tweak the winhighlight
+      border = 'rounded',
+    },
+    documentation = {
+      border = 'rounded',
+    },
+  },
   completion = {
     keyword_length = 2, -- avoid keyword completion
   },

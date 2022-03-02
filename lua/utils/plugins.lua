@@ -36,7 +36,7 @@ packer.init {
     open_cmd = 'silent topleft 65vnew',
   },
   git = {
-    clone_timeout = 600, -- Timeout, in seconds, for git clones
+    clone_timeout = 800, -- Timeout, in seconds, for git clones
   },
   auto_clean = true,
   compile_on_sync = true,

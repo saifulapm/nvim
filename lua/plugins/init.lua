@@ -154,6 +154,7 @@ return packer.startup(function()
     {
       'hrsh7th/nvim-cmp',
       module = 'cmp',
+      branch = 'dev',
       event = { 'InsertEnter' },
       requires = {
         { 'hrsh7th/cmp-nvim-lua', after = 'nvim-cmp' },
@@ -218,13 +219,47 @@ return packer.startup(function()
   use {
     {
       'nvim-telescope/telescope.nvim',
-      module = 'telescope',
       cmd = 'Telescope',
+      keys = { '<c-p>', '<leader>fo', '<leader>ff', '<leader>fs', '<leader>fa', '<leader>fh' },
+      module_pattern = 'telescope.*',
+      requires = {
+        {
+          'nvim-telescope/telescope-fzf-native.nvim',
+          run = 'make',
+          after = 'telescope.nvim',
+          config = function()
+            require('telescope').load_extension 'fzf'
+          end,
+        },
+        {
+          'nvim-telescope/telescope-frecency.nvim',
+          after = 'telescope.nvim',
+          requires = 'tami5/sqlite.lua',
+        },
+        {
+          'camgraff/telescope-tmux.nvim',
+          after = 'telescope.nvim',
+          config = function()
+            require('telescope').load_extension 'tmux'
+          end,
+        },
+        {
+          'nvim-telescope/telescope-smart-history.nvim',
+          after = 'telescope.nvim',
+          config = function()
+            require('telescope').load_extension 'smart_history'
+          end,
+        },
+        {
+          'nvim-telescope/telescope-github.nvim',
+          after = 'telescope.nvim',
+          config = function()
+            require('telescope').load_extension 'gh'
+          end,
+        },
+      },
       config = function()
         require 'plugins.configs.telescope'
-      end,
-      setup = function()
-        require('core.mappings').telescope()
       end,
     },
     {
@@ -238,6 +273,7 @@ return packer.startup(function()
         { 'p00f/nvim-ts-rainbow' },
       },
     },
+    { 'mrjones2014/dash.nvim', run = 'make install', after = 'telescope.nvim' },
   }
   -- }}}
 
