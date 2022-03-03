@@ -14,3 +14,6 @@ vim.cmd "silent! command PackerInstall lua require 'plugins' require('packer').i
 vim.cmd "silent! command PackerStatus lua require 'plugins' require('packer').status()"
 vim.cmd "silent! command PackerSync lua require 'plugins' require('packer').sync()"
 vim.cmd "silent! command PackerUpdate lua require 'plugins' require('packer').update()"
+
+-- Nvim Align
+vim.cmd "command! -range=% -nargs=1 Align lua require('utils.align').align(<f-args>)"

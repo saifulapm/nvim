@@ -86,6 +86,7 @@ return packer.startup(function()
     },
     {
       'folke/todo-comments.nvim',
+      disable = true,
       event = 'BufRead',
       config = function()
         -- this plugin is not safe to reload
@@ -369,6 +370,18 @@ return packer.startup(function()
       keys = { { 'n', 's' }, 'f', 'F' },
       config = function()
         require 'plugins.configs.hop'
+      end,
+    },
+    {
+      'tommcdo/vim-exchange',
+      keys = { { 'n', 'cx' }, { 'v', 'X' } },
+      config = function()
+        require('utils.color').overwrite { { 'ExchangeRegion', { link = 'Search' } } }
+        vim.g.exchange_no_mappings = 1
+        vim.keymap.set('n', 'cx', '<Plug>(Exchange)', { noremap = false })
+        vim.keymap.set('v', 'X', '<Plug>(Exchange)', { noremap = false })
+        vim.keymap.set('n', 'cxc', '<Plug>(ExchangeClear)', { noremap = false })
+        vim.keymap.set('n', 'cxx', '<Plug>(ExchangeLine)', { noremap = false })
       end,
     },
   }

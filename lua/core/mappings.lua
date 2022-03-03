@@ -229,6 +229,17 @@ M.basic = function()
   map('n', '<leader>)', [[ciw(<c-r>")<esc>]])
   map('n', '<leader>}', [[ciw{<c-r>"}<esc>]])
 
+  -- Open plugin directly to github
+  map('n', 'gf', function()
+    local repo = vim.fn.expand '<cfile>'
+    if not repo or #vim.split(repo, '/') ~= 2 then
+      return vim.cmd 'norm! gf'
+    end
+    local url = string.format('https://www.github.com/%s', repo)
+    vim.fn.jobstart('open ' .. url)
+    vim.notify(string.format('Opening %s at %s', repo, url))
+  end)
+
   -- Map Q to replay q register
   map('n', 'Q', '@q')
 

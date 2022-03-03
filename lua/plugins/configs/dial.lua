@@ -25,9 +25,9 @@ require('dial.config').augends:register_group {
   },
 }
 
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'yaml', 'toml' },
-  callback = function()
-    map('n', '<C-a>', require('dial.map').inc_normal 'dep_files', { remap = true })
-  end,
-})
+-- vim.api.nvim_create_autocmd('FileType', {
+--   pattern = { 'yaml', 'toml' },
+--   callback = function()
+--     map('n', '<C-a>', require('dial.map').inc_normal 'dep_files', { remap = true })
+--   end,
+-- })
