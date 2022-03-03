@@ -363,6 +363,51 @@ return packer.startup(function()
   }
   --}}}
 
+  --- Utilities {{{
+  use {
+    {
+      'nvim-neorg/neorg',
+      requires = { 'vhyrro/neorg-telescope' },
+      config = function()
+        require 'plugins.configs.org'
+      end,
+    },
+    { 'kevinhwang91/nvim-bqf', ft = 'qf' },
+    {
+      'https://gitlab.com/yorickpeterse/nvim-pqf',
+      ft = 'qf',
+      config = function()
+        require('pqf').setup {}
+      end,
+    },
+    {
+      'kevinhwang91/nvim-hclipboard',
+      event = 'BufRead',
+      config = function()
+        require('hclipboard').start()
+      end,
+    },
+    {
+      'max397574/better-escape.nvim',
+      event = 'InsertEnter',
+      config = function()
+        require('better_escape').setup()
+      end,
+    },
+    {
+      'karb94/neoscroll.nvim',
+      keys = { '<C-u>', '<C-d>', '<C-b>', '<C-f>', '<C-y>', 'zt', 'zz', 'zb' },
+      config = function()
+        require('neoscroll').setup {
+          mappings = { '<C-u>', '<C-d>', '<C-b>', '<C-f>', '<C-y>', 'zt', 'zz', 'zb' },
+          stop_eof = false,
+          hide_cursor = true,
+        }
+      end,
+    },
+  }
+  --}}}
+
   -- Text Objects {{{
   use {
     { 'kana/vim-textobj-user' },
