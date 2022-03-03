@@ -22,6 +22,7 @@ local sources = {
   -- b.formatting.shfmt,
   -- b.formatting.trim_whitespace.with({ filetypes = { "tmux", "teal" } }),
   with_root_file(b.formatting.stylua, 'stylua.toml'),
+  b.formatting.phpcsfixer,
   -- diagnostics
   -- with_root_file(b.diagnostics.selene, "selene.toml"),
   -- b.diagnostics.write_good,
