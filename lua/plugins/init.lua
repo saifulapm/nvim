@@ -340,6 +340,26 @@ return packer.startup(function()
         vim.g.undotree_SetFocusWhenToggle = 1
       end,
     },
+    {
+      'chentau/marks.nvim',
+      keys = { { 'n', 'm' } },
+      config = function()
+        require('utils.color').overwrite { { 'MarkSignHL', { foreground = 'Red' } } }
+        require('marks').setup {
+          bookmark_0 = {
+            sign = '⚑',
+            virt_text = 'bookmarks',
+          },
+        }
+      end,
+    },
+    {
+      'arecarn/vim-fold-cycle',
+      config = function()
+        vim.g.fold_cycle_default_mapping = 0
+        vim.keymap.set('n', '<BS>', '<Plug>(fold-cycle-close)')
+      end,
+    },
   }
   --}}}
 
@@ -349,12 +369,22 @@ return packer.startup(function()
     {
       'coderifous/textobj-word-column.vim',
       keys = { { 'x', 'ik' }, { 'x', 'ak' }, { 'o', 'ik' }, { 'o', 'ak' } },
-      setup = function()
+      config = function()
         vim.g.skip_default_textobj_word_column_mappings = 1
-        vim.keymap.set('x', 'ik', ':<C-u>call TextObjWordBasedColumn("aw")<CR>', { silent = false })
-        vim.keymap.set('x', 'ak', ':<C-u>call TextObjWordBasedColumn("aw")<CR>', { silent = false })
-        vim.keymap.set('o', 'ik', ':call TextObjWordBasedColumn("aw")<CR>', { silent = false })
-        vim.keymap.set('o', 'ak', ':call TextObjWordBasedColumn("aw")<CR>', { silent = false })
+        vim.keymap.set(
+          'x',
+          'ik',
+          ':<C-u>call TextObjWordBasedColumn("aw")<CR>',
+          { noremap = false }
+        )
+        vim.keymap.set(
+          'x',
+          'ak',
+          ':<C-u>call TextObjWordBasedColumn("aw")<CR>',
+          { noremap = false }
+        )
+        vim.keymap.set('o', 'ik', ':call TextObjWordBasedColumn("aw")<CR>', { noremap = false })
+        vim.keymap.set('o', 'ak', ':call TextObjWordBasedColumn("aw")<CR>', { noremap = false })
       end,
     },
     {
@@ -363,7 +393,7 @@ return packer.startup(function()
     },
     {
       'gcmt/wildfire.vim',
-      keys = { { 'n', '<CR>' }, { 'n', '<BS' } },
+      keys = { { 'n', '<CR>' } },
     },
     {
       'phaazon/hop.nvim',
