@@ -11,14 +11,15 @@ M.basic = function()
   -- map('n', '<CR>', ':', { silent = false })
   map('n', '<C-l>', '<C-w>l')
   map('n', '<C-h>', '<C-w>h')
-  map('', 'j', 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', { expr = true })
-  map('', 'k', 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', { expr = true })
-  map('', '<Down>', 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', { expr = true })
-  map('', '<Up>', 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', { expr = true })
+  map('n', 'j', 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', { expr = true })
+  map('n', 'k', 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', { expr = true })
+  map('n', '<Down>', 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', { expr = true })
+  map('n', '<Up>', 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', { expr = true })
   map('n', mappings.misc.no_highlight, ':nohl<CR>')
   map({ 'n', 'x', 'o' }, mappings.misc.go_to_matching, '%', { noremap = false })
   map('n', mappings.misc.line_number_toggle, ':set nu! <CR>') -- toggle numbers
   map('n', mappings.misc.relative_line_number_toggle, ':set rnu! <CR>') -- toggle relative numbers
+
   --
   -- -- required_mappings
   -- map('n', mappings.misc.copy_whole_file, ':%y+ <CR>') -- copy whole file content
@@ -72,7 +73,7 @@ M.basic = function()
   )
 
   -- -- search visual selection
-  map('v', mappings.visual_mode_mappings.search_on_selected_area, [[y/<C-R>"<CR>]])
+  map('x', mappings.visual_mode_mappings.search_on_selected_area, [[y/<C-R>"<CR>]])
 
   -- -- Credit: Justinmk
   map('n', mappings.misc.recent_40_messages, [[<cmd>set nomore<bar>40messages<bar>set more<CR>]])
@@ -177,8 +178,8 @@ M.basic = function()
   map('n', '<leader>qw', '<cmd>bd!<CR>')
 
   map('n', 'Y', 'y$')
-  map('v', '<', '<gv')
-  map('v', '>', '>gv')
+  map('x', '<', '<gv')
+  map('x', '>', '>gv')
   -- visually select the block of text I just pasted in Vim
   map('n', 'gV', '`[v`]')
   --Remap back tick for jumping to marks more quickly back
@@ -187,7 +188,7 @@ M.basic = function()
   -- Quick find/replace
   map('n', '<leader>[', [[:%s/\<<C-r>=expand("<cword>")<CR>\>/]], { silent = false })
   map('n', '<leader>]', [[:s/\<<C-r>=expand("<cword>")<CR>\>/]], { silent = false })
-  map('v', '<leader>[', [["zy:%s/<C-r><C-o>"/]], { silent = false })
+  map('x', '<leader>[', [["zy:%s/<C-r><C-o>"/]], { silent = false })
 
   --open a new file in the same directory
   map('n', '<leader>nf', [[:e <C-R>=expand("%:p:h") . "/" <CR>]], { silent = false })
@@ -212,7 +213,7 @@ M.basic = function()
     { expr = true }
   )
   -- when going to the end of the line in visual mode ignore whitespace characters
-  map('v', '$', 'g_')
+  map({ 'n', 'x' }, '$', 'g_')
 
   -- Toggle top/center/bottom
   map(
@@ -244,8 +245,8 @@ M.basic = function()
   map('n', 'Q', '@q')
 
   -- Multiple Cursor Replacement
-  map({ 'n', 'v' }, 'cn', '*``cgn')
-  map({ 'n', 'v' }, 'cN', '*``cgN')
+  map({ 'n', 'x' }, 'cn', '*``cgn')
+  map({ 'n', 'x' }, 'cN', '*``cgN')
 end
 
 M.lspconfig = function(client, bufnr)

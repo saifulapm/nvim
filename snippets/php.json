@@ -34,5 +34,23 @@
   "each=": {
     "prefix": "each=",
     "body": "<?php foreach ($${1:variable} as $${2:key}): ?>\n\t<?php echo $$2 ?>\n<?php endforeach ?>${4}"
+  },
+  "TestCase": {
+    "prefix": "pu:testCase",
+    "body": [
+      "use PHPUnit\\Framework\\TestCase;\n",
+      "/**",
+      " * ${1:ClassName}Test",
+      " * @group ${2:group}",
+      " */",
+      "class ${1:ClassName}Test extends TestCase\n{",
+        "    /** @test */",
+        "    public function ${3:test_}${4:function}()",
+        "    {",
+          "        ${5:// Test}",
+          "    }\n",
+          "}\n"
+    ],
+    "description": "Create TestCase Class"
   }
 }

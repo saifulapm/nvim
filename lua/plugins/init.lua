@@ -271,7 +271,6 @@ return packer.startup(function()
       end,
       requires = {
         { 'nvim-treesitter/nvim-treesitter-textobjects' },
-        { 'p00f/nvim-ts-rainbow' },
       },
     },
     { 'mrjones2014/dash.nvim', run = 'make install', after = 'telescope.nvim' },
@@ -357,7 +356,7 @@ return packer.startup(function()
       'arecarn/vim-fold-cycle',
       config = function()
         vim.g.fold_cycle_default_mapping = 0
-        vim.keymap.set('n', '<BS>', '<Plug>(fold-cycle-close)')
+        vim.keymap.set('n', '<BS>', '<Plug>(fold-cycle-toggle-all)', { noremap = false })
       end,
     },
   }
@@ -471,6 +470,67 @@ return packer.startup(function()
       config = function()
         vim.keymap.set('x', 'p', '<Plug>(operator-replace)', { silent = true, noremap = false })
       end,
+    },
+  }
+  -- }}}
+
+  -- Testing and Debugging {{{
+  use {
+    {
+      'vim-test/vim-test',
+      -- cmd = { 'Test*' },
+      -- keys = { '<localleader>tf', '<localleader>tn', '<localleader>ts' },
+      config = function()
+        vim.cmd [[
+          function! FTermStrategy(cmd) abort
+            call luaeval('vim.cmd("packadd FTerm.nvim")')
+            call luaeval("require('FTerm').run(_A[1])", [a:cmd])
+          endfunction
+          let g:test#custom_strategies = {'fterm': function('FTermStrategy')}
+        ]]
+        vim.g['test#strategy'] = 'fterm'
+        vim.keymap.set('n', '<localleader>tf', '<cmd>TestFile<CR>')
+        vim.keymap.set('n', '<localleader>tn', '<cmd>TestNearest<CR>')
+        vim.keymap.set('n', '<localleader>ts', '<cmd>TestSuite<CR>')
+      end,
+    },
+    {
+      'mfussenegger/nvim-dap',
+      module = 'dap',
+      keys = { '<localleader>dc', '<localleader>db', '<localleader>dut ' },
+      config = function()
+        require 'plugins.configs.dap-config'
+      end,
+      require = {
+        {
+          'rcarriga/nvim-dap-ui',
+          after = 'nvim-dap',
+          config = function()
+            local dapui = require 'dapui'
+            dapui.setup()
+            vim.keymap.set('n', '<localleader>duc', dapui.close)
+            vim.keymap.set('n', '<localleader>dut', dapui.toggle)
+            local nvim_dap = require 'dap'
+            -- NOTE: this opens dap UI automatically when dap starts
+            -- dap.listeners.after.event_initialized['dapui_config'] = function()
+            --   dapui.open()
+            -- end
+            nvim_dap.listeners.before.event_terminated['dapui_config'] = function()
+              dapui.close()
+            end
+            nvim_dap.listeners.before.event_exited['dapui_config'] = function()
+              dapui.close()
+            end
+          end,
+        },
+        {
+          'theHamsta/nvim-dap-virtual-text',
+          after = 'nvim-dap',
+          config = function()
+            require('nvim-dap-virtual-text').setup()
+          end,
+        },
+      },
     },
   }
   -- }}}

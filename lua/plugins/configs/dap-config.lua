@@ -1,5 +1,8 @@
 local dap = require 'dap'
 
+vim.fn.sign_define('DapBreakpoint', { text = '🛑', texthl = '', linehl = '', numhl = '' })
+vim.fn.sign_define('DapStopped', { text = '🟢', texthl = '', linehl = '', numhl = '' })
+
 dap.adapters = {
   chrome = {
     type = 'executable',
@@ -55,11 +58,16 @@ dap.configurations = {
   dart = { configs.dart },
 }
 
-vim.cmd "command! DapContinue lua require'dap'.continue()"
-vim.cmd "command! DapBreakpoint lua require'dap'.toggle_breakpoint()"
-vim.cmd "command! DapRepl lua require'dap'.repl.open()"
-vim.cmd "command! DapScopes lua require'dap.ui.variables'.scopes()"
-vim.cmd "command! DapHover lua require'dap.ui.variables'.visual_hover()"
-vim.cmd "command! DapStepOut lua require'dap'.step_out()"
-vim.cmd "command! DapStepOver lua require'dap'.step_over()"
-vim.cmd "command! DapStepInto lua require'dap'.step_into()"
+local map = require('utils').map
+map('n', '<localleader>dt', "<Cmd>lua require'dap'.repl.toggle()<CR>")
+map('n', '<localleader>dc', "<Cmd>lua require'dap'.continue()<CR>")
+map('n', '<localleader>de', "<Cmd>lua require'dap'.step_out()<CR>")
+map('n', '<localleader>di', "<Cmd>lua require'dap'.step_into()<CR>")
+map('n', '<localleader>do', "<Cmd>lua require'dap'.step_over()<CR>")
+map('n', '<localleader>dl', "<Cmd>lua require'dap'.run_last()<CR>")
+map('n', '<localleader>db', "<Cmd>lua require'dap'.toggle_breakpoint()<CR>")
+map(
+  'n',
+  '<localleader>dB',
+  "<Cmd>lua require'dap'.set_breakpoint(vim.fn.input 'Breakpoint condition: ')<CR>"
+)
