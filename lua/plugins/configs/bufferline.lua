@@ -50,6 +50,7 @@ local groups = require 'bufferline.groups'
 
 bufferline.setup {
   options = {
+    mode = 'buffers', -- tabs
     sort_by = sort_by_mtime,
     buffer_close_icon = '',
     modified_icon = '',
