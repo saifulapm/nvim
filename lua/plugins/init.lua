@@ -447,15 +447,25 @@ return packer.startup(function()
       end,
     },
     {
-      'tommcdo/vim-exchange',
-      keys = { { 'n', 'cx' }, { 'v', 'X' } },
+      'gbprod/substitute.nvim',
+      keys = { { 'n', 'S' }, { 'n', 'X' }, { 'x', 'S' }, { 'x', 'X' } },
       config = function()
-        require('utils.color').overwrite { { 'ExchangeRegion', { link = 'Search' } } }
-        vim.g.exchange_no_mappings = 1
-        vim.keymap.set('n', 'cx', '<Plug>(Exchange)', { noremap = false })
-        vim.keymap.set('v', 'X', '<Plug>(Exchange)', { noremap = false })
-        vim.keymap.set('n', 'cxc', '<Plug>(ExchangeClear)', { noremap = false })
-        vim.keymap.set('n', 'cxx', '<Plug>(ExchangeLine)', { noremap = false })
+        require('substitute').setup()
+        vim.keymap.set('n', 'S', function()
+          require('substitute').operator()
+        end)
+        vim.keymap.set('x', 'S', function()
+          require('substitute').visual()
+        end)
+        vim.keymap.set('n', 'X', function()
+          require('substitute.exchange').operator()
+        end)
+        vim.keymap.set('x', 'X', function()
+          require('substitute.exchange').visual()
+        end)
+        vim.keymap.set('n', 'Xc', function()
+          require('substitute.exchange').cancel()
+        end)
       end,
     },
   }
