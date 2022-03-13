@@ -273,7 +273,6 @@ return packer.startup(function()
         { 'nvim-treesitter/nvim-treesitter-textobjects' },
       },
     },
-    { 'mrjones2014/dash.nvim', run = 'make install', after = 'telescope.nvim' },
   }
   -- }}}
 
@@ -350,13 +349,6 @@ return packer.startup(function()
             virt_text = 'bookmarks',
           },
         }
-      end,
-    },
-    {
-      'arecarn/vim-fold-cycle',
-      config = function()
-        vim.g.fold_cycle_default_mapping = 0
-        vim.keymap.set('n', '<BS>', '<Plug>(fold-cycle-toggle-all)', { noremap = false })
       end,
     },
   }
