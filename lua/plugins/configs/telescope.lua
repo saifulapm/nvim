@@ -16,13 +16,7 @@ u.overwrite {
   { 'TelescopeBorder', { link = 'GreyFloatBorder' } },
   { 'TelescopePromptPrefix', { link = 'Statement' } },
   { 'TelescopeTitle', { inherit = 'Normal', bold = true } },
-  {
-    'TelescopeSelectionCaret',
-    {
-      foreground = u.get_hl('Identifier', 'fg'),
-      background = u.get_hl('TelescopeSelection', 'bg'),
-    },
-  },
+  { 'TelescopeSelectionCaret', { link = 'Statement' } },
 }
 
 local function get_border(opts)
@@ -216,15 +210,15 @@ local function tmux_windows()
   }
 end
 
-local function dash()
-  require('dash').search()
-end
+-- local function dash()
+--   require('dash').search()
+-- end
 
 map('n', mappings.project_files, project_files)
 map('n', mappings.builtins, builtins.builtin)
 map('n', mappings.current_buffer_fuzzy_find, builtins.current_buffer_fuzzy_find)
 map('n', mappings.dotfiles, dotfiles)
-map('n', mappings.dash_app_search, dash)
+-- map('n', mappings.dash_app_search, dash)
 map('n', mappings.find_files, builtins.find_files)
 map('n', mappings.git_commits, builtins.git_commits)
 map('n', mappings.git_branches, builtins.git_branches)
