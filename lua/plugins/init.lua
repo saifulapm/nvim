@@ -76,11 +76,11 @@ return packer.startup(function()
           input = {
             insert_only = false,
           },
-          select = {
-            telescope = {
-              theme = 'cursor',
-            },
-          },
+          -- select = {
+          --   telescope = {
+          --     theme = 'cursor',
+          --   },
+          -- },
         }
       end,
     },
@@ -348,6 +348,15 @@ return packer.startup(function()
             sign = '⚑',
             virt_text = 'bookmarks',
           },
+        }
+      end,
+    },
+    {
+      'rmagatti/auto-session',
+      config = function()
+        require('auto-session').setup {
+          log_level = 'error',
+          auto_session_root_dir = ('%s/session/auto/'):format(vim.fn.stdpath 'data'),
         }
       end,
     },
