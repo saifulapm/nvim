@@ -108,7 +108,7 @@ return packer.startup(function()
   use {
     {
       'neovim/nvim-lspconfig',
-      ft = { 'lua', 'php', 'liquid' },
+      ft = { 'lua', 'php', 'liquid', 'vue', 'javascript' },
       config = function()
         require 'plugins.lsp'
       end,
@@ -489,8 +489,8 @@ return packer.startup(function()
   use {
     {
       'vim-test/vim-test',
-      -- cmd = { 'Test*' },
-      -- keys = { '<localleader>tf', '<localleader>tn', '<localleader>ts' },
+      cmd = { 'Test*' },
+      keys = { '<localleader>tf', '<localleader>tn', '<localleader>ts' },
       config = function()
         vim.cmd [[
           function! FTermStrategy(cmd) abort
@@ -553,4 +553,11 @@ return packer.startup(function()
     { 'rafcamlet/nvim-luapad', cmd = 'Luapad' },
   }
   --}}}
+
+  -- Langs {{{
+  use {
+    { 'jwalton512/vim-blade' },
+    { 'posva/vim-vue' },
+  }
+  -- }}}
 end)

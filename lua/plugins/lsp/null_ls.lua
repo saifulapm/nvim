@@ -17,32 +17,13 @@ end
 
 local sources = {
   -- formatting
-  b.formatting.prettier.with {
-    filetypes = {
-      'javascript',
-      'javascriptreact',
-      'typescript',
-      'typescriptreact',
-      'vue',
-      'css',
-      'scss',
-      'less',
-      'html',
-      'json',
-      'jsonc',
-      'yaml',
-      'markdown',
-      'graphql',
-      'handlebars',
-      'php',
-    },
-  },
+  b.formatting.prettier,
   -- with_root_file(b.formatting.prettier, '.prettierrc'),
   -- b.formatting.fish_indent,
   -- b.formatting.shfmt,
   -- b.formatting.trim_whitespace.with({ filetypes = { "tmux", "teal" } }),
   with_root_file(b.formatting.stylua, 'stylua.toml'),
-  -- b.formatting.phpcsfixer,
+  b.formatting.phpcsfixer,
   -- diagnostics
   -- with_root_file(b.diagnostics.selene, "selene.toml"),
   -- b.diagnostics.write_good,

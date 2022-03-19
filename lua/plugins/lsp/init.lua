@@ -21,6 +21,7 @@ for _, server in ipairs {
   -- 'jsonls',
   'null_ls',
   'sumneko',
+  'vuels',
   -- 'tsserver',
   -- 'dart',
   -- 'bashls',
