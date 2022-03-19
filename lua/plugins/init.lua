@@ -13,10 +13,11 @@ return packer.startup(function()
   -- Core Plugin {{{
   use {
     { 'wbthomason/packer.nvim', opt = true },
-    { 'nvim-lua/plenary.nvim' },
+    { 'nvim-lua/plenary.nvim', event = 'BufRead' },
     { 'lewis6991/impatient.nvim' },
     {
       'lewis6991/gitsigns.nvim',
+      after = 'plenary.nvim',
       config = function()
         require 'plugins.configs.gitsigns'
       end,
@@ -45,7 +46,7 @@ return packer.startup(function()
     },
     {
       'numToStr/Comment.nvim',
-      event = 'BufRead',
+      keys = { 'gcc', 'gc', 'gl' },
       config = function()
         require('Comment').setup()
       end,
@@ -551,6 +552,7 @@ return packer.startup(function()
     -- { 'nanotee/luv-vimdocs' },
     { 'milisims/nvim-luaref' },
     { 'rafcamlet/nvim-luapad', cmd = 'Luapad' },
+    { 'dstein64/vim-startuptime', cmd = 'StartupTime' },
   }
   --}}}
 
