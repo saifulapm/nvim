@@ -114,10 +114,9 @@ return packer.startup(function()
         require 'plugins.lsp'
       end,
       requires = {
-        { 'folke/lua-dev.nvim' },
-        { 'hrsh7th/cmp-nvim-lsp' },
-        { 'jose-elias-alvarez/null-ls.nvim' },
-        { 'b0o/schemastore.nvim' },
+        { 'folke/lua-dev.nvim', opt = true },
+        { 'hrsh7th/cmp-nvim-lsp', opt = true },
+        { 'jose-elias-alvarez/null-ls.nvim', opt = true },
       },
     },
     {
@@ -135,6 +134,7 @@ return packer.startup(function()
     },
     {
       'j-hui/fidget.nvim',
+      after = 'nvim-lspconfig',
       config = function()
         require('fidget').setup {
           window = {
@@ -157,7 +157,7 @@ return packer.startup(function()
       'hrsh7th/nvim-cmp',
       module = 'cmp',
       branch = 'dev',
-      event = { 'InsertEnter' },
+      event = { 'BufRead' },
       requires = {
         { 'hrsh7th/cmp-nvim-lua', after = 'nvim-cmp' },
         { 'hrsh7th/cmp-cmdline', after = 'nvim-cmp' },

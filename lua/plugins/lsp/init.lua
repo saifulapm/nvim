@@ -1,3 +1,9 @@
+if not packer_plugins['null-ls.nvim'].loaded then
+  vim.cmd [[packadd lua-dev.nvim]]
+  vim.cmd [[packadd cmp-nvim-lsp]]
+  vim.cmd [[packadd null-ls.nvim]]
+end
+
 require('utils.lsp').lsp_handlers()
 
 local function on_attach(client, bufnr)

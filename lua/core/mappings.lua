@@ -19,6 +19,7 @@ M.basic = function()
   map({ 'n', 'x', 'o' }, mappings.misc.go_to_matching, '%', { noremap = false })
   map('n', mappings.misc.line_number_toggle, ':set nu! <CR>') -- toggle numbers
   map('n', mappings.misc.relative_line_number_toggle, ':set rnu! <CR>') -- toggle relative numbers
+  map('n', '<Leader>ps', ':PackerStatus<CR>')
 
   --
   -- -- required_mappings
