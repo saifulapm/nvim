@@ -8,7 +8,7 @@ local core_modules = {
   'core',
   'core.options',
   'core.autocmds',
-  -- 'core.statusline',
+  'core.statusline',
 }
 
 for _, module in ipairs(core_modules) do
