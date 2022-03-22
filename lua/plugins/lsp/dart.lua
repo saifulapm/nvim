@@ -2,7 +2,7 @@ local M = {}
 
 M.setup = function(on_attach, capabilities)
   require('flutter-tools').setup {
-    ui = { border = 'rounded' },
+    ui = { border = G.style.border.line },
     debugger = { enabled = false, run_via_dap = false },
     outline = { auto_open = false },
     decorations = {

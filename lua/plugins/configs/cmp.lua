@@ -33,6 +33,7 @@ local kinds = {
   Operator = '',
   TypeParameter = '',
 }
+local line_border = G.style.border.line
 
 local kind_highlights = G.style.kinds
 
@@ -43,6 +44,7 @@ end, vim.tbl_keys(kind_highlights))
 -- Highligh Overwite
 local keyword_fg = u.get_hl('Keyword', 'fg')
 u.overwrite {
+  { 'CmpBorderedWindow_Normal', { link = 'NormalFloat' } },
   { 'CmpItemAbbr', { foreground = 'fg', background = 'NONE', italic = false, bold = false } },
   { 'CmpItemMenu', { inherit = 'NonText', italic = false, bold = false } },
   { 'CmpItemAbbrMatch', { foreground = keyword_fg } },
@@ -55,36 +57,11 @@ local t = function(str)
   return api.nvim_replace_termcodes(str, true, true, true)
 end
 
-local function feed(key, mode)
-  api.nvim_feedkeys(t(key), mode or '', true)
-end
-
-local function get_luasnip()
-  local ok, luasnip = pcall(require, 'luasnip')
-  if not ok then
-    return nil
-  end
-  return luasnip
-end
-
-local function cntlh(fallback)
-  local luasnip = get_luasnip()
-  if luasnip and luasnip.expand_or_locally_jumpable() then
-    luasnip.expand_or_jump()
-  else
-    fallback()
-  end
-end
-
 local function tab(fallback)
-  local luasnip = get_luasnip()
-  local copilot_keys = vim.fn['copilot#Accept']()
+  local ok, luasnip = pcall(require, 'luasnip')
   if cmp.visible() then
     cmp.select_next_item()
-  elseif copilot_keys ~= '' then -- prioritise copilot over snippets
-    -- Copilot keys do not need to be wrapped in termcodes
-    feed(copilot_keys, 'i')
-  elseif luasnip and luasnip.expand_or_locally_jumpable() then
+  elseif ok and luasnip.expand_or_locally_jumpable() then
     luasnip.expand_or_jump()
   else
     fallback()
@@ -92,20 +69,35 @@ local function tab(fallback)
 end
 
 local function shift_tab(fallback)
-  local luasnip = get_luasnip()
+  local ok, luasnip = pcall(require, 'luasnip')
   if cmp.visible() then
     cmp.select_prev_item()
-  elseif luasnip and luasnip.jumpable(-1) then
+  elseif ok and luasnip.jumpable(-1) then
     luasnip.jump(-1)
-  elseif api.nvim_get_mode().mode == 'c' then
-    fallback()
   else
-    local copilot_keys = vim.fn['copilot#Accept']()
-    if copilot_keys ~= '' then
-      feed(copilot_keys, 'i')
-    else
-      fallback()
-    end
+    fallback()
+  end
+end
+
+local function ctl_d(fallback)
+  local ls, luasnip = pcall(require, 'luasnip')
+  if cmp.visible() and cmp.get_selected_entry() then
+    cmp.scroll_docs(-4)
+  elseif ls and luasnip.choice_active() then
+    require('luasnip').change_choice(-1)
+  else
+    fallback()
+  end
+end
+
+local function ctl_f(fallback)
+  local ls, luasnip = pcall(require, 'luasnip')
+  if cmp.visible() and cmp.get_selected_entry() then
+    cmp.scroll_docs(4)
+  elseif ls and luasnip.choice_active() then
+    require('luasnip').change_choice(1)
+  else
+    fallback()
   end
 end
 
@@ -113,10 +105,10 @@ cmp.setup {
   window = {
     completion = {
       -- TODO: consider 'shadow', and tweak the winhighlight
-      border = 'rounded',
+      border = line_border,
     },
     documentation = {
-      border = 'rounded',
+      border = line_border,
     },
   },
   completion = {
@@ -134,14 +126,16 @@ cmp.setup {
     ['<c-h>'] = cmp.mapping(function()
       vim.api.nvim_feedkeys(vim.fn['copilot#Accept'](t '<Tab>'), 'n', true)
     end),
-    ['<c-j>'] = cmp.mapping(cntlh, { 'i' }),
-    ['<Tab>'] = cmp.mapping(tab, { 'i', 'c' }),
-    ['<S-Tab>'] = cmp.mapping(shift_tab, { 'i', 'c' }),
-    ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-    ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+    ['<Tab>'] = cmp.mapping(tab, { 'i', 'c', 's' }),
+    ['<S-Tab>'] = cmp.mapping(shift_tab, { 'i', 'c', 's' }),
+    ['<C-d>'] = cmp.mapping(ctl_d, { 'i', 's' }),
+    ['<C-f>'] = cmp.mapping(ctl_f, { 'i', 's' }),
     ['<C-y>'] = cmp.config.disable,
-    ['<C-e>'] = cmp.config.disable,
-    ['<C-space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping {
+      i = cmp.mapping.abort(),
+      c = cmp.mapping.close(),
+    },
+    ['<C-space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
     ['<CR>'] = cmp.mapping.confirm {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
@@ -176,7 +170,7 @@ cmp.setup {
     end,
   },
   documentation = {
-    border = 'rounded',
+    border = line_border,
   },
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
@@ -207,12 +201,7 @@ cmp.setup.cmdline('?', search_sources)
 
 -- Use cmdline & path source for ':'.
 cmp.setup.cmdline(':', {
-  completion = {
-    keyword_length = 2, -- avoid keyword completion
+  sources = cmp.config.sources {
+    { name = 'cmdline', keyword_pattern = [=[[^[:blank:]\!]*]=] },
   },
-  sources = cmp.config.sources({
-    { name = 'path' },
-  }, {
-    { name = 'cmdline' },
-  }),
 })

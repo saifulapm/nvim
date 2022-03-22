@@ -38,20 +38,11 @@ local function custom_filter(buf, buf_nums)
   return (tab_num == last_tab and is_log) or (tab_num ~= last_tab and not is_log)
 end
 
-local function sort_by_mtime(a, b)
-  local astat = vim.loop.fs_stat(a.path)
-  local bstat = vim.loop.fs_stat(b.path)
-  local mod_a = astat and astat.mtime.sec or 0
-  local mod_b = bstat and bstat.mtime.sec or 0
-  return mod_a > mod_b
-end
-
 local groups = require 'bufferline.groups'
 
 bufferline.setup {
   options = {
     mode = 'buffers', -- tabs
-    sort_by = sort_by_mtime,
     buffer_close_icon = '',
     modified_icon = '',
     show_close_icon = false,
@@ -66,7 +57,7 @@ bufferline.setup {
     show_buffer_close_icons = true,
     separator_style = 'thin',
     always_show_bufferline = true,
-    diagnostics = 'nvim_lsp',
+    diagnostics = false,
     diagnostics_indicator = diagnostics_indicator,
     diagnostics_update_in_insert = true,
     custom_filter = custom_filter,

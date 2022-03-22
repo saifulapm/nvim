@@ -9,13 +9,11 @@ local core_modules = {
   'core.options',
   'core.autocmds',
   'core.statusline',
+  '_compiled',
 }
 
 for _, module in ipairs(core_modules) do
-  local ok, err = pcall(require, module)
-  if not ok then
-    error('Error loading ' .. module .. '\n\n' .. err)
-  end
+  pcall(require, module)
 end
 
 -- Load keybindings module at the end because the keybindings module cost is high

@@ -46,7 +46,7 @@ return packer.startup(function()
     },
     {
       'numToStr/Comment.nvim',
-      keys = { 'gcc', 'gc', 'gl' },
+      keys = { { 'n', 'gcc' }, { 'v', 'gc' } },
       config = function()
         require('Comment').setup()
       end,
@@ -58,7 +58,6 @@ return packer.startup(function()
   use {
     {
       'akinsho/bufferline.nvim',
-      event = 'BufAdd',
       config = function()
         require 'plugins.configs.bufferline'
       end,
@@ -72,16 +71,29 @@ return packer.startup(function()
     },
     {
       'stevearc/dressing.nvim',
+      after = 'telescope.nvim',
       config = function()
+        require('utils.color').overwrite { { 'FloatTitle', { inherit = 'Normal', bold = true } } }
         require('dressing').setup {
           input = {
             insert_only = false,
+            winblend = 2,
           },
-          -- select = {
-          --   telescope = {
-          --     theme = 'cursor',
-          --   },
-          -- },
+          select = {
+            telescope = require('telescope.themes').get_cursor {
+              layout_config = {
+                -- NOTE: the limit is half the max lines because this is the cursor theme so
+                -- unless the cursor is at the top or bottom it realistically most often will
+                -- only have half the screen available
+                height = function(self, _, max_lines)
+                  local results = #self.finder.results
+                  local PADDING = 4 -- this represents the size of the telescope window
+                  local LIMIT = math.floor(max_lines / 2)
+                  return (results <= (LIMIT - PADDING) and results + PADDING or LIMIT)
+                end,
+              },
+            },
+          },
         }
       end,
     },
@@ -128,7 +140,7 @@ return packer.startup(function()
           fix_pos = false,
           auto_close_after = 15, -- close after 15 seconds
           hint_enable = false,
-          handler_opts = { border = 'rounded' },
+          handler_opts = { border = G.style.border.line },
         }
       end,
     },
@@ -160,6 +172,7 @@ return packer.startup(function()
       event = { 'BufRead' },
       requires = {
         { 'hrsh7th/cmp-nvim-lua', after = 'nvim-cmp' },
+        { 'hrsh7th/cmp-nvim-lsp-document-symbol', after = 'nvim-cmp' },
         { 'hrsh7th/cmp-cmdline', after = 'nvim-cmp' },
         { 'hrsh7th/cmp-path', after = 'nvim-cmp' },
         { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' },
@@ -189,6 +202,7 @@ return packer.startup(function()
     },
     {
       'github/copilot.vim',
+      after = 'nvim-cmp',
       config = function()
         vim.g.copilot_no_tab_map = true
         vim.g.copilot_assume_mapped = true
@@ -233,32 +247,6 @@ return packer.startup(function()
             require('telescope').load_extension 'fzf'
           end,
         },
-        {
-          'nvim-telescope/telescope-frecency.nvim',
-          after = 'telescope.nvim',
-          requires = 'tami5/sqlite.lua',
-        },
-        {
-          'camgraff/telescope-tmux.nvim',
-          after = 'telescope.nvim',
-          config = function()
-            require('telescope').load_extension 'tmux'
-          end,
-        },
-        {
-          'nvim-telescope/telescope-smart-history.nvim',
-          after = 'telescope.nvim',
-          config = function()
-            require('telescope').load_extension 'smart_history'
-          end,
-        },
-        {
-          'nvim-telescope/telescope-github.nvim',
-          after = 'telescope.nvim',
-          config = function()
-            require('telescope').load_extension 'gh'
-          end,
-        },
       },
       config = function()
         require 'plugins.configs.telescope'
@@ -267,12 +255,11 @@ return packer.startup(function()
     {
       'nvim-treesitter/nvim-treesitter',
       run = ':TSUpdate',
+      event = 'BufRead',
       config = function()
         require 'plugins.configs.treesitter'
       end,
-      requires = {
-        { 'nvim-treesitter/nvim-treesitter-textobjects' },
-      },
+      requires = { 'nvim-treesitter/nvim-treesitter-textobjects', after = 'nvim-treesitter' },
     },
   }
   -- }}}
@@ -281,6 +268,7 @@ return packer.startup(function()
   use {
     {
       'kyazdani42/nvim-tree.lua',
+      cmd = 'NvimTreeToggle',
       requires = 'nvim-web-devicons',
       config = function()
         require 'plugins.configs.nvimtree'
@@ -368,7 +356,9 @@ return packer.startup(function()
   use {
     {
       'nvim-neorg/neorg',
-      requires = { 'vhyrro/neorg-telescope' },
+      ft = 'norg',
+      after = 'nvim-treesitter',
+      requires = { 'vhyrro/neorg-telescope', after = 'neorg' },
       config = function()
         require 'plugins.configs.org'
       end,

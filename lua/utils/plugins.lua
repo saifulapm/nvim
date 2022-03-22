@@ -32,7 +32,7 @@ end
 packer.init {
   max_jobs = 20,
   display = {
-    prompt_border = 'rounded',
+    prompt_border = G.style.border.line,
     open_cmd = 'silent topleft 65vnew',
   },
   git = {
@@ -41,7 +41,7 @@ packer.init {
   auto_clean = true,
   compile_on_sync = true,
   auto_reload_compiled = true,
-  -- compile_path = vim.fn.stdpath 'config' .. '/lua/_compiled.lua',
+  compile_path = vim.fn.stdpath 'config' .. '/lua/_compiled.lua',
 }
 
 return packer

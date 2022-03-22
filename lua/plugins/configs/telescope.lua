@@ -80,13 +80,6 @@ telescope.setup {
     },
   },
   extensions = {
-    frecency = {
-      workspaces = {
-        conf = vim.env.DOTFILES,
-        project = vim.env.PROJECTS_DIR,
-        wiki = vim.g.wiki_path,
-      },
-    },
     fzf = {
       override_generic_sorter = true, -- override the generic sorter
       override_file_sorter = true, -- override the file sorter
@@ -181,38 +174,11 @@ local function norgfiles()
   }
 end
 
-local function frecency()
-  telescope.extensions.frecency.frecency(dropdown {
-    winblend = 10,
-    border = true,
-    previewer = false,
-    shorten_path = false,
-  })
-end
-
-local function prs()
-  telescope.extensions.gh.pull_request(dropdown())
-end
-
 local function installed_plugins()
   require('telescope.builtin').find_files {
     cwd = vim.fn.stdpath 'data' .. '/site/pack/packer',
   }
 end
-
-local function tmux_sessions()
-  telescope.extensions.tmux.sessions {}
-end
-
-local function tmux_windows()
-  telescope.extensions.tmux.windows {
-    entry_format = '#S: #T',
-  }
-end
-
--- local function dash()
---   require('dash').search()
--- end
 
 map('n', mappings.project_files, project_files)
 map('n', mappings.builtins, builtins.builtin)
@@ -222,9 +188,9 @@ map('n', mappings.dotfiles, dotfiles)
 map('n', mappings.find_files, builtins.find_files)
 map('n', mappings.git_commits, builtins.git_commits)
 map('n', mappings.git_branches, builtins.git_branches)
-map('n', mappings.pull_requests, prs)
+-- map('n', mappings.pull_requests, prs)
 map('n', mappings.man_pages, builtins.man_pages)
-map('n', mappings.history, frecency)
+map('n', mappings.history, builtins.oldfiles)
 map('n', mappings.nvim_config, nvim_config)
 map('n', mappings.buffers, builtins.buffers)
 map('n', mappings.installed_plugins, installed_plugins)
@@ -233,8 +199,8 @@ map('n', mappings.norgfiles, norgfiles)
 map('n', mappings.module_reloader, builtins.reloader)
 map('n', mappings.resume_last_picker, builtins.resume)
 map('n', mappings.grep_string, builtins.live_grep)
-map('n', mappings.tmux_sessions, tmux_sessions)
-map('n', mappings.tmux_windows, tmux_windows)
+-- map('n', mappings.tmux_sessions, tmux_sessions)
+-- map('n', mappings.tmux_windows, tmux_windows)
 -- map('n', mappings.help_tags, builtins.help_tags)
 -- map('n', mappings.lsp_workspace_diagnostics, builtins.lsp_workspace_diagnostics)
 -- map('n', mappings.lsp_document_symbols, builtins.lsp_document_symbols)

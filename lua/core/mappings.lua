@@ -270,8 +270,24 @@ M.lspconfig = function(client, bufnr)
   map('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', { buffer = bufnr })
   map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', { buffer = bufnr })
   map('n', 'ge', '<cmd>lua vim.diagnostic.open_float()<CR>', { buffer = bufnr })
-  map('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', { buffer = bufnr })
-  map('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', { buffer = bufnr })
+  map('n', '[d', function()
+    vim.diagnostic.goto_prev {
+      float = {
+        border = G.style.border.line,
+        focusable = false,
+        source = 'always',
+      },
+    }
+  end, { buffer = bufnr })
+  map('n', ']d', function()
+    vim.diagnostic.goto_next {
+      float = {
+        border = G.style.border.line,
+        focusable = false,
+        source = 'always',
+      },
+    }
+  end, { buffer = bufnr })
   map('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', { buffer = bufnr })
   -- map('n', '<leader>fm', '<cmd>lua vim.lsp.buf.formatting()<CR>', { buffer = bufnr })
 

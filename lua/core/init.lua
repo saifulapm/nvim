@@ -59,6 +59,18 @@ G.style = {
     Operator = 'Operator',
     TypeParameter = 'Type',
   },
+  border = {
+    line = {
+      { '🭽', 'FloatBorder' },
+      { '▔', 'FloatBorder' },
+      { '🭾', 'FloatBorder' },
+      { '▕', 'FloatBorder' },
+      { '🭿', 'FloatBorder' },
+      { '▁', 'FloatBorder' },
+      { '🭼', 'FloatBorder' },
+      { '▏', 'FloatBorder' },
+    },
+  },
 }
 
 ---Find an item in a list

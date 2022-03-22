@@ -10,7 +10,7 @@ local fallback_formatting_client = 'null-ls'
 -- prevent repeated lookups
 local buffer_client_ids = {}
 
-local border_opts = { border = 'single', focusable = false, scope = 'line' }
+local border_opts = { border = G.style.border.line, focusable = false, scope = 'line' }
 
 M.formatting = function(bufnr)
   bufnr = tonumber(bufnr) or api.nvim_get_current_buf()

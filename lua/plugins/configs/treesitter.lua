@@ -22,6 +22,8 @@ require('nvim-treesitter.configs').setup {
     'php',
     'dart',
     'norg',
+    'norg_meta',
+    'norg_table',
   },
   highlight = {
     enable = true,
@@ -74,7 +76,7 @@ require('nvim-treesitter.configs').setup {
     },
     lsp_interop = {
       enable = true,
-      border = 'rounded',
+      border = G.style.border.line,
       peek_definition_code = {
         ['<leader>df'] = '@function.outer',
         ['<leader>dF'] = '@class.outer',

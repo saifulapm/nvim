@@ -13,7 +13,9 @@ local general_heightlight = function()
   local comment_fg = u.get_hl('Comment', 'fg')
   local keyword_fg = u.get_hl('Keyword', 'fg')
   local search_bg = u.get_hl('Search', 'bg')
-  local msg_area_bg = u.alter_color(u.get_hl('Normal', 'bg'), -10)
+  local normal_bg = u.get_hl('Normal', 'bg')
+  local code_block = u.alter_color(normal_bg, 30)
+  local msg_area_bg = u.alter_color(normal_bg, -10)
   local hint_line = u.alter_color(L.hint, -80)
   local error_line = u.alter_color(L.error, -80)
   local warn_line = u.alter_color(L.warn, -80)
@@ -29,7 +31,11 @@ local general_heightlight = function()
     -----------------------------------------------------------------------------//
     -- Floats
     -----------------------------------------------------------------------------//
-    { 'NormalFloat', { link = 'Normal' } },
+    { 'NormalFloat', { inherit = 'Pmenu' } },
+    { 'FloatBorder', { inherit = 'NormalFloat', foreground = u.get_hl('NonText', 'fg') } },
+    { 'CodeBlock', { background = code_block } },
+    { 'markdownCode', { background = code_block } },
+    { 'markdownCodeBlock', { background = code_block } },
     --- Highlight group for light coloured floats
     { 'GreyFloat', { background = P.grey } },
     { 'GreyFloatBorder', { foreground = P.grey } },
@@ -118,7 +124,10 @@ local general_heightlight = function()
     { 'CursorLineNr', { foreground = keyword_fg } },
     -- Exp
     { 'Todo', { foreground = 'red', bold = true } },
-    { 'Substitute', { foreground = comment_fg, background = 'NONE', strikethrough = true, bold = true } },
+    {
+      'Substitute',
+      { foreground = comment_fg, background = 'NONE', strikethrough = true, bold = true },
+    },
     { 'LspDiagnosticsFloatingWarning', { background = 'NONE' } },
     { 'LspDiagnosticsFloatingError', { background = 'NONE' } },
     { 'LspDiagnosticsFloatingHint', { background = 'NONE' } },
@@ -182,16 +191,16 @@ local statusline = function()
       'StFilenameInactive',
       { foreground = P.comment_grey, background = bg_color, bold = true, italic = true },
     },
-    { 'StModeNormal', { background = P.cyan, foreground = "Background", bold = true } },
-    { 'StModeInsert', { background = P.magenta, foreground = "Background", bold = true } },
-    { 'StModeVisual', { background = P.yellow, foreground = "Background", bold = true } },
-    { 'StModeReplace', { background = P.green, foreground = "Background", bold = true } },
-    { 'StModeCommand', { background = P.orange, foreground = "Background", bold = true } },
-    { 'BarStModeNormal', { foreground = P.cyan, background = bg_color }},
-    { 'BarStModeInsert', { foreground = P.magenta, background = bg_color }},
-    { 'BarStModeVisual', { foreground = P.yellow, background = bg_color }},
-    { 'BarStModeReplace', { foreground = P.green, background = bg_color }},
-    { 'BarStModeCommand', { foreground = P.orange, background = bg_color }},
+    { 'StModeNormal', { background = P.cyan, foreground = 'Background', bold = true } },
+    { 'StModeInsert', { background = P.magenta, foreground = 'Background', bold = true } },
+    { 'StModeVisual', { background = P.yellow, foreground = 'Background', bold = true } },
+    { 'StModeReplace', { background = P.green, foreground = 'Background', bold = true } },
+    { 'StModeCommand', { background = P.orange, foreground = 'Background', bold = true } },
+    { 'BarStModeNormal', { foreground = P.cyan, background = bg_color } },
+    { 'BarStModeInsert', { foreground = P.magenta, background = bg_color } },
+    { 'BarStModeVisual', { foreground = P.yellow, background = bg_color } },
+    { 'BarStModeReplace', { foreground = P.green, background = bg_color } },
+    { 'BarStModeCommand', { foreground = P.orange, background = bg_color } },
   }
 end
 
@@ -209,17 +218,17 @@ local cheatsheet = function()
   }
 end
 
-local starter = function ()
+local starter = function()
   u.overwrite {
     { 'StarterCurrent', { link = 'NONE' } },
-    { 'StarterFooter', { link = 'Title' }},
-    { 'StarterHeader', { link = 'Title' }},
-    { 'StarterInactive', { link = 'Comment' }},
-    { 'StarterItem', { link = 'Normal' }},
-    { 'StarterItemBullet', { link = 'Delimiter' }},
-    { 'StarterItemPrefix', { link = 'WarningMsg' }},
-    { 'StarterSection', { link = 'Delimiter' }},
-    { 'StarterQuery', { link = 'MoreMsg' }},
+    { 'StarterFooter', { link = 'Title' } },
+    { 'StarterHeader', { link = 'Title' } },
+    { 'StarterInactive', { link = 'Comment' } },
+    { 'StarterItem', { link = 'Normal' } },
+    { 'StarterItemBullet', { link = 'Delimiter' } },
+    { 'StarterItemPrefix', { link = 'WarningMsg' } },
+    { 'StarterSection', { link = 'Delimiter' } },
+    { 'StarterQuery', { link = 'MoreMsg' } },
   }
 end
 
