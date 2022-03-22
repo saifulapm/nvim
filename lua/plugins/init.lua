@@ -349,6 +349,36 @@ return packer.startup(function()
         }
       end,
     },
+    {
+      'Krafi2/jeskape.nvim',
+      event = 'InsertEnter',
+      config = function()
+        require('jeskape').setup {
+          mappings = {
+            jk = '<esc>',
+            kj = '<esc>',
+            [';;'] = '<esc>A;',
+          },
+          timeout = 300,
+        }
+      end,
+    },
+    { 'tpope/vim-repeat' },
+    {
+      'chrisbra/NrrwRgn',
+      cmd = { 'NarrowRegion', 'NarrowWindow' },
+    },
+    {
+      'karb94/neoscroll.nvim',
+      keys = { '<C-u>', '<C-d>', '<C-b>', '<C-f>', '<C-y>', 'zt', 'zz', 'zb' },
+      config = function()
+        require('neoscroll').setup {
+          mappings = { '<C-u>', '<C-d>', '<C-b>', '<C-f>', '<C-y>', 'zt', 'zz', 'zb' },
+          stop_eof = false,
+          hide_cursor = true,
+        }
+      end,
+    },
   }
   --}}}
 
@@ -378,20 +408,12 @@ return packer.startup(function()
       end,
     },
     {
-      'max397574/better-escape.nvim',
-      event = 'InsertEnter',
+      'danymat/neogen',
+      cmd = 'Neogen',
       config = function()
-        require('better_escape').setup()
-      end,
-    },
-    {
-      'karb94/neoscroll.nvim',
-      keys = { '<C-u>', '<C-d>', '<C-b>', '<C-f>', '<C-y>', 'zt', 'zz', 'zb' },
-      config = function()
-        require('neoscroll').setup {
-          mappings = { '<C-u>', '<C-d>', '<C-b>', '<C-f>', '<C-y>', 'zt', 'zz', 'zb' },
-          stop_eof = false,
-          hide_cursor = true,
+        require('neogen').setup {
+          snippet_engine = 'luasnip',
+          enabled = true,
         }
       end,
     },

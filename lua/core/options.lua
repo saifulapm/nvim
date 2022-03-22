@@ -281,7 +281,7 @@ opt.mousefocus = true
 -----------------------------------------------------------------------------//
 
 -- Others {{{1
-opt.cul = false -- cursor line
+opt.cul = true -- cursor line
 
 g.python3_host_prog = '/usr/local/bin/python3'
 g.loaded_python_provider = 0
