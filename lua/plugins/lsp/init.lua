@@ -1,7 +1,7 @@
 if not packer_plugins['null-ls.nvim'].loaded then
-  vim.cmd [[packadd lua-dev.nvim]]
-  vim.cmd [[packadd cmp-nvim-lsp]]
-  vim.cmd [[packadd null-ls.nvim]]
+  vim.cmd [[PackerLoad lua-dev.nvim]]
+  vim.cmd [[PackerLoad cmp-nvim-lsp]]
+  vim.cmd [[PackerLoad null-ls.nvim]]
 end
 
 require('utils.lsp').lsp_handlers()

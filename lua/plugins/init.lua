@@ -507,7 +507,7 @@ return packer.startup(function()
       config = function()
         vim.cmd [[
           function! FTermStrategy(cmd) abort
-            call luaeval('vim.cmd("packadd FTerm.nvim")')
+            call luaeval('vim.cmd("PackerLoad FTerm.nvim")')
             call luaeval("require('FTerm').run(_A[1])", [a:cmd])
           endfunction
           let g:test#custom_strategies = {'fterm': function('FTermStrategy')}

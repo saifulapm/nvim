@@ -100,26 +100,6 @@ M.basic = function()
     ":lua require('utils').toggle_char(';')<CR>"
   )
 
-  -- Dial.nvim
-  -- TODO: Configure Dial Properly
-  -- change augends in VISUAL mode
-  -- vim.api.nvim_set_keymap("v", "<C-a>", require("dial.map").inc_normal("visual"), {noremap = true})
-  -- vim.api.nvim_set_keymap("v", "<C-x>", require("dial.map").dec_normal("visual"), {noremap = true})
-  -- " enable only for specific FileType
-  -- autocmd FileType typescript lua vim.api.nvim_buf_set_keymap(0, "n", "<C-a>", require("dial.map").inc_normal("typescript"), {noremap = true})
-  -- map('n', '-', function()
-  --   if not packer_plugins['dial.nvim'].loaded then
-  --     vim.cmd [[packadd dial.nvim]]
-  --   end
-  --   require('dial.map').dec_normal()
-  -- end)
-  -- map('n', '+', function()
-  --   if not packer_plugins['dial.nvim'].loaded then
-  --     vim.cmd [[packadd dial.nvim]]
-  --   end
-  --   require('dial.map').inc_normal()
-  -- end)
-
   -- -- Move
   map('n', mappings.misc.line_move_down, '<cmd>move+<CR>==')
   map('n', mappings.misc.line_move_up, '<cmd>move-2<CR>==')
