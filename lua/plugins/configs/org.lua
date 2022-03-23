@@ -8,6 +8,10 @@ if not packer_plugins['nvim-treesitter'].loaded then
   vim.cmd [[PackerLoad nvim-treesitter]]
 end
 
+if not packer_plugins['neorg-telescope'].loaded then
+  vim.cmd [[PackerLoad neorg-telescope]]
+end
+
 neorg.setup {
   load = {
     ['core.defaults'] = {},
