@@ -45,7 +45,7 @@ M.basic = function()
   -- Terminal
   map('n', mappings.terminal.toggle_terminal, function()
     if not packer_plugins['FTerm.nvim'].loaded then
-      vim.cmd [[packadd FTerm.nvim]]
+      vim.cmd [[PackerLoad FTerm.nvim]]
     end
     require('FTerm').toggle()
   end)

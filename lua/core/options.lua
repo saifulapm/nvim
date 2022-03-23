@@ -187,7 +187,7 @@ opt.listchars = {
 -----------------------------------------------------------------------------//
 -- Indentation
 -----------------------------------------------------------------------------//
-opt.wrap = true
+opt.wrap = false
 opt.wrapmargin = 2
 opt.textwidth = 80
 opt.autoindent = true

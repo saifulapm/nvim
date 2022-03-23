@@ -311,9 +311,10 @@ return packer.startup(function()
       opt = true,
       config = function()
         require('FTerm').setup {
-          border = 'single',
+          border = G.style.border.line,
+          hl = 'NormalFloat',
           dimensions = {
-            height = 0.6,
+            height = 0.4,
             width = 0.9,
           },
         }
