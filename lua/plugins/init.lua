@@ -388,7 +388,7 @@ return packer.startup(function()
     {
       'nvim-neorg/neorg',
       ft = 'norg',
-      requires = { 'vhyrro/neorg-telescope', after = 'neorg' },
+      requires = { 'vhyrro/neorg-telescope', opt = true },
       config = function()
         require 'plugins.configs.org'
       end,

@@ -1,4 +1,14 @@
-require('neorg').setup {
+local present, neorg = pcall(require, 'neorg')
+
+if not present then
+  return
+end
+
+if not packer_plugins['nvim-treesitter'].loaded then
+  vim.cmd [[PackerLoad nvim-treesitter]]
+end
+
+neorg.setup {
   load = {
     ['core.defaults'] = {},
     -- TODO: cannot unmap <c-s> and segfaults, raise an issue
