@@ -64,10 +64,10 @@ M.lsp_handlers = function()
     vim.fn.sign_define(hl, { text = icon, numhl = hl, texthl = hl })
   end
 
-  lspSymbol('Error', G.style.icons.error)
-  lspSymbol('Info', G.style.icons.info)
-  lspSymbol('Hint', G.style.icons.hint)
-  lspSymbol('Warn', G.style.icons.warn)
+  lspSymbol('Error', G.style.icons.lsp.error)
+  lspSymbol('Info', G.style.icons.lsp.info)
+  lspSymbol('Hint', G.style.icons.lsp.hint)
+  lspSymbol('Warn', G.style.icons.lsp.warn)
 
   vim.diagnostic.config {
     virtual_text = {

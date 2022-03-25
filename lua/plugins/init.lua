@@ -73,11 +73,12 @@ return packer.startup(function()
       'stevearc/dressing.nvim',
       after = 'telescope.nvim',
       config = function()
-        require('utils.color').overwrite { { 'FloatTitle', { inherit = 'Normal', bold = true } } }
+        require('utils.color').overwrite { { 'FloatTitle', { inherit = 'Visual', bold = true } } }
         require('dressing').setup {
           input = {
             insert_only = false,
             winblend = 2,
+            border = G.style.border.line,
           },
           select = {
             telescope = require('telescope.themes').get_cursor {
@@ -203,7 +204,7 @@ return packer.startup(function()
     {
       'github/copilot.vim',
       after = 'nvim-cmp',
-      config = function()
+      setup = function()
         vim.g.copilot_no_tab_map = true
         vim.g.copilot_assume_mapped = true
         vim.g.copilot_tab_fallback = ''
@@ -254,7 +255,7 @@ return packer.startup(function()
     },
     {
       'nvim-treesitter/nvim-treesitter',
-      run = ':TSUpdate',
+      -- run = ':TSUpdate',
       event = 'BufRead',
       config = function()
         require 'plugins.configs.treesitter'
@@ -416,6 +417,14 @@ return packer.startup(function()
           snippet_engine = 'luasnip',
           enabled = true,
         }
+      end,
+    },
+    {
+      'SmiteshP/nvim-gps',
+      after = 'nvim-treesitter',
+      requires = 'nvim-treesitter',
+      config = function()
+        require('nvim-gps').setup()
       end,
     },
   }

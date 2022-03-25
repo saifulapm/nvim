@@ -7,6 +7,7 @@ end
 local actions = require 'telescope.actions'
 local layout_actions = require 'telescope.actions.layout'
 local themes = require 'telescope.themes'
+local icons = G.style.icons
 local map = require('utils').map
 local mappings = require('core.keymaps').mappings.plugins.telescope
 
@@ -40,7 +41,7 @@ telescope.setup {
   defaults = {
     set_env = { ['TERM'] = vim.env.TERM },
     borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
-    prompt_prefix = ' ',
+    prompt_prefix = icons.misc.telescope .. ' ',
     selection_caret = '» ',
     mappings = {
       i = {

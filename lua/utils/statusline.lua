@@ -4,7 +4,6 @@ local expand = fn.expand
 local fnamemodify = fn.fnamemodify
 local contains = vim.tbl_contains
 local H = require 'utils.color'
-
 local plain_filetypes = {
   'help',
   'ctrlsf',
@@ -415,7 +414,7 @@ function M.diagnostic_info(context)
   if vim.tbl_isempty(vim.lsp.buf_get_clients(buf)) then
     return { error = {}, warning = {}, info = {} }
   end
-  local icons = G.style.icons
+  local icons = G.style.icons.lsp
   return {
     error = { count = get_count(buf, 'Error'), sign = icons.error },
     warning = { count = get_count(buf, 'Warning'), sign = icons.warn },
@@ -453,6 +452,17 @@ function M.is_plain(ctx)
   return contains(plain_filetypes, ctx.filetype)
     or contains(plain_buftypes, ctx.buftype)
     or ctx.preview
+end
+
+function M.current_function()
+  local present, gps = pcall(require, 'nvim-gps')
+  if not present then
+    return
+  end
+  -- local gps = require 'nvim-gps'
+  if gps.is_available() then
+    return gps.get_location()
+  end
 end
 
 return M

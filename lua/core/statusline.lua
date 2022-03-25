@@ -55,6 +55,10 @@ function _G.__statusline()
     item(parent.item, parent.hl, parent.opts),
     item(file.item, file.hl, file.opts),
     item_if(file_modified, ctx.modified, 'StModified', { before = ' ' }),
+    item(utils.current_function(), 'StMetadata', {
+      before = '  ',
+      prefix_color = 'StIdentifier',
+    }),
     separator,
     item_if(utils.count_words(), markdown_type, 'StIndicator'),
     separator,

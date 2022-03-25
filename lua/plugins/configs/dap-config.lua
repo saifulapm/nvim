@@ -1,6 +1,7 @@
 local dap = require 'dap'
+local icons = G.style.icons
 
-vim.fn.sign_define('DapBreakpoint', { text = '🛑', texthl = '', linehl = '', numhl = '' })
+vim.fn.sign_define('DapBreakpoint', { text = icons.misc.bug, texthl = '', linehl = '', numhl = '' })
 vim.fn.sign_define('DapStopped', { text = '🟢', texthl = '', linehl = '', numhl = '' })
 
 dap.adapters = {
