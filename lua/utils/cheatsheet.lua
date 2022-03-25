@@ -33,7 +33,10 @@ local function display_cheatsheet(mappings)
   local function parse_mapping(mapping)
     mapping = string.gsub(mapping, 'C%-', 'Ctrl+')
     mapping = string.gsub(mapping, 'c%-', 'Ctrl+')
+    mapping = string.gsub(mapping, 'A%-', 'Alt+')
+    mapping = string.gsub(mapping, 'a%-', 'Alt+')
     mapping = string.gsub(mapping, '%<leader%>', 'Leader+')
+    mapping = string.gsub(mapping, '%<localleader%>', 'LocalLeader+')
     mapping = string.gsub(mapping, '%<(.+)%>', '%1')
     return mapping
   end
@@ -179,7 +182,7 @@ local function display_cheatsheet(mappings)
     height = math.floor(height * 0.8),
     col = math.floor(width * 0.3),
     row = math.floor(height * 0.1),
-    border = 'rounded',
+    border = G.style.border.line,
     style = 'minimal',
   })
 

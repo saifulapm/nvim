@@ -24,8 +24,6 @@ M.mappings = {
     line_move_down = '<A-j>',
   },
 
-  -- navigation in insert mode, only if enabled in options
-
   insert_nav = {
     backward = '<C-h>',
     end_of_line = '<C-e>',
@@ -54,8 +52,8 @@ M.mappings = {
     search_on_selected_area = '//',
     line_move_up = '<A-k>',
     line_move_down = '<A-j>',
-    replace_selection = '<Leader>r',
-    replace_selection_wc = '<Leader>R',
+    replace_selection = '<leader>r',
+    replace_selection_wc = '<leader>R',
   },
 
   -- better window movement
@@ -74,7 +72,7 @@ M.mappings = {
 
 M.mappings.plugins = {
   bufferline = {
-    next_buffer = '<Leader><TAB>',
+    next_buffer = '<leader><TAB>',
     prev_buffer = '<S-Tab>',
     move_buffer_next = ']b',
     move_buffer_prev = '[b',
@@ -101,8 +99,8 @@ M.mappings.plugins = {
   },
 
   session = {
-    save_session = '<Leader>ss',
-    restore_session = '<Leader>sl',
+    save_session = '<leader>ss',
+    restore_session = '<leader>sl',
   },
 
   lspconfig = {
@@ -156,6 +154,13 @@ M.mappings.plugins = {
     lsp_workspace_diagnostics = '<leader>cd',
     lsp_document_symbols = '<leader>cs',
     lsp_dynamic_workspace_symbols = '<leader>cw',
+  },
+
+  harpoon = {
+    add = '<localleader>a',
+    toggle = '<localleader>f',
+    next = '<localleader>n',
+    prev = '<localleader>b',
   },
 }
 

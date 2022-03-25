@@ -40,20 +40,20 @@ local general_heightlight = function()
     { 'GreyFloat', { background = P.grey } },
     { 'GreyFloatBorder', { foreground = P.grey } },
     -----------------------------------------------------------------------------//
-    { 'CursorLineNr', { bold = true } },
+    { 'CursorLineNr', { foreground = keyword_fg, bold = true } },
     { 'FoldColumn', { background = 'background' } },
     { 'Folded', { foreground = comment_fg, background = 'NONE', italic = true } },
     { 'TermCursor', { ctermfg = 'green', foreground = 'royalblue' } },
-    {
-      'IncSearch',
-      {
-        background = 'NONE',
-        foreground = 'LightGreen',
-        italic = true,
-        bold = true,
-        underline = true,
-      },
-    },
+    -- {
+    --   'IncSearch',
+    --   {
+    --     background = 'NONE',
+    --     foreground = 'LightGreen',
+    --     italic = true,
+    --     bold = true,
+    --     underline = true,
+    --   },
+    -- },
     -- Add undercurl to existing spellbad highlight
     { 'SpellBad', { undercurl = true, background = 'NONE', foreground = 'NONE', sp = 'green' } },
     { 'PmenuSbar', { background = P.grey } },
@@ -121,7 +121,6 @@ local general_heightlight = function()
     { 'DiagnosticFloatingInfo', { link = 'DiagnosticInfo' } },
     { 'DiagnosticFloatingHint', { link = 'DiagnosticHint' } },
     { 'DiagnosticFloatingError', { link = 'DiagnosticError' } },
-    { 'CursorLineNr', { foreground = keyword_fg } },
     -- Exp
     { 'Todo', { foreground = 'red', bold = true } },
     {

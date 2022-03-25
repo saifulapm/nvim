@@ -330,7 +330,7 @@ return packer.startup(function()
       end,
     },
     {
-      'chentau/marks.nvim',
+      '~/Sites/Neovim/marks.nvim',
       keys = { { 'n', 'm' } },
       config = function()
         require('utils.color').overwrite { { 'MarkSignHL', { foreground = 'Red' } } }
@@ -425,6 +425,13 @@ return packer.startup(function()
       requires = 'nvim-treesitter',
       config = function()
         require('nvim-gps').setup()
+      end,
+    },
+    {
+      'ThePrimeagen/harpoon',
+      after = 'plenary.nvim',
+      config = function()
+        require 'plugins.configs.harpoon'
       end,
     },
   }
