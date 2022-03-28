@@ -3,15 +3,16 @@ local separator = '%='
 local end_marker = '%<'
 local item = utils.item
 local item_if = utils.item_if
+local api = vim.api
 
 function _G.__statusline()
   local curwin = vim.g.statusline_winid or 0
-  local curbuf = vim.api.nvim_win_get_buf(curwin)
+  local curbuf = api.nvim_win_get_buf(curwin)
 
   local ctx = {
     bufnum = curbuf,
     winid = curwin,
-    bufname = vim.fn.bufname(curbuf),
+    bufname = api.nvim_buf_get_name(curbuf),
     preview = vim.wo[curwin].previewwindow,
     readonly = vim.bo[curbuf].readonly,
     filetype = vim.bo[curbuf].ft,
@@ -55,9 +56,8 @@ function _G.__statusline()
     item(parent.item, parent.hl, parent.opts),
     item(file.item, file.hl, file.opts),
     item_if(file_modified, ctx.modified, 'StModified', { before = ' ' }),
-    item(utils.current_function(), 'StMetadata', {
+    item(utils.current_function(), 'StMetadataPrefix', {
       before = '  ',
-      prefix_color = 'StIdentifier',
     }),
     separator,
     item_if(utils.count_words(), markdown_type, 'StIndicator'),

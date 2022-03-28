@@ -330,7 +330,7 @@ return packer.startup(function()
       end,
     },
     {
-      '~/Sites/Neovim/marks.nvim',
+      'chentau/marks.nvim',
       keys = { { 'n', 'm' } },
       config = function()
         require('utils.color').overwrite { { 'MarkSignHL', { foreground = 'Red' } } }
@@ -433,6 +433,23 @@ return packer.startup(function()
       config = function()
         require 'plugins.configs.harpoon'
       end,
+    },
+    {
+      'sQVe/sort.nvim', -- Sort by line and delimiter.
+      cmd = { 'Sort' },
+      config = function()
+        vim.cmd [[
+          nnoremap <silent> go <Cmd>Sort<CR>
+          nnoremap <silent> go" vi"<Esc><Cmd>Sort<CR>
+          nnoremap <silent> go' vi'<Esc><Cmd>Sort<CR>
+          nnoremap <silent> go( vi(<Esc><Cmd>Sort<CR>
+          nnoremap <silent> go[ vi[<Esc><Cmd>Sort<CR>
+          nnoremap <silent> gop vip<Esc><Cmd>Sort<CR>
+          nnoremap <silent> go{ vi{<Esc><Cmd>Sort<CR>
+          vnoremap <silent> go <Esc><Cmd>Sort<CR>
+        ]]
+      end,
+      keys = { { 'n', 'go' }, { 'v', 'go' } },
     },
   }
   --}}}
