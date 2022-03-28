@@ -161,6 +161,22 @@ return packer.startup(function()
       cmd = 'TroubleToggle',
       config = [[require('plugins.configs.trouble')]],
     },
+    {
+      'rmagatti/goto-preview',
+      config = function()
+        require('goto-preview').setup {
+          width = 120,
+          height = 30,
+          default_mappings = true,
+          border = G.style.border.line,
+        }
+      end,
+      keys = { 'gpd', 'gpi', 'gpr' },
+    },
+    {
+      'simrat39/symbols-outline.nvim',
+      cmd = { 'SymbolsOutline' },
+    },
   }
   -- }}}
 
