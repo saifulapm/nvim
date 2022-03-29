@@ -173,7 +173,6 @@ return packer.startup(function()
       event = { 'BufRead' },
       requires = {
         { 'hrsh7th/cmp-nvim-lua', after = 'nvim-cmp' },
-        { 'hrsh7th/cmp-nvim-lsp-document-symbol', after = 'nvim-cmp' },
         { 'hrsh7th/cmp-cmdline', after = 'nvim-cmp' },
         { 'hrsh7th/cmp-path', after = 'nvim-cmp' },
         { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' },
@@ -330,7 +329,7 @@ return packer.startup(function()
       end,
     },
     {
-      '~/Sites/Neovim/marks.nvim',
+      'chentau/marks.nvim',
       keys = { { 'n', 'm' } },
       config = function()
         require('utils.color').overwrite { { 'MarkSignHL', { foreground = 'Red' } } }

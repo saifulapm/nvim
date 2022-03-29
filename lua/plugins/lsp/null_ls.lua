@@ -25,6 +25,7 @@ local sources = {
   with_root_file(b.formatting.stylua, 'stylua.toml'),
   b.formatting.phpcsfixer,
   -- diagnostics
+  b.diagnostics.phpstan,
   -- with_root_file(b.diagnostics.selene, "selene.toml"),
   -- b.diagnostics.write_good,
   -- b.diagnostics.markdownlint,
