@@ -161,6 +161,22 @@ return packer.startup(function()
       cmd = 'TroubleToggle',
       config = [[require('plugins.configs.trouble')]],
     },
+    {
+      'rmagatti/goto-preview',
+      config = function()
+        require('goto-preview').setup {
+          width = 120,
+          height = 30,
+          default_mappings = true,
+          border = G.style.border.line,
+        }
+      end,
+      keys = { 'gpd', 'gpi', 'gpr' },
+    },
+    {
+      'simrat39/symbols-outline.nvim',
+      cmd = { 'SymbolsOutline' },
+    },
   }
   -- }}}
 
@@ -432,6 +448,23 @@ return packer.startup(function()
       config = function()
         require 'plugins.configs.harpoon'
       end,
+    },
+    {
+      'sQVe/sort.nvim', -- Sort by line and delimiter.
+      cmd = { 'Sort' },
+      config = function()
+        vim.cmd [[
+          nnoremap <silent> go <Cmd>Sort<CR>
+          nnoremap <silent> go" vi"<Esc><Cmd>Sort<CR>
+          nnoremap <silent> go' vi'<Esc><Cmd>Sort<CR>
+          nnoremap <silent> go( vi(<Esc><Cmd>Sort<CR>
+          nnoremap <silent> go[ vi[<Esc><Cmd>Sort<CR>
+          nnoremap <silent> gop vip<Esc><Cmd>Sort<CR>
+          nnoremap <silent> go{ vi{<Esc><Cmd>Sort<CR>
+          vnoremap <silent> go <Esc><Cmd>Sort<CR>
+        ]]
+      end,
+      keys = { { 'n', 'go' }, { 'v', 'go' } },
     },
   }
   --}}}
