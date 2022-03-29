@@ -382,6 +382,7 @@ return packer.startup(function()
       end,
     },
     { 'tpope/vim-repeat' },
+    { 'tpope/vim-sleuth' },
     {
       'chrisbra/NrrwRgn',
       cmd = { 'NarrowRegion', 'NarrowWindow' },
