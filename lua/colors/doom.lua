@@ -131,6 +131,8 @@ local general_heightlight = function()
     { 'LspDiagnosticsFloatingError', { background = 'NONE' } },
     { 'LspDiagnosticsFloatingHint', { background = 'NONE' } },
     { 'LspDiagnosticsFloatingInformation', { background = 'NONE' } },
+    { 'LineNr', { background = 'NONE' } },
+    { 'SignColumn', { background = 'NONE' } },
   }
 end
 
@@ -217,26 +219,11 @@ local cheatsheet = function()
   }
 end
 
-local starter = function()
-  u.overwrite {
-    { 'StarterCurrent', { link = 'NONE' } },
-    { 'StarterFooter', { link = 'Title' } },
-    { 'StarterHeader', { link = 'Title' } },
-    { 'StarterInactive', { link = 'Comment' } },
-    { 'StarterItem', { link = 'Normal' } },
-    { 'StarterItemBullet', { link = 'Delimiter' } },
-    { 'StarterItemPrefix', { link = 'WarningMsg' } },
-    { 'StarterSection', { link = 'Delimiter' } },
-    { 'StarterQuery', { link = 'MoreMsg' } },
-  }
-end
-
 M.apply = function()
   general_heightlight()
   sidebar_highlight()
   statusline()
   cheatsheet()
-  starter()
 end
 
 return M
