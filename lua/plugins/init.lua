@@ -177,6 +177,17 @@ return packer.startup(function()
       'simrat39/symbols-outline.nvim',
       cmd = { 'SymbolsOutline' },
     },
+    {
+      'ThePrimeagen/refactoring.nvim',
+      after = 'nvim-treesitter',
+      requires = {
+        { 'nvim-lua/plenary.nvim' },
+        { 'nvim-treesitter/nvim-treesitter' },
+      },
+      config = function()
+        require('refactoring').setup()
+      end,
+    },
   }
   -- }}}
 
@@ -360,10 +371,13 @@ return packer.startup(function()
     },
     {
       'rmagatti/auto-session',
+      event = 'BufRead',
+      cmd = 'RestoreSession',
       config = function()
         require('auto-session').setup {
           log_level = 'error',
           auto_session_root_dir = ('%s/session/auto/'):format(vim.fn.stdpath 'data'),
+          auto_restore_enabled = false,
         }
       end,
     },
@@ -383,10 +397,6 @@ return packer.startup(function()
     },
     { 'tpope/vim-repeat' },
     { 'tpope/vim-sleuth' },
-    {
-      'chrisbra/NrrwRgn',
-      cmd = { 'NarrowRegion', 'NarrowWindow' },
-    },
     {
       'karb94/neoscroll.nvim',
       keys = { '<C-u>', '<C-d>', '<C-b>', '<C-f>', '<C-y>', 'zt', 'zz', 'zb' },
@@ -468,6 +478,7 @@ return packer.startup(function()
       end,
       keys = { { 'n', 'go' }, { 'v', 'go' } },
     },
+    { 'tpope/vim-surround' },
   }
   --}}}
 

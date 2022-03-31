@@ -15,7 +15,8 @@ local general_heightlight = function()
   local search_bg = u.get_hl('Search', 'bg')
   local normal_bg = u.get_hl('Normal', 'bg')
   local code_block = u.alter_color(normal_bg, 30)
-  local msg_area_bg = u.alter_color(normal_bg, -10)
+  -- local msg_area_bg = u.alter_color(normal_bg, -10)
+  local msg_area_bg = 'NONE'
   local hint_line = u.alter_color(L.hint, -80)
   local error_line = u.alter_color(L.error, -80)
   local warn_line = u.alter_color(L.warn, -80)
@@ -40,7 +41,8 @@ local general_heightlight = function()
     { 'GreyFloat', { background = P.grey } },
     { 'GreyFloatBorder', { foreground = P.grey } },
     -----------------------------------------------------------------------------//
-    { 'CursorLineNr', { foreground = keyword_fg, bold = true } },
+    { 'CursorLine', { background = 'NONE' } },
+    { 'CursorLineNr', { foreground = keyword_fg, background = 'NONE', bold = true } },
     { 'FoldColumn', { background = 'background' } },
     { 'Folded', { foreground = comment_fg, background = 'NONE', italic = true } },
     { 'TermCursor', { ctermfg = 'green', foreground = 'royalblue' } },

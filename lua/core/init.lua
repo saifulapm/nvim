@@ -149,3 +149,49 @@ function _G.P(...)
   print(table.concat(objects, '\n'))
   return ...
 end
+
+---@class Autocommand
+---@field description string
+---@field event  string[] list of autocommand events
+---@field pattern string[] list of autocommand patterns
+---@field command string | function
+---@field nested  boolean
+---@field once    boolean
+---@field buffer  number
+
+---Create an autocommand
+---returns the group ID so that it can be cleared or manipulated.
+---@param name string
+---@param commands Autocommand[]
+---@return number
+function G.augroup(name, commands)
+  local id = vim.api.nvim_create_augroup(name, { clear = true })
+  for _, autocmd in ipairs(commands) do
+    local is_callback = type(autocmd.command) == 'function'
+    vim.api.nvim_create_autocmd(autocmd.event, {
+      group = id,
+      pattern = autocmd.pattern,
+      desc = autocmd.description,
+      callback = is_callback and autocmd.command or nil,
+      command = not is_callback and autocmd.command or nil,
+      once = autocmd.once,
+      nested = autocmd.nested,
+      buffer = autocmd.buffer,
+    })
+  end
+  return id
+end
+
+--- @class CommandArgs
+--- @field args string
+--- @field fargs table
+--- @field bang boolean,
+
+---Create an nvim command
+---@param name any
+---@param rhs string|fun(args: CommandArgs)
+---@param opts table
+function G.command(name, rhs, opts)
+  opts = opts or {}
+  vim.api.nvim_add_user_command(name, rhs, opts)
+end
