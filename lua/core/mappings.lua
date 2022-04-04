@@ -130,8 +130,8 @@ M.basic = function()
   map('n', '<leader>9', ':BufferLineGoToBuffer 9<CR>')
 
   -- -- Session
-  map('n', mappings.plugins.session.restore_session, ':lua require("utils.session").load()<CR>')
-  map('n', mappings.plugins.session.save_session, ':lua require("utils.session").save()<CR>')
+  map('n', mappings.plugins.session.restore_session, ':RestoreSession<CR>')
+  map('n', mappings.plugins.session.save_session, ':SaveSession<CR>')
 
   -- Cheatsheet
   map(
