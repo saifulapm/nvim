@@ -4,12 +4,12 @@ if not present then
   return
 end
 
+local mappings = require('core.keymaps').mappings.plugins.telescope
 local actions = require 'telescope.actions'
 local layout_actions = require 'telescope.actions.layout'
 local themes = require 'telescope.themes'
 local icons = G.style.icons
 local map = require('utils').map
-local mappings = require('core.keymaps').mappings.plugins.telescope
 
 local u = require 'utils.color'
 u.overwrite {
@@ -203,6 +203,6 @@ map('n', mappings.grep_string, builtins.live_grep)
 -- map('n', mappings.tmux_sessions, tmux_sessions)
 -- map('n', mappings.tmux_windows, tmux_windows)
 -- map('n', mappings.help_tags, builtins.help_tags)
--- map('n', mappings.lsp_workspace_diagnostics, builtins.lsp_workspace_diagnostics)
--- map('n', mappings.lsp_document_symbols, builtins.lsp_document_symbols)
--- map('n', mappings.lsp_dynamic_workspace_symbols, builtins.lsp_dynamic_workspace_symbols)
+map('n', mappings.lsp_workspace_diagnostics, builtins.lsp_workspace_diagnostics)
+map('n', mappings.lsp_document_symbols, builtins.lsp_document_symbols)
+map('n', mappings.lsp_dynamic_workspace_symbols, builtins.lsp_dynamic_workspace_symbols)

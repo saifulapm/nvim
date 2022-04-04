@@ -43,6 +43,7 @@ local groups = require 'bufferline.groups'
 bufferline.setup {
   options = {
     mode = 'buffers', -- tabs
+    sort_by = 'insert_after_current',
     buffer_close_icon = '',
     modified_icon = '',
     show_close_icon = false,
