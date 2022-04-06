@@ -55,3 +55,4 @@ end)
 
 require('luasnip.loaders.from_lua').lazy_load()
 require('luasnip.loaders.from_vscode').load { paths = './snippets' }
+luasnip.filetype_extend('dart', { 'flutter' })

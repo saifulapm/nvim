@@ -76,6 +76,11 @@ bufferline.setup {
         padding = 1,
       },
       {
+        filetype = 'neo-tree',
+        text = 'Explorer',
+        highlight = 'PanelHeading',
+      },
+      {
         filetype = 'DiffviewFiles',
         text = 'Diff View',
         highlight = 'PanelHeading',

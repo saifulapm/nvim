@@ -4,6 +4,13 @@ local expand = fn.expand
 local fnamemodify = fn.fnamemodify
 local contains = vim.tbl_contains
 local H = require 'utils.color'
+
+-- Capture the type of the neo tree buffer opened
+local function get_neotree_name(fname, _)
+  local parts = vim.split(fname, ' ')
+  return string.format('Neo Tree(%s)', parts[2])
+end
+
 local plain_filetypes = {
   'help',
   'ctrlsf',
@@ -12,6 +19,7 @@ local plain_filetypes = {
   'tsplayground',
   'coc-explorer',
   'NvimTree',
+  'neo-tree',
   'undotree',
   'neoterm',
   'vista',
@@ -57,6 +65,7 @@ local exceptions = {
     undotree = 'פּ',
     ['coc-explorer'] = '',
     NvimTree = 'פּ',
+    ['neo-tree'] = 'פּ',
     toggleterm = ' ',
     calendar = '',
     minimap = '',
@@ -86,12 +95,13 @@ local exceptions = {
     octo = 'Octo',
     ['coc-explorer'] = 'Coc Explorer',
     NvimTree = 'Nvim Tree',
+    ['neo-tree'] = get_neotree_name,
     ['dap-repl'] = 'Debugger REPL',
   },
 }
 
 --- @param hl string
-function M.wrap(hl)
+local function wrap(hl)
   assert(hl, 'A highlight name must be specified')
   return '%#' .. hl .. '#'
 end
@@ -116,14 +126,14 @@ function M.item(component, hl, opts)
   local prefix = opts.prefix or ''
 
   local prefix_color = opts.prefix_color or hl
-  prefix = prefix ~= '' and M.wrap(prefix_color) .. prefix .. ' ' or ''
+  prefix = prefix ~= '' and wrap(prefix_color) .. prefix .. ' ' or ''
 
   --- handle numeric inputs etc.
   if type(component) ~= 'string' then
     component = tostring(component)
   end
 
-  local parts = { before, prefix, M.wrap(hl), component, '%*', after }
+  local parts = { before, prefix, wrap(hl), component, '%*', after }
   return table.concat(parts)
 end
 
@@ -435,14 +445,14 @@ function M.line_info(opts)
 
   return table.concat {
     ' ',
-    M.wrap(prefix_color),
+    wrap(prefix_color),
     prefix,
     ' ',
-    M.wrap(current_hl),
+    wrap(current_hl),
     current,
-    M.wrap(sep_hl),
+    wrap(sep_hl),
     sep,
-    M.wrap(total_hl),
+    wrap(total_hl),
     last,
     ' ',
   }

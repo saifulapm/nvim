@@ -38,12 +38,7 @@ return packer.startup(function()
         G.theme_loaded = true
       end,
     },
-    {
-      'kyazdani42/nvim-web-devicons',
-      config = function()
-        require 'plugins.configs.icons'
-      end,
-    },
+    { 'kyazdani42/nvim-web-devicons' },
     {
       'numToStr/Comment.nvim',
       keys = { { 'n', 'gcc' }, { 'v', 'gc' } },
@@ -304,6 +299,18 @@ return packer.startup(function()
         require('core.mappings').nvimtree()
       end,
     },
+    -- {
+    --   'nvim-neo-tree/neo-tree.nvim',
+    --   branch = 'v2.x',
+    --   config = function()
+    --     require 'plugins.configs.neotree'
+    --   end,
+    --   requires = {
+    --     'nvim-lua/plenary.nvim',
+    --     'MunifTanjim/nui.nvim',
+    --     'kyazdani42/nvim-web-devicons',
+    --   },
+    -- },
     {
       'norcalli/nvim-colorizer.lua',
       cmd = {
