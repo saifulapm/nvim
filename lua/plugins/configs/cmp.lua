@@ -123,9 +123,9 @@ cmp.setup {
     end,
   },
   mapping = {
-    ['<c-h>'] = cmp.mapping(function()
-      vim.api.nvim_feedkeys(vim.fn['copilot#Accept'](t '<Tab>'), 'n', true)
-    end),
+    -- ['<c-h>'] = cmp.mapping(function()
+    --   vim.api.nvim_feedkeys(vim.fn['copilot#Accept'](t '<Tab>'), 'n', true)
+    -- end),
     ['<Tab>'] = cmp.mapping(tab, { 'i', 'c' }),
     ['<S-Tab>'] = cmp.mapping(shift_tab, { 'i', 'c' }),
     ['<C-d>'] = cmp.mapping(ctl_d, { 'i', 's' }),

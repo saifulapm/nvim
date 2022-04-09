@@ -53,6 +53,7 @@ return packer.startup(function()
   use {
     {
       'akinsho/bufferline.nvim',
+      tag = '*',
       config = function()
         require 'plugins.configs.bufferline'
       end,
@@ -172,17 +173,6 @@ return packer.startup(function()
       'simrat39/symbols-outline.nvim',
       cmd = { 'SymbolsOutline' },
     },
-    {
-      'ThePrimeagen/refactoring.nvim',
-      after = 'nvim-treesitter',
-      requires = {
-        { 'nvim-lua/plenary.nvim' },
-        { 'nvim-treesitter/nvim-treesitter' },
-      },
-      config = function()
-        require('refactoring').setup()
-      end,
-    },
   }
   -- }}}
 
@@ -238,6 +228,10 @@ return packer.startup(function()
           php = true,
           javascript = true,
         }
+        vim.keymap.set('i', '<C-h>', "copilot#Accept('<Tab>')", { expr = true, noremap = false })
+        vim.keymap.set('i', '<M-]>', '<Plug>(copilot-next)')
+        vim.keymap.set('i', '<M-[>', '<Plug>(copilot-previous)')
+        vim.keymap.set('i', '<C-\\>', '<Cmd>vertical Copilot panel<CR>')
       end,
     },
     {
@@ -414,6 +408,51 @@ return packer.startup(function()
         }
       end,
     },
+    -- TODO: this fixes a bug in neovim core that prevents "CursorHold" from working
+    -- hopefully one day when this issue is fixed this can be removed
+    -- @see: https://github.com/neovim/neovim/issues/12587
+    {
+      'antoinemadec/FixCursorHold.nvim',
+      config = function()
+        vim.g.curshold_updatime = 1000
+      end,
+    },
+    {
+      'andymass/vim-matchup',
+      opt = true,
+      setup = function()
+        require('utils').lazy 'vim-matchup'
+      end,
+    },
+    {
+      'lewis6991/spaceless.nvim',
+      event = 'InsertEnter',
+      config = function()
+        require('spaceless').setup()
+      end,
+    },
+    {
+      'AndrewRadev/splitjoin.vim',
+      keys = {
+        { 'n', 'gJ' },
+        { 'n', 'gS' },
+      },
+    },
+    {
+      'numToStr/Navigator.nvim',
+      config = function()
+        require('Navigator').setup {
+          auto_save = 'current',
+        }
+      end,
+      cmd = {
+        'NavigateLeft',
+        'NavigateRight',
+        'NavigateUp',
+        'NavigateDown',
+        'NavigatePrevious',
+      },
+    },
   }
   --}}}
 
@@ -485,6 +524,22 @@ return packer.startup(function()
       keys = { { 'n', 'go' }, { 'v', 'go' } },
     },
     { 'tpope/vim-surround' },
+    {
+      'kazhala/close-buffers.nvim',
+      cmd = { 'BDelete' },
+      config = function()
+        require('close_buffers').setup {
+          preserve_window_layout = { 'this', 'nameless' },
+          next_buffer_cmd = function(windows)
+            require('bufferline').cycle(1)
+            local bufnr = vim.api.nvim_get_current_buf()
+            for _, window in ipairs(windows) do
+              vim.api.nvim_win_set_buf(window, bufnr)
+            end
+          end,
+        }
+      end,
+    },
   }
   --}}}
 
