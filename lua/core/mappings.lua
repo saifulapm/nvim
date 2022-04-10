@@ -18,7 +18,7 @@ M.basic = function()
   map('n', '<Down>', 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', { expr = true })
   map('n', '<Up>', 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', { expr = true })
   map('n', mappings.misc.no_highlight, ':nohl<CR>')
-  map({ 'n', 'x', 'o' }, mappings.misc.go_to_matching, '%', { noremap = false })
+  -- map({ 'n', 'x', 'o' }, mappings.misc.go_to_matching, '%', { noremap = false })
   map('n', mappings.misc.line_number_toggle, ':set nu! <CR>') -- toggle numbers
   map('n', mappings.misc.relative_line_number_toggle, ':set rnu! <CR>') -- toggle relative numbers
   map('n', '<Leader>ps', ':PackerStatus<CR>')
@@ -31,10 +31,10 @@ M.basic = function()
   map('n', mappings.misc.save_file, ':w <CR>')
   --
   -- -- Insert Mode Mapping
-  map('i', mappings.insert_nav.backward, '<Left>')
-  map('i', mappings.insert_nav.forward, '<Right>')
-  map('i', mappings.insert_nav.prev_line, '<Up>')
-  map('i', mappings.insert_nav.next_line, '<Down>')
+  -- map('i', mappings.insert_nav.backward, '<Left>')
+  -- map('i', mappings.insert_nav.forward, '<Right>')
+  -- map('i', mappings.insert_nav.prev_line, '<Up>')
+  -- map('i', mappings.insert_nav.next_line, '<Down>')
   map('i', mappings.insert_nav.beginning_of_line, '<ESC>^i')
   map('i', mappings.insert_nav.end_of_line, '<End>')
   map('i', mappings.insert_nav.delete_by_word, '<C-[>diwa')

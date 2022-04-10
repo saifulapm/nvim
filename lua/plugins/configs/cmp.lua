@@ -53,9 +53,9 @@ u.overwrite {
   unpack(kind_hls),
 }
 
-local t = function(str)
-  return api.nvim_replace_termcodes(str, true, true, true)
-end
+-- local t = function(str)
+--   return api.nvim_replace_termcodes(str, true, true, true)
+-- end
 
 local function tab(fallback)
   local ok, luasnip = pcall(require, 'luasnip')

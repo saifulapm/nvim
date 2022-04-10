@@ -10,7 +10,7 @@ M.mappings = {
     toggle_last_file = '<Leader><Leader>',
     line_number_toggle = '<leader>n', -- toggle line number
     relative_line_number_toggle = '<leader>rn',
-    go_to_matching = '<C-Tab>',
+    -- go_to_matching = '<C-Tab>',
     new_buffer = '<S-t>',
     new_tab = '<C-t>b',
     save_file = '<C-s>', -- save file using :w
@@ -25,11 +25,11 @@ M.mappings = {
   },
 
   insert_nav = {
-    backward = '<C-h>',
+    -- backward = '<C-h>',
     end_of_line = '<C-e>',
-    forward = '<C-l>',
-    next_line = '<C-j>',
-    prev_line = '<C-k>',
+    -- forward = '<C-l>',
+    -- next_line = '<C-j>',
+    -- prev_line = '<C-k>',
     beginning_of_line = '<C-a>',
     delete_by_word = '<C-w>',
     delete_by_line = '<C-u>',
