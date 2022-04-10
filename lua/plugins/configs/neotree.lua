@@ -1,11 +1,13 @@
 local u = require 'utils.color'
 u.overwrite {
   { 'NeoTreeIndentMarker', { link = 'Comment' } },
-  { 'NeoTreeNormal', { link = 'PanelBackground' } },
-  { 'NeoTreeNormalNC', { link = 'PanelBackground' } },
+  -- { 'NeoTreeNormal', { link = 'PanelBackground' } },
+  -- { 'NeoTreeNormalNC', { link = 'PanelBackground' } },
   { 'NeoTreeRootName', { bold = true, italic = true, foreground = 'LightMagenta' } },
+  { 'NeoTreeCursorLine', { link = 'Visual' } },
 }
 vim.g.neo_tree_remove_legacy_commands = 1
+vim.keymap.set('n', '<C-n>', '<Cmd>Neotree toggle reveal<CR>')
 local icons = G.style.icons
 require('neo-tree').setup {
   enable_git_status = true,
@@ -14,7 +16,14 @@ require('neo-tree').setup {
     {
       event = 'neo_tree_buffer_enter',
       handler = function()
-        vim.wo.signcolumn = 'no'
+        vim.cmd 'setlocal signcolumn=no'
+        vim.cmd 'highlight! Cursor blend=100'
+      end,
+    },
+    {
+      event = 'neo_tree_buffer_leave',
+      handler = function()
+        vim.cmd 'highlight! Cursor blend=0'
       end,
     },
   },
@@ -41,8 +50,12 @@ require('neo-tree').setup {
     },
   },
   window = {
+    position = 'right',
+    width = 30,
     mappings = {
       o = 'toggle_node',
+      ['<c-s>'] = 'open_split',
+      ['<c-v>'] = 'open_vsplit',
     },
   },
 }

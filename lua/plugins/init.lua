@@ -220,13 +220,10 @@ return packer.startup(function()
         vim.g.copilot_assume_mapped = true
         vim.g.copilot_tab_fallback = ''
         vim.g.copilot_filetypes = {
-          ['*'] = false,
+          ['*'] = true,
           gitcommit = false,
           NeogitCommitMessage = false,
-          dart = true,
-          lua = true,
-          php = true,
-          javascript = true,
+          ['neo-tree-popup'] = false,
         }
         vim.keymap.set('i', '<C-h>', "copilot#Accept('<Tab>')", { expr = true, noremap = false })
         vim.keymap.set('i', '<M-]>', '<Plug>(copilot-next)')
@@ -282,29 +279,31 @@ return packer.startup(function()
 
   --- Editor Helper {{{
   use {
-    {
-      'kyazdani42/nvim-tree.lua',
-      cmd = 'NvimTreeToggle',
-      requires = 'nvim-web-devicons',
-      config = function()
-        require 'plugins.configs.nvimtree'
-      end,
-      setup = function()
-        require('core.mappings').nvimtree()
-      end,
-    },
     -- {
-    --   'nvim-neo-tree/neo-tree.nvim',
-    --   branch = 'v2.x',
+    --   'kyazdani42/nvim-tree.lua',
+    --   cmd = 'NvimTreeToggle',
+    --   requires = 'nvim-web-devicons',
     --   config = function()
-    --     require 'plugins.configs.neotree'
+    --     require 'plugins.configs.nvimtree'
     --   end,
-    --   requires = {
-    --     'nvim-lua/plenary.nvim',
-    --     'MunifTanjim/nui.nvim',
-    --     'kyazdani42/nvim-web-devicons',
-    --   },
+    --   setup = function()
+    --     require('core.mappings').nvimtree()
+    --   end,
     -- },
+    {
+      'nvim-neo-tree/neo-tree.nvim',
+      branch = 'v2.x',
+      keys = '<C-n>',
+      cmd = 'NeoTree',
+      config = function()
+        require 'plugins.configs.neotree'
+      end,
+      requires = {
+        'nvim-lua/plenary.nvim',
+        'MunifTanjim/nui.nvim',
+        'kyazdani42/nvim-web-devicons',
+      },
+    },
     {
       'norcalli/nvim-colorizer.lua',
       cmd = {
@@ -446,11 +445,11 @@ return packer.startup(function()
         }
       end,
       cmd = {
-        'NavigateLeft',
-        'NavigateRight',
-        'NavigateUp',
-        'NavigateDown',
-        'NavigatePrevious',
+        'NavigatorLeft',
+        'NavigatorRight',
+        'NavigatorUp',
+        'NavigatorDown',
+        'NavigatorPrevious',
       },
     },
   }
