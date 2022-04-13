@@ -4,7 +4,6 @@ if not present then
   return
 end
 
-local api = vim.api
 local u = require 'utils.color'
 local kinds = {
   Text = '',
@@ -33,7 +32,15 @@ local kinds = {
   Operator = '',
   TypeParameter = '',
 }
-local line_border = G.style.border.line
+local cmp_window = {
+  border = G.style.border.line,
+  winhighlight = table.concat({
+    'Normal:NormalFloat',
+    'FloatBorder:FloatBorder',
+    'CursorLine:Visual',
+    'Search:None',
+  }, ','),
+}
 
 local kind_highlights = G.style.kinds
 
@@ -103,19 +110,11 @@ end
 
 cmp.setup {
   window = {
-    completion = {
-      -- TODO: consider 'shadow', and tweak the winhighlight
-      border = line_border,
-    },
-    documentation = {
-      border = line_border,
-    },
+    completion = cmp.config.window.bordered(cmp_window),
+    documentation = cmp.config.window.bordered(cmp_window),
   },
   completion = {
     keyword_length = 2, -- avoid keyword completion
-  },
-  experimental = {
-    ghost_text = false, -- disable whilst using copilot
   },
   snippet = {
     expand = function(args)
@@ -168,9 +167,6 @@ cmp.setup {
       vim_item.menu = menu
       return vim_item
     end,
-  },
-  documentation = {
-    border = line_border,
   },
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },

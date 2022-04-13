@@ -181,7 +181,6 @@ return packer.startup(function()
     {
       'hrsh7th/nvim-cmp',
       module = 'cmp',
-      branch = 'dev',
       event = { 'BufRead' },
       requires = {
         { 'hrsh7th/cmp-nvim-lua', after = 'nvim-cmp' },

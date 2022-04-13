@@ -89,6 +89,7 @@ local general_heightlight = function()
     -----------------------------------------------------------------------------//
     -- Treesitter
     -----------------------------------------------------------------------------//
+    { 'TSNamespace', { link = 'TypeBuiltin' } },
     { 'TSKeywordReturn', { italic = true, foreground = keyword_fg } },
     { 'TSParameter', { italic = true, bold = true, foreground = 'NONE' } },
     { 'TSError', { link = 'LspDiagnosticsUnderlineError' } },
