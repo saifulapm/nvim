@@ -111,16 +111,16 @@ return packer.startup(function()
         vim.keymap.set('n', '<leader>lt', '<Cmd>TodoTrouble<CR>')
       end,
     },
-    {
-      'b0o/incline.nvim',
-      config = function()
-        require('incline').setup {
-          hide = {
-            focused_win = true,
-          },
-        }
-      end,
-    },
+    -- {
+    --   'b0o/incline.nvim',
+    --   config = function()
+    --     require('incline').setup {
+    --       hide = {
+    --         focused_win = true,
+    --       },
+    --     }
+    --   end,
+    -- },
   }
   -- }}}
 
