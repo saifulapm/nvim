@@ -111,6 +111,16 @@ return packer.startup(function()
         vim.keymap.set('n', '<leader>lt', '<Cmd>TodoTrouble<CR>')
       end,
     },
+    {
+      'b0o/incline.nvim',
+      config = function()
+        require('incline').setup {
+          hide = {
+            focused_win = true,
+          },
+        }
+      end,
+    },
   }
   -- }}}
 
@@ -222,6 +232,7 @@ return packer.startup(function()
           ['*'] = true,
           gitcommit = false,
           NeogitCommitMessage = false,
+          DressingInput = false,
           ['neo-tree-popup'] = false,
         }
         vim.keymap.set('i', '<C-h>', "copilot#Accept('<Tab>')", { expr = true, noremap = false })
@@ -396,13 +407,16 @@ return packer.startup(function()
     { 'tpope/vim-repeat' },
     { 'tpope/vim-sleuth' },
     {
-      'karb94/neoscroll.nvim',
-      keys = { '<C-u>', '<C-d>', '<C-b>', '<C-f>', '<C-y>', 'zt', 'zz', 'zb' },
+      'declancm/cinnamon.nvim', -- NOTE: alternative: 'karb94/neoscroll.nvim'
+      -- keys = { '<C-u>', '<C-d>', '<C-b>', '<C-f>', '<C-y>', 'zt', 'zz', 'zb' },
       config = function()
-        require('neoscroll').setup {
-          mappings = { '<C-u>', '<C-d>', '<C-b>', '<C-f>', '<C-y>', 'zt', 'zz', 'zb' },
-          stop_eof = false,
-          hide_cursor = true,
+        -- require('neoscroll').setup {
+        --   mappings = { '<C-u>', '<C-d>', '<C-b>', '<C-f>', '<C-y>', 'zt', 'zz', 'zb' },
+        --   stop_eof = false,
+        --   hide_cursor = true,
+        -- }
+        require('cinnamon').setup {
+          extra_keymaps = true,
         }
       end,
     },
@@ -450,6 +464,24 @@ return packer.startup(function()
         'NavigatorDown',
         'NavigatorPrevious',
       },
+    },
+    {
+      'rainbowhxch/beacon.nvim',
+      config = function()
+        require('beacon').setup {
+          minimal_jump = 20,
+          ignore_buffers = { 'terminal', 'nofile' },
+          ignore_filetypes = {
+            'neo-tree',
+            'qf',
+            'NeogitCommitMessage',
+            'NeogitPopup',
+            'NeogitStatus',
+            'packer',
+            'trouble',
+          },
+        }
+      end,
     },
   }
   --}}}
