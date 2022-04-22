@@ -92,6 +92,11 @@ bufferline.setup {
         highlight = 'PanelHeading',
       },
       {
+        filetype = 'Outline',
+        text = 'Symbols',
+        highlight = 'PanelHeading',
+      },
+      {
         filetype = 'packer',
         text = 'Packer',
         highlight = 'PanelHeading',
@@ -105,6 +110,13 @@ bufferline.setup {
       items = {
         groups.builtin.ungrouped,
         {
+          name = 'dotfiles',
+          icon = '',
+          matcher = function(buf)
+            return buf.name:match '^%.' ~= nil
+          end,
+        },
+        {
           highlight = { guisp = '#51AFEF', gui = 'underline' },
           name = 'tests',
           icon = '',
@@ -113,22 +125,9 @@ bufferline.setup {
           end,
         },
         {
-          name = 'view models',
-          highlight = { guisp = '#03589C', gui = 'underline' },
-          matcher = function(buf)
-            return buf.filename:match 'view_model%.dart'
-          end,
-        },
-        {
-          name = 'screens',
-          matcher = function(buf)
-            return buf.path:match 'screen'
-          end,
-        },
-        {
           highlight = { guisp = '#C678DD', gui = 'underline' },
           name = 'docs',
-          auto_close = true,
+          icon = '',
           matcher = function(buf)
             for _, ext in ipairs { 'md', 'txt', 'org', 'norg', 'wiki' } do
               if ext == fn.fnamemodify(buf.path, ':e') then
@@ -140,9 +139,9 @@ bufferline.setup {
       },
     },
   },
-  highlights = {
-    fill = {
-      guibg = 'Background',
-    },
-  },
+  -- highlights = {
+  --   fill = {
+  --     guibg = 'Background',
+  --   },
+  -- },
 }

@@ -182,6 +182,12 @@ return packer.startup(function()
     {
       'simrat39/symbols-outline.nvim',
       cmd = { 'SymbolsOutline' },
+      setup = function()
+        vim.g.symbols_outline = {
+          border = G.style.border.line,
+          auto_preview = false,
+        }
+      end,
     },
   }
   -- }}}
@@ -303,8 +309,8 @@ return packer.startup(function()
     {
       'nvim-neo-tree/neo-tree.nvim',
       branch = 'v2.x',
-      keys = '<C-n>',
-      cmd = 'NeoTree',
+      -- keys = '<C-n>',
+      -- cmd = 'NeoTree',
       config = function()
         require 'plugins.configs.neotree'
       end,
