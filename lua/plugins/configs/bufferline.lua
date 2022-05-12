@@ -3,24 +3,6 @@ if not present then
   return
 end
 
-local fn = vim.fn
-
-local function diagnostics_indicator(_, _, diagnostics)
-  local symbols = {
-    error = G.style.icons.error,
-    warning = G.style.icons.warn,
-    info = G.style.icons.info,
-  }
-  local result = {}
-  for name, count in pairs(diagnostics) do
-    if symbols[name] and count > 0 then
-      table.insert(result, symbols[name] .. count)
-    end
-  end
-  result = table.concat(result, ' ')
-  return #result > 0 and result or ''
-end
-
 local function custom_filter(buf, buf_nums)
   local logs = vim.tbl_filter(function(b)
     return vim.bo[b].filetype == 'log'
@@ -37,8 +19,6 @@ local function custom_filter(buf, buf_nums)
   -- only show log buffers in secondary tabs
   return (tab_num == last_tab and is_log) or (tab_num ~= last_tab and not is_log)
 end
-
-local groups = require 'bufferline.groups'
 
 bufferline.setup {
   options = {
@@ -59,7 +39,6 @@ bufferline.setup {
     separator_style = 'thin',
     always_show_bufferline = true,
     diagnostics = false,
-    diagnostics_indicator = diagnostics_indicator,
     diagnostics_update_in_insert = true,
     custom_filter = custom_filter,
     offsets = {
@@ -103,45 +82,6 @@ bufferline.setup {
         padding = 1,
       },
     },
-    groups = {
-      options = {
-        toggle_hidden_on_enter = true,
-      },
-      items = {
-        groups.builtin.ungrouped,
-        {
-          name = 'dotfiles',
-          icon = '',
-          matcher = function(buf)
-            return buf.name:match '^%.' ~= nil
-          end,
-        },
-        {
-          highlight = { guisp = '#51AFEF', gui = 'underline' },
-          name = 'tests',
-          icon = '',
-          matcher = function(buf)
-            return buf.filename:match '_spec' or buf.filename:match 'test'
-          end,
-        },
-        {
-          highlight = { guisp = '#C678DD', gui = 'underline' },
-          name = 'docs',
-          icon = '',
-          matcher = function(buf)
-            for _, ext in ipairs { 'md', 'txt', 'org', 'norg', 'wiki' } do
-              if ext == fn.fnamemodify(buf.path, ':e') then
-                return true
-              end
-            end
-          end,
-        },
-      },
-    },
+    themable = false,
   },
-  -- highlights = {
-  --   fill = {
-  --     guibg = 'Background',
-  --   },
-  -- },
 }

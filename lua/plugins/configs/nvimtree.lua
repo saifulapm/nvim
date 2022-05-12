@@ -16,7 +16,6 @@ u.overwrite {
 g.nvim_tree_special_files = {}
 g.nvim_tree_add_trailing = 0 -- append a trailing slash to folder names
 g.nvim_tree_highlight_opened_files = 1
-g.nvim_tree_indent_markers = 0
 g.nvim_tree_root_folder_modifier = ':t'
 g.nvim_tree_group_empty = 1
 g.nvim_tree_git_hl = 1
@@ -64,12 +63,25 @@ require('nvim-tree').setup {
       },
     },
   },
+  renderer = {
+    indent_markers = {
+      enable = true,
+      icons = {
+        corner = '└ ',
+        edge = '│ ',
+        none = '  ',
+      },
+    },
+    icons = {
+      webdev_colors = true,
+      git_placement = 'before',
+    },
+  },
   disable_netrw = true,
   hijack_netrw = true,
   open_on_setup = false,
   open_on_tab = false,
   ignore_ft_on_setup = { 'dashboard' },
-  auto_close = false,
   hijack_cursor = true,
   hijack_unnamed_buffer_when_opening = false,
   update_cwd = true,

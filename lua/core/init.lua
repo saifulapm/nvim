@@ -57,6 +57,7 @@ G.style = {
       chevron_right = '',
       table = '',
       calendar = '',
+      theme_toggle = '   ',
     },
   },
   doom = {

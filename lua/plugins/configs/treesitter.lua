@@ -4,15 +4,6 @@ if not present then
   return
 end
 
-local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
-parser_configs.norg_meta = {
-  install_info = {
-    url = 'https://github.com/nvim-neorg/tree-sitter-norg-meta',
-    files = { 'src/parser.c' },
-    branch = 'main',
-  },
-}
-
 ts_config.setup {
   ensure_installed = {
     'lua',
@@ -20,7 +11,6 @@ ts_config.setup {
     'php',
     'dart',
     'norg',
-    'norg_meta',
   },
   highlight = {
     enable = true,
@@ -36,49 +26,6 @@ ts_config.setup {
   },
   indent = {
     enable = true,
-  },
-  textobjects = {
-    lookahead = true,
-    select = {
-      enable = true,
-      keymaps = {
-        ['af'] = '@function.outer',
-        ['if'] = '@function.inner',
-        ['ac'] = '@class.outer',
-        ['ic'] = '@class.inner',
-        ['aC'] = '@conditional.outer',
-        ['iC'] = '@conditional.inner',
-      },
-    },
-    swap = {
-      enable = true,
-      swap_next = {
-        ['[w'] = '@parameter.inner',
-      },
-      swap_previous = {
-        [']w'] = '@parameter.inner',
-      },
-    },
-    move = {
-      enable = true,
-      set_jumps = true, -- whether to set jumps in the jumplist
-      goto_next_start = {
-        [']m'] = '@function.outer',
-        [']]'] = '@class.outer',
-      },
-      goto_previous_start = {
-        ['[m'] = '@function.outer',
-        ['[['] = '@class.outer',
-      },
-    },
-    lsp_interop = {
-      enable = true,
-      border = G.style.border.line,
-      peek_definition_code = {
-        ['<leader>df'] = '@function.outer',
-        ['<leader>dF'] = '@class.outer',
-      },
-    },
   },
   autopairs = { enable = true },
   query_linter = {

@@ -43,8 +43,3 @@ require('pretty-fold').setup {
     { '%[', ']' }, -- % to escape lua pattern char
   },
 }
-
-require('pretty-fold.preview').setup {
-  key = 'l', -- choose 'h' or 'l' key
-  border = G.style.border.line,
-}

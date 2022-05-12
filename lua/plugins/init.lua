@@ -13,7 +13,7 @@ return packer.startup(function()
   -- Core Plugin {{{
   use {
     { 'wbthomason/packer.nvim', opt = true },
-    { 'nvim-lua/plenary.nvim', event = 'BufRead' },
+    { 'nvim-lua/plenary.nvim' },
     { 'lewis6991/impatient.nvim' },
     {
       'lewis6991/gitsigns.nvim',
@@ -288,37 +288,22 @@ return packer.startup(function()
       config = function()
         require 'plugins.configs.treesitter'
       end,
-      requires = { 'nvim-treesitter/nvim-treesitter-textobjects', after = 'nvim-treesitter' },
     },
   }
   -- }}}
 
   --- Editor Helper {{{
   use {
-    -- {
-    --   'kyazdani42/nvim-tree.lua',
-    --   cmd = 'NvimTreeToggle',
-    --   requires = 'nvim-web-devicons',
-    --   config = function()
-    --     require 'plugins.configs.nvimtree'
-    --   end,
-    --   setup = function()
-    --     require('core.mappings').nvimtree()
-    --   end,
-    -- },
     {
-      'nvim-neo-tree/neo-tree.nvim',
-      branch = 'v2.x',
-      -- keys = '<C-n>',
-      -- cmd = 'NeoTree',
+      'kyazdani42/nvim-tree.lua',
+      cmd = 'NvimTreeToggle',
+      requires = 'nvim-web-devicons',
       config = function()
-        require 'plugins.configs.neotree'
+        require 'plugins.configs.nvimtree'
       end,
-      requires = {
-        'nvim-lua/plenary.nvim',
-        'MunifTanjim/nui.nvim',
-        'kyazdani42/nvim-web-devicons',
-      },
+      setup = function()
+        require('core.mappings').nvimtree()
+      end,
     },
     {
       'norcalli/nvim-colorizer.lua',
@@ -412,20 +397,6 @@ return packer.startup(function()
     },
     { 'tpope/vim-repeat' },
     { 'tpope/vim-sleuth' },
-    {
-      'declancm/cinnamon.nvim', -- NOTE: alternative: 'karb94/neoscroll.nvim'
-      -- keys = { '<C-u>', '<C-d>', '<C-b>', '<C-f>', '<C-y>', 'zt', 'zz', 'zb' },
-      config = function()
-        -- require('neoscroll').setup {
-        --   mappings = { '<C-u>', '<C-d>', '<C-b>', '<C-f>', '<C-y>', 'zt', 'zz', 'zb' },
-        --   stop_eof = false,
-        --   hide_cursor = true,
-        -- }
-        require('cinnamon').setup {
-          extra_keymaps = true,
-        }
-      end,
-    },
     -- TODO: this fixes a bug in neovim core that prevents "CursorHold" from working
     -- hopefully one day when this issue is fixed this can be removed
     -- @see: https://github.com/neovim/neovim/issues/12587
@@ -471,24 +442,6 @@ return packer.startup(function()
         'NavigatorPrevious',
       },
     },
-    {
-      'rainbowhxch/beacon.nvim',
-      config = function()
-        require('beacon').setup {
-          minimal_jump = 20,
-          ignore_buffers = { 'terminal', 'nofile' },
-          ignore_filetypes = {
-            'neo-tree',
-            'qf',
-            'NeogitCommitMessage',
-            'NeogitPopup',
-            'NeogitStatus',
-            'packer',
-            'trouble',
-          },
-        }
-      end,
-    },
   }
   --}}}
 
@@ -500,14 +453,6 @@ return packer.startup(function()
       requires = { 'vhyrro/neorg-telescope', opt = true },
       config = function()
         require 'plugins.configs.org'
-      end,
-    },
-    { 'kevinhwang91/nvim-bqf', ft = 'qf' },
-    {
-      'https://gitlab.com/yorickpeterse/nvim-pqf',
-      ft = 'qf',
-      config = function()
-        require('pqf').setup {}
       end,
     },
     {
