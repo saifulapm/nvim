@@ -43,7 +43,7 @@ return packer.startup(function()
       'numToStr/Comment.nvim',
       keys = { { 'n', 'gcc' }, { 'v', 'gc' } },
       config = function()
-        require('Comment').setup()
+        require('Comment').setup {}
       end,
     },
   }
@@ -136,6 +136,7 @@ return packer.startup(function()
         { 'folke/lua-dev.nvim', opt = true },
         { 'hrsh7th/cmp-nvim-lsp', opt = true },
         { 'jose-elias-alvarez/null-ls.nvim', opt = true },
+        { 'williamboman/nvim-lsp-installer', opt = true },
       },
     },
     {

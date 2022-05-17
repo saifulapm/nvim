@@ -4,11 +4,6 @@ if present then
   impatient.enable_profile()
 end
 
-----------------------------------------------------------------------------------------------------
--- Default plugins
-----------------------------------------------------------------------------------------------------
-vim.g.loaded_netrwPlugin = 1
-
 local core_modules = {
   'core',
   'core.options',

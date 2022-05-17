@@ -37,7 +37,7 @@ M.formatting = function(bufnr)
 
   buffer_client_ids[bufnr] = selected_client.id
 
-  local params = lsp.util.make_formatting_params()
+  local params = lsp.util.make_formatting_params {}
   selected_client.request('textDocument/formatting', params, function(err, res)
     if err then
       local err_msg = type(err) == 'string' and err or err.message
@@ -70,9 +70,7 @@ M.lsp_handlers = function()
   lspSymbol('Warn', G.style.icons.lsp.warn)
 
   vim.diagnostic.config {
-    virtual_text = {
-      prefix = '',
-    },
+    virtual_text = false,
     float = border_opts,
     signs = true,
     underline = true,

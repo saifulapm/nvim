@@ -29,6 +29,7 @@ M.basic = function()
   map('n', mappings.misc.new_buffer, ':enew <CR>') -- new buffer
   map('n', mappings.misc.new_tab, ':tabnew <CR>') -- new tabs
   map('n', mappings.misc.save_file, ':w <CR>')
+  map('n', 'S408', ':w! <CR>') -- <cmd+s>
   --
   -- -- Insert Mode Mapping
   -- map('i', mappings.insert_nav.backward, '<Left>')
@@ -41,6 +42,8 @@ M.basic = function()
   map('i', mappings.insert_nav.delete, '<Del>')
   map('i', mappings.insert_nav.delete_by_line, '<C-G>u<C-U>')
   map('i', mappings.insert_nav.save, '<Esc>:w<CR>')
+  map('i', 'S408', '<Esc>:w<CR>') --<cmd+s>
+
   -- Complete curly brackets using K&R style
   map('i', mappings.insert_nav.curly_brackets, '<Esc>A {<cr>}<Esc>O')
 
@@ -216,6 +219,7 @@ M.basic = function()
 
   -- Open plugin directly to github
   map('n', 'gf', function()
+    ---@diagnostic disable-next-line: missing-parameter
     local repo = vim.fn.expand '<cfile>'
     if not repo or #vim.split(repo, '/') ~= 2 then
       return vim.cmd 'norm! gf'
@@ -282,11 +286,13 @@ M.lspconfig = function(client, bufnr)
         augroup END
         ]]
   end
+  map('n', 'S404', '<cmd>lua vim.lsp.buf.code_action()<CR>', { buffer = bufnr })
 end
 
 M.nvimtree = function()
   map('n', '<C-n>', ':NvimTreeToggle <CR>')
   map('n', '<C-f>', ':NvimTreeFocus <CR>')
+  map('n', 'S401', ':NvimTreeToggle <CR>') -- <Cmd+1>
 end
 
 return M

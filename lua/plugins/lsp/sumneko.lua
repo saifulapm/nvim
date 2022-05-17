@@ -1,14 +1,13 @@
 local M = {}
-local root = vim.fn.getenv 'HOME' .. '/sdk/lua-language-server/'
-local binary = root .. 'bin/lua-language-server'
 
 M.setup = function(on_attach, capabilities)
   local luadev = require('lua-dev').setup {
     lspconfig = {
       on_attach = on_attach,
-      cmd = { binary, '-E', root .. 'main.lua' },
+      library = { plugins = { 'plenary.nvim' } },
       settings = {
         Lua = {
+          format = { enable = false },
           diagnostics = {
             globals = {
               'vim',

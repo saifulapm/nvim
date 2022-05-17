@@ -108,7 +108,9 @@ telescope.setup {
         n = { ['<c-x>'] = 'delete_buffer' },
       },
     },
-    oldfiles = dropdown(),
+    oldfiles = dropdown {
+      previewer = false,
+    },
     live_grep = {
       file_ignore_patterns = { '.git/' },
     },
@@ -122,10 +124,14 @@ telescope.setup {
     colorscheme = {
       enable_preview = true,
     },
-    find_files = {
+    find_files = dropdown {
       hidden = true,
+      previewer = false,
     },
-    git_branches = dropdown(),
+    git_files = dropdown {
+      previewer = false,
+    },
+    git_branches = dropdown {},
     git_bcommits = {
       layout_config = {
         horizontal = {
@@ -140,7 +146,7 @@ telescope.setup {
         },
       },
     },
-    reloader = dropdown(),
+    reloader = dropdown {},
   },
 }
 
@@ -173,6 +179,7 @@ end
 local function orgfiles()
   builtins.find_files {
     prompt_title = 'Org',
+    ---@diagnostic disable-next-line: missing-parameter
     cwd = vim.fn.expand '$SYNC_DIR/org/',
   }
 end
@@ -180,6 +187,7 @@ end
 local function norgfiles()
   builtins.find_files {
     prompt_title = 'Norg',
+    ---@diagnostic disable-next-line: missing-parameter
     cwd = vim.fn.expand '$SYNC_DIR/neorg/',
   }
 end

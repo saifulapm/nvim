@@ -46,13 +46,11 @@ bufferline.setup {
         filetype = 'undotree',
         text = 'Undotree',
         highlight = 'PanelHeading',
-        padding = 1,
       },
       {
         filetype = 'NvimTree',
         text = 'פּ Files',
         highlight = 'PanelHeading',
-        padding = 1,
       },
       {
         filetype = 'neo-tree',
@@ -63,7 +61,6 @@ bufferline.setup {
         filetype = 'DiffviewFiles',
         text = 'Diff View',
         highlight = 'PanelHeading',
-        padding = 1,
       },
       {
         filetype = 'flutterToolsOutline',
@@ -79,7 +76,6 @@ bufferline.setup {
         filetype = 'packer',
         text = 'Packer',
         highlight = 'PanelHeading',
-        padding = 1,
       },
     },
     themable = false,
