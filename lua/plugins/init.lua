@@ -141,7 +141,16 @@ return packer.startup(function()
   use {
     {
       'neovim/nvim-lspconfig',
-      ft = { 'lua', 'php', 'liquid', 'vue', 'javascript' },
+      ft = {
+        'lua',
+        'php',
+        'liquid',
+        'vue',
+        'javascript',
+        'javascriptreact',
+        'typescript',
+        'typescriptreact',
+      },
       config = function()
         require 'plugins.lsp'
       end,
@@ -154,14 +163,6 @@ return packer.startup(function()
         { 'jose-elias-alvarez/typescript.nvim', opt = true },
         { 'lukas-reineke/lsp-format.nvim', opt = true },
       },
-    },
-    {
-      'narutoxy/dim.lua',
-      requires = { 'nvim-treesitter/nvim-treesitter', 'neovim/nvim-lspconfig' },
-      after = 'nvim-lspconfig',
-      config = function()
-        require('dim').setup {}
-      end,
     },
     {
       'ray-x/lsp_signature.nvim',
