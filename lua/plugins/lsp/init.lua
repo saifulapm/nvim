@@ -1,41 +1,35 @@
+local u = require 'utils.lsp'
+
 if not packer_plugins['nvim-lsp-installer'].loaded then
   vim.cmd [[PackerLoad nvim-lsp-installer]]
   vim.cmd [[PackerLoad lua-dev.nvim]]
   vim.cmd [[PackerLoad cmp-nvim-lsp]]
   vim.cmd [[PackerLoad null-ls.nvim]]
+  vim.cmd [[PackerLoad typescript.nvim]]
+  vim.cmd [[PackerLoad vim-illuminate]]
+  vim.cmd [[PackerLoad lsp-format.nvim]]
 end
 
 require('nvim-lsp-installer').setup {
   automatic_installation = true,
 }
+require('lsp-format').setup {}
 
---- Add lsp autocommands
----@param _ table<string, any>
----@param bufnr number
-local function setup_autocommands(_, bufnr)
-  G.augroup('LspCursorCommands', {
+u.lsp_handlers()
+
+local function on_attach(client, bufnr)
+  G.augroup('LspAutoCommands', {
     {
       event = { 'CursorHold' },
       buffer = bufnr,
       command = function()
-        vim.diagnostic.open_float({ scope = 'line' }, { focus = false })
+        u.diagnostic_popup()
       end,
     },
   })
-end
-
-require('utils.lsp').lsp_handlers()
-
-local function on_attach(client, bufnr)
-  local function buf_set_option(...)
-    vim.api.nvim_buf_set_option(bufnr, ...)
-  end
-
-  -- Enable completion triggered by <c-x><c-o>
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  setup_autocommands(client, bufnr)
+  require('lsp-format').on_attach(client)
   require('core.mappings').lspconfig(client, bufnr)
+  require('illuminate').on_attach(client)
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -45,12 +39,13 @@ for _, server in
   ipairs {
     'intelephense',
     'shopify',
-    -- 'eslint',
+    'eslint',
     -- 'jsonls',
     'null_ls',
     'sumneko',
     'vuels',
-    'tsserver',
+    -- 'tsserver',
+    'typescript',
     -- 'dart',
     -- 'bashls',
     -- 'denols',

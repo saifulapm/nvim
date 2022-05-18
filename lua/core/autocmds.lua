@@ -119,9 +119,9 @@ local auto_resize = function()
   end
 end
 G.command('AutoResize', auto_resize(), { nargs = '?' })
-G.command('Todo', [[noautocmd silent! grep! 'TODO\|FIXME\|BUG\|HACK' | copen]])
+G.command('Todo', [[noautocmd silent! grep! 'TODO\|FIXME\|BUG\|HACK' | copen]], {})
 
-G.command('TASKS', ':e $SYNC_DIR/neorg/Tasks.norg')
+G.command('TASKS', ':e $SYNC_DIR/neorg/Tasks.norg', {})
 
 -- Plugins Mapping
 vim.cmd "silent! command PackerClean lua require 'plugins' require('packer').clean()"

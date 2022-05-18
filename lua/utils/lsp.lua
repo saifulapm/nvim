@@ -1,61 +1,35 @@
 local M = {}
 local lsp = vim.lsp
-local api = vim.api
-
--- use lsp formatting if it's available (and if it's good)
--- otherwise, fall back to null-ls
-local preferred_formatting_clients = { 'denols', 'eslint' }
-local fallback_formatting_client = 'null-ls'
-
--- prevent repeated lookups
-local buffer_client_ids = {}
+local u = require 'utils'
 
 local border_opts = { border = G.style.border.line, focusable = false, scope = 'line' }
 
-M.formatting = function(bufnr)
-  bufnr = tonumber(bufnr) or api.nvim_get_current_buf()
-
-  local selected_client
-  if buffer_client_ids[bufnr] then
-    selected_client = lsp.get_client_by_id(buffer_client_ids[bufnr])
-  else
-    for _, client in ipairs(lsp.buf_get_clients(bufnr)) do
-      if vim.tbl_contains(preferred_formatting_clients, client.name) then
-        selected_client = client
-        break
-      end
-
-      if client.name == fallback_formatting_client then
-        selected_client = client
-      end
-    end
+-- Show the popup diagnostics window, but only once for the current cursor location
+-- by checking whether the word under the cursor has changed.
+M.diagnostic_popup = function()
+  local cword = vim.fn.expand '<cword>'
+  if cword ~= vim.w.lsp_diagnostics_cword then
+    vim.w.lsp_diagnostics_cword = cword
+    vim.diagnostic.open_float(0, { scope = 'cursor', focus = false })
   end
+end
 
-  if not selected_client then
-    return
-  end
-
-  buffer_client_ids[bufnr] = selected_client.id
-
-  local params = lsp.util.make_formatting_params {}
-  selected_client.request('textDocument/formatting', params, function(err, res)
-    if err then
-      local err_msg = type(err) == 'string' and err or err.message
-      vim.notify('global.lsp.formatting: ' .. err_msg, vim.log.levels.WARN)
-      return
-    end
-
-    if not api.nvim_buf_is_loaded(bufnr) or api.nvim_buf_get_option(bufnr, 'modified') then
-      return
-    end
-
-    if res then
-      lsp.util.apply_text_edits(res, bufnr, selected_client.offset_encoding or 'utf-16')
-      api.nvim_buf_call(bufnr, function()
-        vim.cmd 'silent noautocmd update'
-      end)
-    end
-  end, bufnr)
+M.lsp_formatting = function(bufnr)
+  lsp.buf.format {
+    bufnr = bufnr,
+    filter = function(clients)
+      return vim.tbl_filter(function(client)
+        if client.name == 'eslint' then
+          return true
+        end
+        if client.name == 'null-ls' then
+          return not u.table.some(clients, function(_, other_client)
+            return other_client.name == 'eslint'
+          end)
+        end
+      end, clients)
+    end,
+  }
 end
 
 M.lsp_handlers = function()
@@ -80,16 +54,18 @@ M.lsp_handlers = function()
   lsp.handlers['textDocument/hover'] = lsp.with(lsp.handlers.hover, border_opts)
   lsp.handlers['textDocument/signatureHelp'] = lsp.with(lsp.handlers.signature_help, border_opts)
 
-  -- suppress error messages from lang servers
-  vim.notify = function(msg, log_level)
-    if msg:match 'exit code' then
+  -- suppress irrelevant messages
+  local notify = vim.notify
+  vim.notify = function(msg, ...)
+    if msg:match '%[lspconfig%]' then
       return
     end
-    if log_level == vim.log.levels.ERROR then
-      api.nvim_err_writeln(msg)
-    else
-      api.nvim_echo({ { msg } }, true, {})
+
+    if msg:match 'warning: multiple different client offset_encodings' then
+      return
     end
+
+    notify(msg, ...)
   end
 end
 

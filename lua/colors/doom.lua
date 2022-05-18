@@ -102,8 +102,13 @@ local general_heightlight = function()
     -- avoid the urge to be "clever" and try and programmatically set these because
     -- 1. the name are slightly different (more than just the prefix) i.e. Warn -> Warning
     -- 2. Some plugins have not migrated so having both highlight groups is valuable
-    { 'LspReferenceText', { underline = true } },
-    { 'LspReferenceRead', { underline = true } },
+    { 'LspCodeLens', { link = 'NonText' } },
+    { 'LspReferenceText', { underline = true, background = 'NONE' } },
+    { 'LspReferenceRead', { underline = true, background = 'NONE' } },
+    {
+      'LspReferenceWrite',
+      { underline = true, bold = true, background = 'NONE' },
+    },
     { 'DiagnosticHint', { foreground = L.hint } },
     { 'DiagnosticError', { foreground = L.error } },
     { 'DiagnosticWarning', { foreground = L.warn } },

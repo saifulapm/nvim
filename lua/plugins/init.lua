@@ -30,6 +30,19 @@ return packer.startup(function()
             enable = true,
             transparency_amount = 3,
           },
+          cursor_coloring = true,
+          italic_comments = true,
+          plugins_integrations = {
+            barbar = false,
+            bufferline = true,
+            telescope = true,
+            neogit = false,
+            dashboard = false,
+            startify = false,
+            whichkey = false,
+            indent_blankline = true,
+            vim_illuminate = true,
+          },
         }
         -- Apply my own overwrite
         require('colors.doom').apply()
@@ -137,7 +150,18 @@ return packer.startup(function()
         { 'hrsh7th/cmp-nvim-lsp', opt = true },
         { 'jose-elias-alvarez/null-ls.nvim', opt = true },
         { 'williamboman/nvim-lsp-installer', opt = true },
+        { 'RRethy/vim-illuminate', opt = true },
+        { 'jose-elias-alvarez/typescript.nvim', opt = true },
+        { 'lukas-reineke/lsp-format.nvim', opt = true },
       },
+    },
+    {
+      'narutoxy/dim.lua',
+      requires = { 'nvim-treesitter/nvim-treesitter', 'neovim/nvim-lspconfig' },
+      after = 'nvim-lspconfig',
+      config = function()
+        require('dim').setup {}
+      end,
     },
     {
       'ray-x/lsp_signature.nvim',

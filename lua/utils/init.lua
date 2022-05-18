@@ -104,4 +104,32 @@ M.visual_macro = function()
   vim.cmd [[execute ":'<,'>normal @".nr2char(getchar())]]
 end
 
+M.gfind = function(str, substr, cb, init)
+  init = init or 1
+  local start_pos, end_pos = str:find(substr, init)
+  if start_pos then
+    cb(start_pos, end_pos)
+    return M.gfind(str, substr, cb, end_pos + 1)
+  end
+end
+
+M.input = function(keys, mode)
+  api.nvim_feedkeys(M.t(keys), mode or 'm', true)
+end
+
+M.warn = function(msg)
+  api.nvim_echo({ { msg, 'WarningMsg' } }, true, {})
+end
+
+M.table = {
+  some = function(tbl, cb)
+    for k, v in pairs(tbl) do
+      if cb(k, v) then
+        return true
+      end
+    end
+    return false
+  end,
+}
+
 return M
