@@ -12,11 +12,15 @@ local core_modules = {
   '_compiled',
 }
 
-for _, module in ipairs(core_modules) do
-  pcall(require, module)
-end
+if vim.g.vscode ~= nil then
+  require 'vscode'
+else
+  for _, module in ipairs(core_modules) do
+    pcall(require, module)
+  end
 
--- Load keybindings module at the end because the keybindings module cost is high
-vim.defer_fn(function()
-  require('core.mappings').basic()
-end, 20)
+  -- Load keybindings module at the end because the keybindings module cost is high
+  vim.defer_fn(function()
+    require('core.mappings').basic()
+  end, 20)
+end
