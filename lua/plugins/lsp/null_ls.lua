@@ -17,7 +17,7 @@ end
 
 local sources = {
   -- formatting
-  b.formatting.prettier,
+  b.formatting.prettier.with { filetypes = { 'html', 'markdown', 'css' } },
   -- with_root_file(b.formatting.prettier, '.prettierrc'),
   -- b.formatting.fish_indent,
   -- b.formatting.shfmt,

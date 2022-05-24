@@ -121,6 +121,7 @@ M.basic = function()
   map('n', mappings.misc.scratch_buffer, ':lua require("utils").scratch()<CR>')
   map('n', mappings.plugins.bufferline.next_buffer, ':BufferLineCycleNext <CR>')
   map('n', mappings.plugins.bufferline.prev_buffer, ':BufferLineCyclePrev <CR>')
+  map('n', 'S402', ':BufferLineCycleNext <CR>') -- S402 map to <C-tab>. check kitty config
   map('n', mappings.plugins.bufferline.move_buffer_next, ':BufferLineMoveNext <CR>')
   map('n', mappings.plugins.bufferline.move_buffer_prev, ':BufferLineMovePrev <CR>')
   map('n', mappings.plugins.bufferline.pick_buffer, ':BufferLinePick <CR>')
