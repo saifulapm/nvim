@@ -66,7 +66,7 @@ M.mappings = {
 
   -- terminal related mappings
   terminal = {
-    toggle_terminal = '<A-t>',
+    toggle_terminal = '<C-\\>',
   },
 
   plugins = {

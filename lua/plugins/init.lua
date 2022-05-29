@@ -498,14 +498,14 @@ return packer.startup(function()
         }
       end,
     },
-    {
-      'SmiteshP/nvim-gps',
-      after = 'nvim-treesitter',
-      requires = 'nvim-treesitter',
-      config = function()
-        require('nvim-gps').setup()
-      end,
-    },
+    -- {
+    --   'SmiteshP/nvim-gps',
+    --   after = 'nvim-treesitter',
+    --   requires = 'nvim-treesitter',
+    --   config = function()
+    --     require('nvim-gps').setup()
+    --   end,
+    -- },
     {
       'ThePrimeagen/harpoon',
       after = 'plenary.nvim',

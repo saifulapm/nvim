@@ -464,15 +464,15 @@ function M.is_plain(ctx)
     or ctx.preview
 end
 
-function M.current_function()
-  local present, gps = pcall(require, 'nvim-gps')
-  if not present then
-    return
-  end
-  -- local gps = require 'nvim-gps'
-  if gps.is_available() then
-    return gps.get_location()
-  end
-end
+-- function M.current_function()
+--   local present, gps = pcall(require, 'nvim-gps')
+--   if not present then
+--     return
+--   end
+--   -- local gps = require 'nvim-gps'
+--   if gps.is_available() then
+--     return gps.get_location()
+--   end
+-- end
 
 return M

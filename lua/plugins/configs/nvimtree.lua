@@ -13,41 +13,6 @@ u.overwrite {
   { 'NvimTreeRootFolder', { bold = true, italic = true, foreground = 'LightMagenta' } },
 }
 
-g.nvim_tree_special_files = {}
-g.nvim_tree_add_trailing = 0 -- append a trailing slash to folder names
-g.nvim_tree_highlight_opened_files = 1
-g.nvim_tree_root_folder_modifier = ':t'
-g.nvim_tree_group_empty = 1
-g.nvim_tree_git_hl = 1
-
-g.nvim_tree_show_icons = {
-  folders = 1,
-  files = 1,
-  git = 1,
-}
-
-g.nvim_tree_icons = {
-  default = '',
-  symlink = '',
-  git = {
-    deleted = '',
-    ignored = '◌',
-    renamed = '➜',
-    staged = '✓',
-    unmerged = '',
-    unstaged = '✗',
-    untracked = '★',
-  },
-  folder = {
-    default = '',
-    empty = '',
-    empty_open = '',
-    open = '',
-    symlink = '',
-    symlink_open = '',
-  },
-}
-
 require('nvim-tree').setup {
   view = {
     width = '20%',
@@ -64,6 +29,12 @@ require('nvim-tree').setup {
     },
   },
   renderer = {
+    add_trailing = false,
+    group_empty = false,
+    highlight_git = false,
+    highlight_opened_files = 'none',
+    root_folder_modifier = ':~',
+    special_files = { 'Cargo.toml', 'Makefile', 'README.md', 'readme.md' },
     indent_markers = {
       enable = false,
       icons = {
@@ -73,8 +44,27 @@ require('nvim-tree').setup {
       },
     },
     icons = {
-      webdev_colors = true,
-      git_placement = 'before',
+      glyphs = {
+        default = '',
+        symlink = '',
+        git = {
+          deleted = '',
+          ignored = '◌',
+          renamed = '➜',
+          staged = '✓',
+          unmerged = '',
+          unstaged = '✗',
+          untracked = '★',
+        },
+        folder = {
+          default = '',
+          empty = '',
+          empty_open = '',
+          open = '',
+          symlink = '',
+          symlink_open = '',
+        },
+      },
     },
   },
   disable_netrw = true,
