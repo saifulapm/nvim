@@ -82,34 +82,11 @@ return packer.startup(function()
       'stevearc/dressing.nvim',
       after = 'telescope.nvim',
       config = function()
-        require('utils.color').overwrite { { 'FloatTitle', { inherit = 'Visual', bold = true } } }
-        require('dressing').setup {
-          input = {
-            insert_only = false,
-            winblend = 2,
-            border = G.style.border.line,
-          },
-          select = {
-            telescope = require('telescope.themes').get_cursor {
-              layout_config = {
-                -- NOTE: the limit is half the max lines because this is the cursor theme so
-                -- unless the cursor is at the top or bottom it realistically most often will
-                -- only have half the screen available
-                height = function(self, _, max_lines)
-                  local results = #self.finder.results
-                  local PADDING = 4 -- this represents the size of the telescope window
-                  local LIMIT = math.floor(max_lines / 2)
-                  return (results <= (LIMIT - PADDING) and results + PADDING or LIMIT)
-                end,
-              },
-            },
-          },
-        }
+        require 'plugins.configs.dressing'
       end,
     },
     {
       'folke/todo-comments.nvim',
-      disable = true,
       event = 'BufRead',
       config = function()
         -- this plugin is not safe to reload
@@ -159,10 +136,36 @@ return packer.startup(function()
         { 'hrsh7th/cmp-nvim-lsp', opt = true },
         { 'jose-elias-alvarez/null-ls.nvim', opt = true },
         { 'williamboman/nvim-lsp-installer', opt = true },
-        { 'RRethy/vim-illuminate', opt = true },
         { 'jose-elias-alvarez/typescript.nvim', opt = true },
         { 'lukas-reineke/lsp-format.nvim', opt = true },
       },
+    },
+    { 'glepnir/lspsaga.nvim', cmd = 'Lspsaga' },
+    {
+      'smjonas/inc-rename.nvim',
+      config = function()
+        require('inc_rename').setup {
+          hl_group = 'Visual',
+        }
+        vim.keymap.set('n', '<leader>ri', function()
+          return ':IncRename ' .. vim.fn.expand '<cword>'
+        end, {
+          expr = true,
+          silent = false,
+        })
+      end,
+    },
+    {
+      'zbirenbaum/neodim',
+      config = function()
+        require('neodim').setup {
+          blend_color = '#282c34',
+          alpha = 0.45,
+          hide = {
+            underline = false,
+          },
+        }
+      end,
     },
     {
       'ray-x/lsp_signature.nvim',
@@ -236,6 +239,17 @@ return packer.startup(function()
       end,
     },
     {
+      'abecodes/tabout.nvim',
+      wants = { 'nvim-treesitter' },
+      after = { 'nvim-cmp' },
+      config = function()
+        require('tabout').setup {
+          completion = false,
+          ignore_beginning = false,
+        }
+      end,
+    },
+    {
       'L3MON4D3/LuaSnip',
       event = 'InsertEnter',
       module = 'luasnip',
@@ -249,7 +263,15 @@ return packer.startup(function()
       config = function()
         require('nvim-autopairs').setup {
           close_triple_quotes = true,
-          check_ts = false,
+          check_ts = true,
+          ts_config = {
+            lua = { 'string' },
+            dart = { 'string' },
+            javascript = { 'template_string' },
+          },
+          fast_wrap = {
+            map = '<c-e>',
+          },
         }
       end,
     },
@@ -315,6 +337,23 @@ return packer.startup(function()
         require 'plugins.configs.treesitter'
       end,
     },
+    {
+      'm-demare/hlargs.nvim',
+      config = function()
+        require('utils.color').overwrite {
+          { 'Hlargs', { italic = true, bold = false, foreground = '#A5D6FF' } },
+        }
+        require('hlargs').setup {
+          excluded_argnames = {
+            declarations = { 'use', 'use_rocks', '_' },
+            usages = {
+              go = { '_' },
+              lua = { 'self', 'use', 'use_rocks', '_' },
+            },
+          },
+        }
+      end,
+    },
   }
   -- }}}
 
@@ -346,13 +385,13 @@ return packer.startup(function()
         })
       end,
     },
-    {
-      'anuvyklack/pretty-fold.nvim',
-      event = 'BufRead',
-      config = function()
-        require 'plugins.configs.prettyfold'
-      end,
-    },
+    -- {
+    --   'anuvyklack/pretty-fold.nvim',
+    --   event = 'BufRead',
+    --   config = function()
+    --     require 'plugins.configs.prettyfold'
+    --   end,
+    -- },
     {
       'monaqa/dial.nvim',
       keys = { { 'n', '<C-a>' }, { 'n', '<C-x>' }, { 'v', '<C-a>' }, { 'v', '<C-x>' } },
@@ -440,10 +479,13 @@ return packer.startup(function()
       end,
     },
     {
-      'lewis6991/spaceless.nvim',
-      event = 'InsertEnter',
+      'anuvyklack/hydra.nvim',
+      requires = 'anuvyklack/keymap-layer.nvim',
       config = function()
-        require('spaceless').setup()
+        if vim.g.packer_compiled_loaded then
+          return
+        end
+        require 'plugins.configs.hydra'
       end,
     },
     {
@@ -468,6 +510,54 @@ return packer.startup(function()
         'NavigatorPrevious',
       },
     },
+    {
+      'kevinhwang91/nvim-ufo',
+      requires = 'kevinhwang91/promise-async',
+      config = function()
+        require 'plugins.configs.ufo'
+      end,
+    },
+    {
+      'jghauser/fold-cycle.nvim',
+      config = function()
+        require('fold-cycle').setup()
+        vim.keymap.set('n', '<BS>', function()
+          require('fold-cycle').open()
+        end)
+      end,
+    },
+    -- Diff arbitrary blocks of text with each other
+    { 'AndrewRadev/linediff.vim', cmd = 'Linediff' },
+    {
+      'declancm/cinnamon.nvim', -- NOTE: alternative: 'karb94/neoscroll.nvim'
+      config = function()
+        require('cinnamon').setup {
+          extra_keymaps = true,
+          scroll_limit = 50,
+          default_delay = 5,
+        }
+      end,
+    },
+    {
+      'mg979/vim-visual-multi',
+      config = function()
+        vim.g.VM_highlight_matches = 'underline'
+        vim.g.VM_theme = 'codedark'
+        vim.g.VM_maps = {
+          ['Find Under'] = '<C-e>',
+          ['Find Subword Under'] = '<C-e>',
+          ['Select Cursor Down'] = '\\j',
+          ['Select Cursor Up'] = '\\k',
+        }
+      end,
+    },
+    {
+      'lewis6991/spellsitter.nvim',
+      config = function()
+        require('spellsitter').setup { enable = true }
+      end,
+    },
+    { 'psliwka/vim-dirtytalk', run = ':DirtytalkUpdate' },
   }
   --}}}
 
@@ -545,6 +635,42 @@ return packer.startup(function()
             end
           end,
         }
+      end,
+    },
+    {
+      'iamcco/markdown-preview.nvim',
+      run = function()
+        vim.fn['mkdp#util#install']()
+      end,
+      ft = { 'markdown' },
+      config = function()
+        vim.g.mkdp_auto_start = 0
+        vim.g.mkdp_auto_close = 1
+      end,
+    },
+    {
+      'johmsalas/text-case.nvim',
+      config = function()
+        require('textcase').setup()
+        vim.keymap.set('n', '<localleader>[', ':Subs/<C-R><C-W>//<LEFT>', { silent = false })
+        vim.keymap.set(
+          'n',
+          '<localleader>]',
+          ':%Subs/<C-r><C-w>//c<left><left>',
+          { silent = false }
+        )
+        vim.keymap.set(
+          'n',
+          '<localleader>[',
+          [["zy:%Subs/<C-r><C-o>"//c<left><left>]],
+          { silent = false }
+        )
+      end,
+    },
+    {
+      'tpope/vim-projectionist',
+      config = function()
+        require 'plugins.configs.projectionist'
       end,
     },
   }

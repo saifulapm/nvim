@@ -55,6 +55,6 @@ vim.g.projectionist_heuristics = {
   },
 }
 
-G.map('n', '<Leader>A', '<cmd>A<CR>')
-G.map('n', '<Leader>av', '<cmd>AV<CR>')
-G.map('n', '<Leader>at', '<cmd>Vtest<CR>')
+vim.keymap.set('n', '<Leader>A', '<cmd>A<CR>')
+vim.keymap.set('n', '<Leader>av', '<cmd>AV<CR>')
+vim.keymap.set('n', '<Leader>at', '<cmd>Vtest<CR>')
