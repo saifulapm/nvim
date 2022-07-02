@@ -140,7 +140,6 @@ return packer.startup(function()
         { 'lukas-reineke/lsp-format.nvim', opt = true },
       },
     },
-    { 'glepnir/lspsaga.nvim', cmd = 'Lspsaga' },
     {
       'smjonas/inc-rename.nvim',
       config = function()
