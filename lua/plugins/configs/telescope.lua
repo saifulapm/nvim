@@ -4,6 +4,12 @@ if not present then
   return
 end
 
+if not packer_plugins['popup.nvim'].loaded then
+  vim.cmd [[packadd popup.nvim]]
+  vim.cmd [[packadd telescope-fzy-native.nvim]]
+  vim.cmd [[packadd telescope-file-browser.nvim]]
+end
+
 local mappings = require('core.keymaps').mappings.plugins.telescope
 local actions = require 'telescope.actions'
 local layout_actions = require 'telescope.actions.layout'
@@ -90,9 +96,9 @@ telescope.setup {
     },
   },
   extensions = {
-    fzf = {
-      override_generic_sorter = true, -- override the generic sorter
-      override_file_sorter = true, -- override the file sorter
+    fzy_native = {
+      override_generic_sorter = false,
+      override_file_sorter = true,
     },
   },
   pickers = {
@@ -149,6 +155,9 @@ telescope.setup {
     reloader = dropdown {},
   },
 }
+
+require('telescope').load_extension 'fzy_native'
+require('telescope').load_extension 'file_browser'
 
 --- NOTE: this must be required after setting up telescope
 --- otherwise the result will be cached without the updates
@@ -217,6 +226,7 @@ map('n', mappings.norgfiles, norgfiles)
 map('n', mappings.module_reloader, builtins.reloader)
 map('n', mappings.resume_last_picker, builtins.resume)
 map('n', mappings.grep_string, builtins.live_grep)
+map('n', mappings.file_browser, '<cmd>Telescope file_browser<cr>')
 -- map('n', mappings.tmux_sessions, tmux_sessions)
 -- map('n', mappings.tmux_windows, tmux_windows)
 -- map('n', mappings.help_tags, builtins.help_tags)

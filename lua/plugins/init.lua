@@ -155,18 +155,6 @@ return packer.startup(function()
       end,
     },
     {
-      'zbirenbaum/neodim',
-      config = function()
-        require('neodim').setup {
-          blend_color = '#282c34',
-          alpha = 0.45,
-          hide = {
-            underline = false,
-          },
-        }
-      end,
-    },
-    {
       'ray-x/lsp_signature.nvim',
       after = 'nvim-lspconfig',
       config = function()
@@ -315,14 +303,9 @@ return packer.startup(function()
       keys = { '<c-p>', '<leader>fo', '<leader>ff', '<leader>fs', '<leader>fa', '<leader>fh' },
       module_pattern = 'telescope.*',
       requires = {
-        {
-          'nvim-telescope/telescope-fzf-native.nvim',
-          run = 'make',
-          after = 'telescope.nvim',
-          config = function()
-            require('telescope').load_extension 'fzf'
-          end,
-        },
+        { 'nvim-lua/popup.nvim', opt = true },
+        { 'nvim-telescope/telescope-fzy-native.nvim', opt = true },
+        { 'nvim-telescope/telescope-file-browser.nvim', opt = true },
       },
       config = function()
         require 'plugins.configs.telescope'

@@ -149,6 +149,7 @@ M.mappings = {
       grep_string = '<leader>fs',
       tmux_sessions = '<leader>fts',
       tmux_windows = '<leader>ftw',
+      file_browser = '<leader>fb',
       -- help_tags = '<leader>f?',
       lsp_workspace_diagnostics = '<leader>cd',
       lsp_document_symbols = '<leader>cs',
