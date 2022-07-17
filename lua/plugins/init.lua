@@ -101,16 +101,16 @@ return packer.startup(function()
         vim.keymap.set('n', '<leader>lt', '<Cmd>TodoTrouble<CR>')
       end,
     },
-    -- {
-    --   'b0o/incline.nvim',
-    --   config = function()
-    --     require('incline').setup {
-    --       hide = {
-    --         focused_win = true,
-    --       },
-    --     }
-    --   end,
-    -- },
+    {
+      'b0o/incline.nvim',
+      config = function()
+        require('incline').setup {
+          hide = {
+            focused_win = true,
+          },
+        }
+      end,
+    },
   }
   -- }}}
 
@@ -140,20 +140,6 @@ return packer.startup(function()
         { 'jose-elias-alvarez/typescript.nvim', opt = true },
         { 'lukas-reineke/lsp-format.nvim', opt = true },
       },
-    },
-    {
-      'smjonas/inc-rename.nvim',
-      config = function()
-        require('inc_rename').setup {
-          hl_group = 'Visual',
-        }
-        vim.keymap.set('n', '<leader>ri', function()
-          return ':IncRename ' .. vim.fn.expand '<cword>'
-        end, {
-          expr = true,
-          silent = false,
-        })
-      end,
     },
     {
       'ray-x/lsp_signature.nvim',
