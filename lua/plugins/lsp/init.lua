@@ -43,6 +43,8 @@ for _, server in ipairs {
   'vuels',
   -- 'tsserver',
   'typescript',
+  'emmet_ls',
+  'tailwindcss',
   -- 'dart',
   -- 'bashls',
   -- 'denols',

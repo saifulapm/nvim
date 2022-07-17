@@ -127,6 +127,7 @@ return packer.startup(function()
         'javascriptreact',
         'typescript',
         'typescriptreact',
+        'html',
       },
       config = function()
         require 'plugins.lsp'

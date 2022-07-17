@@ -37,13 +37,13 @@ G.augroup('Numbers', {
   },
 })
 
-G.augroup('FormatOptions', {
-  {
-    event = { 'FileType' },
-    pattern = { '*' },
-    command = ':setlocal formatoptions-=c formatoptions-=o formatoptions+=r formatoptions+=n',
-  },
-})
+-- G.augroup('FormatOptions', {
+--   {
+--     event = { 'FileType' },
+--     pattern = { '*' },
+--     command = ':setlocal formatoptions-=c formatoptions-=o formatoptions+=r formatoptions+=n',
+--   },
+-- })
 
 G.augroup('TextYankHighlight', {
   {
