@@ -5,20 +5,26 @@ G.cache = {}
 
 G.style = {
   icons = {
+    separators = {
+      vert_bottom_half_block = '▄',
+      vert_top_half_block = '▀',
+    },
     lsp = {
-      error = '✗',
+      error = '', -- '✗'
       warn = '',
-      info = '',
-      hint = '',
+      info = '', -- 
+      hint = '', -- ⚑
     },
     git = {
-      add = '',
+      add = '', -- '',
       mod = '',
-      remove = '',
+      remove = '', -- '',
       ignore = '',
       rename = '',
       diff = '',
       repo = '',
+      logo = '',
+      branch = '',
     },
     documents = {
       file = '',
@@ -30,10 +36,19 @@ G.style = {
       array = '',
       number = '',
       object = '',
+      null = '[]',
+      float = '',
     },
     misc = {
-      bug = '',
+      ellipsis = '…',
+      up = '⇡',
+      down = '⇣',
+      line = 'ℓ', -- ''
+      indent = 'Ξ',
+      tab = '⇥',
+      bug = '', -- 'ﴫ'
       question = '',
+      clock = '',
       lock = '',
       circle = '',
       project = '',
@@ -54,10 +69,50 @@ G.style = {
       note = '',
       bookmark = '',
       pencil = '',
+      tools = '',
+      arrow_right = '',
+      caret_right = '',
       chevron_right = '',
+      double_chevron_right = '»',
       table = '',
       calendar = '',
-      theme_toggle = '   ',
+      block = '▌',
+    },
+    kinds = {
+      Text = '',
+      Method = '',
+      Function = '',
+      Constructor = '',
+      Field = '', -- '',
+      Variable = '', -- '',
+      Class = '', -- '',
+      Interface = '',
+      Module = '',
+      Property = 'ﰠ',
+      Unit = '塞',
+      Value = '',
+      Enum = '',
+      Keyword = '', -- '',
+      Snippet = '', -- '', '',
+      Color = '',
+      File = '',
+      Reference = '', -- '',
+      Folder = '',
+      EnumMember = '',
+      Constant = '', -- '',
+      Struct = '', -- 'פּ',
+      Event = '',
+      Operator = '',
+      TypeParameter = '',
+      Namespace = '?',
+      Package = '?',
+      String = '?',
+      Number = '?',
+      Boolean = '?',
+      Array = '?',
+      Object = '?',
+      Key = '?',
+      Null = '?',
     },
   },
   kinds = {
@@ -83,6 +138,16 @@ G.style = {
     Event = 'Variable',
     Operator = 'Operator',
     TypeParameter = 'Type',
+    Namespace = 'TSNamespace',
+    Package = 'Include',
+    String = 'String',
+    Number = 'Number',
+    Boolean = 'Boolean',
+    Array = 'StorageClass',
+    Object = 'Type',
+    Key = 'Field',
+    Null = 'ErrorMsg',
+    EnumMember = 'Field',
   },
   border = {
     cmp = {
@@ -163,6 +228,20 @@ function G.empty(item)
   end
   return item ~= nil
 end
+
+G.list_installed_plugins = (function()
+  local plugins
+  return function()
+    if plugins then
+      return plugins
+    end
+    local data_dir = vim.fn.stdpath 'data'
+    local start = vim.fn.expand(data_dir .. '/site/pack/packer/start/*', true, true)
+    local opt = vim.fn.expand(data_dir .. '/site/pack/packer/opt/*', true, true)
+    plugins = vim.list_extend(start, opt)
+    return plugins
+  end
+end)()
 
 function _G.P(...)
   local objects, v = {}, nil

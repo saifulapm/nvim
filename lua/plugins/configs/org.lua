@@ -8,23 +8,15 @@ if not packer_plugins['nvim-treesitter'].loaded then
   vim.cmd [[PackerLoad nvim-treesitter]]
 end
 
-if not packer_plugins['neorg-telescope'].loaded then
-  vim.cmd [[PackerLoad neorg-telescope]]
-end
-
 require('base46').load_highlight 'norg'
 
 neorg.setup {
   load = {
     ['core.defaults'] = {},
-    ['core.integrations.telescope'] = {},
     ['core.keybinds'] = {
       config = {
         default_keybinds = true,
         neorg_leader = '<localleader>',
-        hook = function(keybinds)
-          keybinds.map_event('norg', 'n', '<C-x>', 'core.integrations.telescope.find_linkable')
-        end,
       },
     },
     ['core.norg.completion'] = {

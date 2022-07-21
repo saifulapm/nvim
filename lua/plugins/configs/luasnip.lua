@@ -53,6 +53,6 @@ vim.keymap.set({ 's', 'i' }, '<c-b>', function()
   end
 end)
 
-require('luasnip.loaders.from_lua').lazy_load()
-require('luasnip.loaders.from_vscode').load { paths = './snippets' }
+require('luasnip.loaders.from_lua').lazy_load { paths = './snippets' }
+require('luasnip.loaders.from_vscode').lazy_load { paths = './snippets' }
 luasnip.filetype_extend('dart', { 'flutter' })

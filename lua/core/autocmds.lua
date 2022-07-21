@@ -4,24 +4,6 @@ vim.cmd [[
    augroup END
 ]]
 
-G.augroup('VimrcIncSearchHighlight', {
-  {
-    -- automatically clear search highlight once leaving the commandline
-    event = { 'CmdlineEnter' },
-    pattern = { '[/\\?]' },
-    command = ':set hlsearch  | redrawstatus',
-  },
-  {
-    event = { 'CmdlineLeave' },
-    pattern = { '[/\\?]' },
-    command = function()
-      vim.defer_fn(function()
-        vim.cmd ':set nohlsearch | redrawstatus'
-      end, 10000)
-    end,
-  },
-})
-
 G.augroup('Numbers', {
   {
     -- Open images in an image viewer (probably Preview)
@@ -37,13 +19,13 @@ G.augroup('Numbers', {
   },
 })
 
--- G.augroup('FormatOptions', {
---   {
---     event = { 'FileType' },
---     pattern = { '*' },
---     command = ':setlocal formatoptions-=c formatoptions-=o formatoptions+=r formatoptions+=n',
---   },
--- })
+G.augroup('Project', {
+  {
+    event = { 'VimEnter' },
+    pattern = { '*' },
+    command = "lua require('utils').project()",
+  },
+})
 
 G.augroup('TextYankHighlight', {
   {

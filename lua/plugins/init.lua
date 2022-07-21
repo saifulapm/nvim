@@ -88,6 +88,12 @@ return packer.startup(function()
         }
       end,
     },
+    {
+      'goolord/alpha-nvim',
+      config = function()
+        require 'plugins.configs.alpha'
+      end,
+    },
   }
   -- }}}
 
@@ -128,6 +134,8 @@ return packer.startup(function()
           auto_close_after = 15, -- close after 15 seconds
           hint_enable = false,
           handler_opts = { border = G.style.border.line },
+          toggle_key = '<C-K>',
+          select_signature_key = '<A-N>',
         }
       end,
     },
@@ -135,11 +143,7 @@ return packer.startup(function()
       'j-hui/fidget.nvim',
       after = 'nvim-lspconfig',
       config = function()
-        require('fidget').setup {
-          window = {
-            blend = 0, -- BUG: window blend of > 0 interacts with nvim-bqf 😰
-          },
-        }
+        require('fidget').setup()
       end,
     },
     {
@@ -244,16 +248,6 @@ return packer.startup(function()
         vim.keymap.set('i', '<M-]>', '<Plug>(copilot-next)')
         vim.keymap.set('i', '<M-[>', '<Plug>(copilot-previous)')
         vim.keymap.set('i', '<C-\\>', '<Cmd>vertical Copilot panel<CR>')
-      end,
-    },
-    {
-      'mattn/emmet-vim',
-      cmd = 'EmmetInstall',
-      setup = function()
-        vim.g.user_emmet_complete_tag = 0
-        vim.g.user_emmet_install_global = 0
-        vim.g.user_emmet_install_command = 0
-        vim.g.user_emmet_mode = 'i'
       end,
     },
   }
@@ -388,12 +382,7 @@ return packer.startup(function()
     },
     { 'tpope/vim-repeat' },
     { 'tpope/vim-sleuth' },
-    {
-      'antoinemadec/FixCursorHold.nvim',
-      config = function()
-        vim.g.curshold_updatime = 1000
-      end,
-    },
+    { 'antoinemadec/FixCursorHold.nvim' },
     {
       'andymass/vim-matchup',
       opt = true,
@@ -449,23 +438,11 @@ return packer.startup(function()
         end)
       end,
     },
-    -- Diff arbitrary blocks of text with each other
-    { 'AndrewRadev/linediff.vim', cmd = 'Linediff' },
-    {
-      'declancm/cinnamon.nvim', -- NOTE: alternative: 'karb94/neoscroll.nvim'
-      config = function()
-        require('cinnamon').setup {
-          extra_keymaps = true,
-          scroll_limit = 50,
-          default_delay = 5,
-        }
-      end,
-    },
     {
       'mg979/vim-visual-multi',
       config = function()
         vim.g.VM_highlight_matches = 'underline'
-        vim.g.VM_theme = 'codedark'
+        vim.g.VM_theme = 'nord'
         vim.g.VM_maps = {
           ['Find Under'] = '<C-e>',
           ['Find Subword Under'] = '<C-e>',
@@ -480,13 +457,33 @@ return packer.startup(function()
         require('spellsitter').setup { enable = true }
       end,
     },
-    { 'psliwka/vim-dirtytalk', run = ':DirtytalkUpdate' },
+    {
+      'psliwka/vim-dirtytalk',
+      run = ':DirtytalkUpdate',
+      config = function()
+        vim.opt.spelllang:append 'programming'
+      end,
+    },
     {
       'saifulapm/chartoggle.nvim',
       config = function()
         require('chartoggle').setup {
           leader = '<localleader>', -- you can use any key as Leader
           keys = { ',', ';' }, -- Which keys will be toggle end of the line
+        }
+      end,
+    },
+    {
+      'ahmedkhalf/project.nvim',
+      config = function()
+        require('project_nvim').setup {
+          ignore_lsp = { 'null-ls' },
+          patterns = {
+            '.git/',
+            '.env',
+            '.project.lua',
+            'composer.json',
+          },
         }
       end,
     },
@@ -498,7 +495,6 @@ return packer.startup(function()
     {
       'nvim-neorg/neorg',
       ft = 'norg',
-      requires = { 'vhyrro/neorg-telescope', opt = true },
       config = function()
         require 'plugins.configs.org'
       end,
@@ -520,14 +516,6 @@ return packer.startup(function()
         }
       end,
     },
-    -- {
-    --   'SmiteshP/nvim-gps',
-    --   after = 'nvim-treesitter',
-    --   requires = 'nvim-treesitter',
-    --   config = function()
-    --     require('nvim-gps').setup()
-    --   end,
-    -- },
     {
       'ThePrimeagen/harpoon',
       after = 'plenary.nvim',
@@ -535,24 +523,18 @@ return packer.startup(function()
         require 'plugins.configs.harpoon'
       end,
     },
+    { 'sQVe/sort.nvim', cmd = { 'Sort' } },
     {
-      'sQVe/sort.nvim', -- Sort by line and delimiter.
-      cmd = { 'Sort' },
+      'kylechui/nvim-surround',
       config = function()
-        vim.cmd [[
-          nnoremap <silent> go <Cmd>Sort<CR>
-          nnoremap <silent> go" vi"<Esc><Cmd>Sort<CR>
-          nnoremap <silent> go' vi'<Esc><Cmd>Sort<CR>
-          nnoremap <silent> go( vi(<Esc><Cmd>Sort<CR>
-          nnoremap <silent> go[ vi[<Esc><Cmd>Sort<CR>
-          nnoremap <silent> gop vip<Esc><Cmd>Sort<CR>
-          nnoremap <silent> go{ vi{<Esc><Cmd>Sort<CR>
-          vnoremap <silent> go <Esc><Cmd>Sort<CR>
-        ]]
+        require('nvim-surround').setup {
+          move_cursor = false,
+          keymaps = {
+            visual = 's',
+          },
+        }
       end,
-      keys = { { 'n', 'go' }, { 'v', 'go' } },
     },
-    { 'tpope/vim-surround' },
     {
       'kazhala/close-buffers.nvim',
       cmd = { 'BDelete' },
@@ -569,42 +551,6 @@ return packer.startup(function()
         }
       end,
     },
-    {
-      'iamcco/markdown-preview.nvim',
-      run = function()
-        vim.fn['mkdp#util#install']()
-      end,
-      ft = { 'markdown' },
-      config = function()
-        vim.g.mkdp_auto_start = 0
-        vim.g.mkdp_auto_close = 1
-      end,
-    },
-    {
-      'johmsalas/text-case.nvim',
-      config = function()
-        require('textcase').setup()
-        vim.keymap.set('n', '<localleader>[', ':Subs/<C-R><C-W>//<LEFT>', { silent = false })
-        vim.keymap.set(
-          'n',
-          '<localleader>]',
-          ':%Subs/<C-r><C-w>//c<left><left>',
-          { silent = false }
-        )
-        vim.keymap.set(
-          'n',
-          '<localleader>[',
-          [["zy:%Subs/<C-r><C-o>"//c<left><left>]],
-          { silent = false }
-        )
-      end,
-    },
-    {
-      'tpope/vim-projectionist',
-      config = function()
-        require 'plugins.configs.projectionist'
-      end,
-    },
   }
   --}}}
 
@@ -612,33 +558,8 @@ return packer.startup(function()
   use {
     { 'kana/vim-textobj-user' },
     {
-      'coderifous/textobj-word-column.vim',
-      keys = { { 'x', 'ik' }, { 'x', 'ak' }, { 'o', 'ik' }, { 'o', 'ak' } },
-      config = function()
-        vim.g.skip_default_textobj_word_column_mappings = 1
-        vim.keymap.set(
-          'x',
-          'ik',
-          ':<C-u>call TextObjWordBasedColumn("aw")<CR>',
-          { noremap = false }
-        )
-        vim.keymap.set(
-          'x',
-          'ak',
-          ':<C-u>call TextObjWordBasedColumn("aw")<CR>',
-          { noremap = false }
-        )
-        vim.keymap.set('o', 'ik', ':call TextObjWordBasedColumn("aw")<CR>', { noremap = false })
-        vim.keymap.set('o', 'ak', ':call TextObjWordBasedColumn("aw")<CR>', { noremap = false })
-      end,
-    },
-    {
       'kana/vim-textobj-indent',
       keys = { { 'x', 'ii' }, { 'o', 'ii' } },
-    },
-    {
-      'gcmt/wildfire.vim',
-      keys = { { 'n', '<CR>' } },
     },
     {
       'phaazon/hop.nvim',
@@ -722,10 +643,6 @@ return packer.startup(function()
             vim.keymap.set('n', '<localleader>duc', dapui.close)
             vim.keymap.set('n', '<localleader>dut', dapui.toggle)
             local nvim_dap = require 'dap'
-            -- NOTE: this opens dap UI automatically when dap starts
-            -- dap.listeners.after.event_initialized['dapui_config'] = function()
-            --   dapui.open()
-            -- end
             nvim_dap.listeners.before.event_terminated['dapui_config'] = function()
               dapui.close()
             end
@@ -748,7 +665,6 @@ return packer.startup(function()
 
   --- Devs {{{
   use {
-    -- { 'nanotee/luv-vimdocs' },
     { 'milisims/nvim-luaref' },
     { 'rafcamlet/nvim-luapad', cmd = 'Luapad' },
     { 'dstein64/vim-startuptime', cmd = 'StartupTime' },
