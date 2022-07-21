@@ -1,21 +1,42 @@
 local Hydra = require 'hydra'
-local border = G.style.border
+local border = G.style.border.line
+
+require('base46').load_highlight 'hydra'
+
+Hydra {
+  name = 'Folds',
+  mode = 'n',
+  body = '<leader>z',
+  color = 'teal',
+  config = {
+    invoke_on_body = true,
+    hint = { border = border },
+  },
+  heads = {
+    { 'j', 'zj', { desc = 'next fold' } },
+    { 'k', 'zk', { desc = 'previous fold' } },
+    { 'l', require('fold-cycle').open_all, { desc = 'open folds underneath' } },
+    { 'h', require('fold-cycle').close_all, { desc = 'close folds underneath' } },
+    { '<Esc>', nil, { exit = true, desc = 'Quit' } },
+  },
+}
 
 Hydra {
   name = 'Buffer management',
   mode = 'n',
   body = '<leader>b',
-  invoke_on_body = true,
   color = 'teal',
   config = {
     hint = { border = border },
+    invoke_on_body = true,
   },
   heads = {
     { 'l', '<Cmd>BufferLineCycleNext<CR>', { desc = 'Next buffer' } },
     { 'h', '<Cmd>BufferLineCyclePrev<CR>', { desc = 'Prev buffer' } },
     { 'p', '<Cmd>BufferLineTogglePin<CR>', { desc = 'Pin buffer' } },
     { 'c', '<Cmd>BufferLinePick<CR>', { desc = 'Pin buffer' } },
-    { 'd', '<Cmd>BufferLinePickClose<CR>', { desc = 'Pick buffer to close', exit = true } },
+    { 'd', '<Cmd>Bwipeout<CR>', { desc = 'delete buffer' } },
+    { 'D', '<Cmd>BufferLinePickClose<CR>', { desc = 'Pick buffer to close', exit = true } },
     { '<Esc>', nil, { exit = true, desc = 'Quit' } },
   },
 }
@@ -35,6 +56,7 @@ Hydra {
 Hydra {
   name = 'Window management',
   config = {
+    invoke_on_body = false,
     hint = {
       border = border,
     },
@@ -42,20 +64,15 @@ Hydra {
   mode = 'n',
   body = '<C-w>',
   heads = {
-    -- Move
-    { 'h', '<C-w>h' },
-    { 'j', '<C-w>j' },
-    { 'k', '<C-w>k' },
-    { 'l', '<C-w>l' },
     -- Split
-    { 's', '<C-w>s' },
-    { 'v', '<C-w>v' },
-    { 'q', '<Cmd>Bwipeout<CR>', { desc = 'close window' } },
+    { 's', '<C-w>s', { desc = 'split horizontally' } },
+    { 'v', '<C-w>v', { desc = 'split vertically' } },
+    { 'q', '<C-w>c', { desc = 'close window' } },
     -- Size
-    { '+', '2<C-w>+' },
-    { '-', '2<C-w>-' },
-    { '>', '5<C-w>>', { desc = 'increase width' } },
-    { '<', '5<C-w><', { desc = 'decrease width' } },
+    { 'j', '2<C-w>+', { desc = 'increase height' } },
+    { 'k', '2<C-w>-', { desc = 'decrease height' } },
+    { 'h', '5<C-w>>', { desc = 'increase width' } },
+    { 'l', '5<C-w><', { desc = 'decrease width' } },
     { '=', '<C-w>=', { desc = 'equalize' } },
     --
     { '<Esc>', nil, { exit = true } },
@@ -66,7 +83,7 @@ local ok, gitsigns = pcall(require, 'gitsigns')
 if ok then
   local hint = [[
  _J_: next hunk   _s_: stage hunk        _d_: show deleted   _b_: blame line
- _K_: prev hunk   _u_: undo stage hunk   _p_: preview hunk   _B_: blame show full
+ _K_: prev hunk   _u_: undo stage hunk   _p_: preview hunk   _B_: blame show full 
  ^ ^              _S_: stage buffer      ^ ^                 _/_: show base file
  ^
  ^ ^              _<Enter>_: Neogit              _q_: exit
@@ -138,3 +155,63 @@ if ok then
     },
   }
 end
+
+local function run(method, args)
+  return function()
+    local dap = require 'dap'
+    if dap[method] then
+      dap[method](args)
+    end
+  end
+end
+
+local hint = [[
+ _n_: step over   _s_: Continue/Start   _b_: Breakpoint     _K_: Eval
+ _i_: step into   _x_: Quit             ^ ^                 ^ ^
+ _o_: step out    _X_: Stop             ^ ^
+ _c_: to cursor   _C_: Close UI
+ ^
+ ^ ^              _q_: exit
+]]
+
+local dap_hydra = Hydra {
+  hint = hint,
+  config = {
+    color = 'pink',
+    invoke_on_body = true,
+    hint = {
+      position = 'bottom',
+      border = 'rounded',
+    },
+  },
+  name = 'dap',
+  mode = { 'n', 'x' },
+  body = '<leader>dh',
+  heads = {
+    { 'n', run 'step_over', { silent = true } },
+    { 'i', run 'step_into', { silent = true } },
+    { 'o', run 'step_out', { silent = true } },
+    { 'c', run 'run_to_cursor', { silent = true } },
+    { 's', run 'continue', { silent = true } },
+    { 'x', run('disconnect', { terminateDebuggee = false }), { exit = true, silent = true } },
+    { 'X', run 'close', { silent = true } },
+    {
+      'C',
+      ":lua require('dapui').close()<cr>:DapVirtualTextForceRefresh<CR>",
+      { silent = true },
+    },
+    { 'b', run 'toggle_breakpoint', { silent = true } },
+    { 'K', ":lua require('dap.ui.widgets').hover()<CR>", { silent = true } },
+    { 'q', nil, { exit = true, nowait = true } },
+  },
+}
+
+G.augroup('HydraDap', {
+  event = 'User',
+  user = 'DapStarted',
+  command = function()
+    vim.schedule(function()
+      dap_hydra:activate()
+    end)
+  end,
+})

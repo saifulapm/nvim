@@ -94,16 +94,16 @@ M.basic = function()
   map('n', mappings.misc.blank_line_below, [[<cmd>put =repeat(nr2char(10), v:count1)<cr>]])
   --
   -- -- ToggleChar
-  map(
-    'n',
-    mappings.plugins.toggle_character.toggle_comma,
-    ":lua require('utils').toggle_char(',')<CR>"
-  )
-  map(
-    'n',
-    mappings.plugins.toggle_character.toggle_semicolon,
-    ":lua require('utils').toggle_char(';')<CR>"
-  )
+  -- map(
+  --   'n',
+  --   mappings.plugins.toggle_character.toggle_comma,
+  --   ":lua require('utils').toggle_char(',')<CR>"
+  -- )
+  -- map(
+  --   'n',
+  --   mappings.plugins.toggle_character.toggle_semicolon,
+  --   ":lua require('utils').toggle_char(';')<CR>"
+  -- )
 
   -- -- Move
   map('n', mappings.misc.line_move_down, '<cmd>move+<CR>==')

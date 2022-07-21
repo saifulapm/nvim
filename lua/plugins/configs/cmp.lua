@@ -4,7 +4,8 @@ if not present then
   return
 end
 
-local u = require 'utils.color'
+require('base46').load_highlight 'cmp'
+
 local kinds = {
   Text = '',
   Method = '',
@@ -33,7 +34,7 @@ local kinds = {
   TypeParameter = '',
 }
 local cmp_window = {
-  border = G.style.border.line,
+  border = G.style.border.cmp,
   winhighlight = table.concat({
     'Normal:NormalFloat',
     'FloatBorder:FloatBorder',
@@ -41,28 +42,6 @@ local cmp_window = {
     'Search:None',
   }, ','),
 }
-
-local kind_highlights = G.style.kinds
-
-local kind_hls = vim.tbl_map(function(key)
-  return { 'CmpItemKind' .. key, { foreground = u.get_hl(kind_highlights[key], 'fg') } }
-end, vim.tbl_keys(kind_highlights))
-
--- Highligh Overwite
-local keyword_fg = u.get_hl('Keyword', 'fg')
-u.overwrite {
-  { 'CmpBorderedWindow_Normal', { link = 'NormalFloat' } },
-  { 'CmpItemAbbr', { foreground = 'fg', background = 'NONE', italic = false, bold = false } },
-  { 'CmpItemMenu', { inherit = 'NonText', italic = false, bold = false } },
-  { 'CmpItemAbbrMatch', { foreground = keyword_fg } },
-  { 'CmpItemAbbrDeprecated', { strikethrough = true, inherit = 'Comment' } },
-  { 'CmpItemAbbrMatchFuzzy', { italic = true, foreground = keyword_fg } },
-  unpack(kind_hls),
-}
-
--- local t = function(str)
---   return api.nvim_replace_termcodes(str, true, true, true)
--- end
 
 local function tab(fallback)
   local ok, luasnip = pcall(require, 'luasnip')

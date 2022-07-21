@@ -3,18 +3,18 @@ local api = vim.api
 local option = api.nvim_buf_get_option
 
 -- Toggle (,) and (;) easily
-M.toggle_char = function(char)
-  local fn = vim.fn
-  local line = fn.getline '.'
-  local newline = ''
+M.toggle_char = function(character)
+  local delimiters = { ',', ';' }
+  local line = api.nvim_get_current_line()
+  local last_char = line:sub(-1)
 
-  if char == string.sub(line, #line) then
-    newline = line:sub(1, -2)
+  if last_char == character then
+    return api.nvim_set_current_line(line:sub(1, #line - 1))
+  elseif vim.tbl_contains(delimiters, last_char) then
+    return api.nvim_set_current_line(line:sub(1, #line - 1) .. character)
   else
-    newline = line .. char
+    return api.nvim_set_current_line(line .. character)
   end
-
-  return fn.setline('.', newline)
 end
 
 local get_map_options = function(custom_options)

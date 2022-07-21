@@ -1,15 +1,14 @@
 local gitsigns = require 'gitsigns'
+require('base46').load_highlight 'git'
 
 gitsigns.setup {
   signs = {
-    add = { hl = 'GitSignsAdd', text = '▌' },
-    change = { hl = 'GitSignsChange', text = '▌' },
-    delete = { hl = 'GitSignsDelete', text = '▌' },
-    topdelete = { hl = 'GitSignsDelete', text = '▌' },
-    changedelete = { hl = 'GitSignsChange', text = '▌' },
+    add = { hl = 'DiffAdd', text = '│', numhl = 'GitSignsAddNr' },
+    change = { hl = 'DiffChange', text = '│', numhl = 'GitSignsChangeNr' },
+    delete = { hl = 'DiffDelete', text = '', numhl = 'GitSignsDeleteNr' },
+    topdelete = { hl = 'DiffDelete', text = '‾', numhl = 'GitSignsDeleteNr' },
+    changedelete = { hl = 'DiffChangeDelete', text = '~', numhl = 'GitSignsChangeNr' },
   },
-  word_diff = false,
-  numhl = false,
   -- keymaps = {
   --   -- Default keymap options
   --   noremap = true,

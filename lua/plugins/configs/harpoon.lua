@@ -1,11 +1,6 @@
 local map = require('utils').map
 local mappings = require('core.keymaps').mappings.plugins.harpoon
-local u = require 'utils.color'
 
-u.overwrite {
-  -- { 'HarpoonWindow', { link = 'NormalFloat' } },
-  { 'HarpoonBorder', { foreground = u.get_hl('NonText', 'fg') } },
-}
 require('harpoon').setup {
   menu = {
     borderchars = G.style.border.chars,

@@ -4,6 +4,9 @@ if not present then
   return
 end
 
+require('base46').load_highlight 'syntax'
+require('base46').load_highlight 'treesitter'
+
 ts_config.setup {
   ensure_installed = {
     'lua',
@@ -11,6 +14,7 @@ ts_config.setup {
     'php',
     'dart',
     'norg',
+    'json',
   },
   highlight = {
     enable = true,
@@ -26,11 +30,5 @@ ts_config.setup {
   },
   indent = {
     enable = true,
-  },
-  autopairs = { enable = true },
-  query_linter = {
-    enable = true,
-    use_virtual_text = true,
-    lint_events = { 'BufWrite', 'CursorHold' },
   },
 }

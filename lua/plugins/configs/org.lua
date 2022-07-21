@@ -12,10 +12,11 @@ if not packer_plugins['neorg-telescope'].loaded then
   vim.cmd [[PackerLoad neorg-telescope]]
 end
 
+require('base46').load_highlight 'norg'
+
 neorg.setup {
   load = {
     ['core.defaults'] = {},
-    -- TODO: cannot unmap <c-s> and segfaults, raise an issue
     ['core.integrations.telescope'] = {},
     ['core.keybinds'] = {
       config = {

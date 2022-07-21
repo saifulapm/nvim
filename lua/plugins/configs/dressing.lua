@@ -8,12 +8,11 @@ local function get_height(self, _, max_lines)
   return (results <= (LIMIT - PADDING) and results + PADDING or LIMIT)
 end
 
-require('utils.color').overwrite { { 'FloatTitle', { inherit = 'Visual', bold = true } } }
 require('dressing').setup {
   input = {
     insert_only = false,
     winblend = 2,
-    border = G.style.border,
+    border = G.style.border.rectangle,
   },
   select = {
     get_config = function(opts)

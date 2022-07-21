@@ -1,17 +1,6 @@
 local g = vim.g
 local action = require('nvim-tree.config').nvim_tree_callback
-local u = require 'utils.color'
-u.overwrite {
-  { 'NvimTreeIndentMarker', { link = 'Comment' } },
-  { 'NvimTreeNormal', { link = 'PanelBackground' } },
-  { 'NvimTreeNormalNC', { link = 'PanelBackground' } },
-  { 'NvimTreeSignColumn', { link = 'PanelBackground' } },
-  { 'NvimTreeEndOfBuffer', { link = 'PanelBackground' } },
-  { 'NvimTreeVertSplit', { link = 'PanelVertSplit' } },
-  { 'NvimTreeStatusLine', { link = 'PanelSt' } },
-  { 'NvimTreeStatusLineNC', { link = 'PanelStNC' } },
-  { 'NvimTreeRootFolder', { bold = true, italic = true, foreground = 'LightMagenta' } },
-}
+require('base46').load_highlight 'nvimtree'
 
 require('nvim-tree').setup {
   view = {
@@ -80,6 +69,6 @@ require('nvim-tree').setup {
   },
   filters = {
     dotfiles = false,
-    custom = { '.DS_Store', 'fugitive:', '.git', '_compiled.lua', '.php-cs-fixer.dist.php' },
+    custom = { '.DS_Store', 'fugitive:', '.git/', '_compiled.lua', '.php-cs-fixer.dist.php' },
   },
 }

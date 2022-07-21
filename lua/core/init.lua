@@ -60,31 +60,6 @@ G.style = {
       theme_toggle = '   ',
     },
   },
-  doom = {
-    pale_red = '#E06C75',
-    dark_red = '#be5046',
-    light_red = '#c43e1f',
-    dark_orange = '#FF922B',
-    bright_yellow = '#FAB005',
-    light_yellow = '#e5c07b',
-    comment_grey = '#5c6370',
-    grey = '#3E4556',
-    whitesmoke = '#626262',
-    bright_blue = '#51afef',
-    teal = '#15AABF',
-    red = '#ff6c6b',
-    orange = '#da8548',
-    green = '#98be65',
-    yellow = '#ECBE7B',
-    blue = '#51afef',
-    dark_blue = '#2257A0',
-    magenta = '#c678dd',
-    violet = '#a9a1e1',
-    dark_violet = '#4e4f67',
-    cyan = '#46D9FF',
-    white = '#efefef',
-    black = 'Background',
-  },
   kinds = {
     Text = 'String',
     Method = 'Method',
@@ -110,19 +85,50 @@ G.style = {
     TypeParameter = 'Type',
   },
   border = {
-    line = {
-      { '🭽', 'FloatBorder' },
-      { '▔', 'FloatBorder' },
-      { '🭾', 'FloatBorder' },
-      { '▕', 'FloatBorder' },
-      { '🭿', 'FloatBorder' },
-      { '▁', 'FloatBorder' },
-      { '🭼', 'FloatBorder' },
-      { '▏', 'FloatBorder' },
+    cmp = {
+      { '🭽', 'CmpBorder' },
+      { '▔', 'CmpBorder' },
+      { '🭾', 'CmpBorder' },
+      { '▕', 'CmpBorder' },
+      { '🭿', 'CmpBorder' },
+      { '▁', 'CmpBorder' },
+      { '🭼', 'CmpBorder' },
+      { '▏', 'CmpBorder' },
     },
     chars = { '▔', '▕', '▁', '▏', '🭽', '🭾', '🭿', '🭼' },
+    line = { '🭽', '▔', '🭾', '▕', '🭿', '▁', '🭼', '▏' },
+    rectangle = { '┌', '─', '┐', '│', '┘', '─', '└', '│' },
+  },
+  ui = {
+    theme = 'gruvchad',
   },
 }
+
+--- Convert a list or map of items into a value by iterating all it's fields and transforming
+--- them with a callback
+---@generic T : table
+---@param callback fun(T, T, key: string | number): T
+---@param list T[]
+---@param accum T
+---@return T
+function G.fold(callback, list, accum)
+  for k, v in pairs(list) do
+    accum = callback(accum, v, k)
+    assert(accum, 'The accumulator must be returned on each iteration')
+  end
+  return accum
+end
+
+---@generic T : table
+---@param callback fun(item: T, key: string | number, list: T[]): T
+---@param list T[]
+---@return T[]
+function G.map(callback, list)
+  return G.fold(function(accum, v, k)
+    accum[#accum + 1] = callback(v, k, accum)
+    return accum
+  end, list, {})
+end
 
 ---Find an item in a list
 ---@generic T
@@ -138,6 +144,24 @@ function G.find(haystack, matcher)
     end
   end
   return found
+end
+
+---Determine if a value of any type is empty
+---@param item any
+---@return boolean?
+function G.empty(item)
+  if not item then
+    return true
+  end
+  local item_type = type(item)
+  if item_type == 'string' then
+    return item == ''
+  elseif item_type == 'number' then
+    return item <= 0
+  elseif item_type == 'table' then
+    return vim.tbl_isempty(item)
+  end
+  return item ~= nil
 end
 
 function _G.P(...)

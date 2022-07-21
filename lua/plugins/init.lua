@@ -23,32 +23,9 @@ return packer.startup(function()
       end,
     },
     {
-      'NTBBloodbath/doom-one.nvim',
+      '~/Sites/nvim/base46',
       config = function()
-        require('doom-one').setup {
-          pumblend = {
-            enable = true,
-            transparency_amount = 3,
-          },
-          cursor_coloring = true,
-          italic_comments = true,
-          plugins_integrations = {
-            barbar = false,
-            bufferline = true,
-            telescope = true,
-            neogit = false,
-            dashboard = false,
-            startify = false,
-            whichkey = false,
-            indent_blankline = true,
-            vim_illuminate = true,
-          },
-        }
-        -- Apply my own overwrite
-        require('colors.doom').apply()
-      end,
-      setup = function()
-        G.theme_loaded = true
+        require('base46').load_theme()
       end,
     },
     { 'kyazdani42/nvim-web-devicons' },
@@ -287,40 +264,16 @@ return packer.startup(function()
     {
       'nvim-telescope/telescope.nvim',
       cmd = 'Telescope',
-      keys = { '<c-p>', '<leader>fo', '<leader>ff', '<leader>fs', '<leader>fa', '<leader>fh' },
-      module_pattern = 'telescope.*',
-      requires = {
-        { 'nvim-lua/popup.nvim', opt = true },
-        { 'nvim-telescope/telescope-fzy-native.nvim', opt = true },
-        { 'nvim-telescope/telescope-file-browser.nvim', opt = true },
-      },
       config = function()
         require 'plugins.configs.telescope'
       end,
     },
     {
       'nvim-treesitter/nvim-treesitter',
-      -- run = ':TSUpdate',
+      run = ':TSUpdate',
       event = 'BufRead',
       config = function()
         require 'plugins.configs.treesitter'
-      end,
-    },
-    {
-      'm-demare/hlargs.nvim',
-      config = function()
-        require('utils.color').overwrite {
-          { 'Hlargs', { italic = true, bold = false, foreground = '#A5D6FF' } },
-        }
-        require('hlargs').setup {
-          excluded_argnames = {
-            declarations = { 'use', 'use_rocks', '_' },
-            usages = {
-              go = { '_' },
-              lua = { 'self', 'use', 'use_rocks', '_' },
-            },
-          },
-        }
       end,
     },
   }
@@ -354,13 +307,6 @@ return packer.startup(function()
         })
       end,
     },
-    -- {
-    --   'anuvyklack/pretty-fold.nvim',
-    --   event = 'BufRead',
-    --   config = function()
-    --     require 'plugins.configs.prettyfold'
-    --   end,
-    -- },
     {
       'monaqa/dial.nvim',
       keys = { { 'n', '<C-a>' }, { 'n', '<C-x>' }, { 'v', '<C-a>' }, { 'v', '<C-x>' } },
@@ -394,7 +340,6 @@ return packer.startup(function()
       'chentau/marks.nvim',
       keys = { { 'n', 'm' } },
       config = function()
-        require('utils.color').overwrite { { 'MarkSignHL', { foreground = 'Red' } } }
         require('marks').setup {
           bookmark_0 = {
             sign = '⚑',
@@ -405,13 +350,25 @@ return packer.startup(function()
     },
     {
       'rmagatti/auto-session',
-      event = 'BufRead',
-      cmd = 'RestoreSession',
+      -- event = 'BufRead',
+      -- cmd = 'RestoreSession',
       config = function()
+        local fn = vim.fn
+        local fmt = string.format
+        local data = fn.stdpath 'data'
         require('auto-session').setup {
           log_level = 'error',
-          auto_session_root_dir = ('%s/session/auto/'):format(vim.fn.stdpath 'data'),
-          auto_restore_enabled = false,
+          auto_session_root_dir = fmt('%s/session/auto/', data),
+          -- Do not enable auto restoration in my projects directory, I'd like to choose projects myself
+          auto_restore_enabled = not vim.startswith(fn.getcwd(), vim.env.PROJECTS_DIR),
+          auto_session_suppress_dirs = {
+            vim.env.HOME,
+            vim.env.PROJECTS_DIR,
+            fmt('%s/Desktop', vim.env.HOME),
+            fmt('%s/site/pack/packer/opt/*', data),
+            fmt('%s/site/pack/packer/start/*', data),
+          },
+          auto_session_use_git_branch = false, -- This cause inconsistent results
         }
       end,
     },
@@ -431,9 +388,6 @@ return packer.startup(function()
     },
     { 'tpope/vim-repeat' },
     { 'tpope/vim-sleuth' },
-    -- TODO: this fixes a bug in neovim core that prevents "CursorHold" from working
-    -- hopefully one day when this issue is fixed this can be removed
-    -- @see: https://github.com/neovim/neovim/issues/12587
     {
       'antoinemadec/FixCursorHold.nvim',
       config = function()
@@ -527,6 +481,15 @@ return packer.startup(function()
       end,
     },
     { 'psliwka/vim-dirtytalk', run = ':DirtytalkUpdate' },
+    {
+      'saifulapm/chartoggle.nvim',
+      config = function()
+        require('chartoggle').setup {
+          leader = '<localleader>', -- you can use any key as Leader
+          keys = { ',', ';' }, -- Which keys will be toggle end of the line
+        }
+      end,
+    },
   }
   --}}}
 

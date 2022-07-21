@@ -1,47 +1,44 @@
-local present, bufferline = pcall(require, 'bufferline')
-if not present then
-  return
-end
+require('base46').load_highlight 'bufferline'
 
-local function custom_filter(buf, buf_nums)
-  local logs = vim.tbl_filter(function(b)
-    return vim.bo[b].filetype == 'log'
-  end, buf_nums)
-  if vim.tbl_isempty(logs) then
-    return true
-  end
-  local tab_num = vim.fn.tabpagenr()
-  local last_tab = vim.fn.tabpagenr '$'
-  local is_log = vim.bo[buf].filetype == 'log'
-  if last_tab == 1 then
-    return true
-  end
-  -- only show log buffers in secondary tabs
-  return (tab_num == last_tab and is_log) or (tab_num ~= last_tab and not is_log)
-end
+local fn = vim.fn
+local fmt = string.format
 
-bufferline.setup {
+local groups = require 'bufferline.groups'
+
+require('bufferline').setup {
+  highlights = {
+    info = { gui = 'undercurl' },
+    info_selected = { gui = 'undercurl' },
+    info_visible = { gui = 'undercurl' },
+    warning = { gui = 'undercurl' },
+    warning_selected = { gui = 'undercurl' },
+    warning_visible = { gui = 'undercurl' },
+    error = { gui = 'undercurl' },
+    error_selected = { gui = 'undercurl' },
+    error_visible = { gui = 'undercurl' },
+  },
   options = {
+    debug = {
+      logging = true,
+    },
+    navigation = { mode = 'uncentered' },
     mode = 'buffers', -- tabs
     sort_by = 'insert_after_current',
-    buffer_close_icon = '',
-    modified_icon = '',
+    right_mouse_command = 'vert sbuffer %d',
     show_close_icon = false,
-    left_trunc_marker = '',
-    right_trunc_marker = '',
-    max_name_length = 14,
-    max_prefix_length = 13,
-    tab_size = 20,
-    show_tab_indicators = true,
-    enforce_regular_tabs = false,
-    view = 'multiwindow',
     show_buffer_close_icons = true,
-    separator_style = 'thin',
-    always_show_bufferline = true,
-    diagnostics = false,
-    diagnostics_update_in_insert = true,
-    custom_filter = custom_filter,
+    diagnostics = 'nvim_lsp',
+    diagnostics_indicator = false,
+    diagnostics_update_in_insert = false,
     offsets = {
+      {
+        filetype = 'pr',
+        highlight = 'PanelHeading',
+      },
+      {
+        filetype = 'dbui',
+        highlight = 'PanelHeading',
+      },
       {
         filetype = 'undotree',
         text = 'Undotree',
@@ -49,7 +46,7 @@ bufferline.setup {
       },
       {
         filetype = 'NvimTree',
-        text = 'פּ Files',
+        text = 'Explorer',
         highlight = 'PanelHeading',
       },
       {
@@ -78,6 +75,56 @@ bufferline.setup {
         highlight = 'PanelHeading',
       },
     },
-    themable = false,
+    groups = {
+      options = {
+        toggle_hidden_on_enter = true,
+      },
+      items = {
+        groups.builtin.pinned:with { icon = '' },
+        groups.builtin.ungrouped,
+        {
+          name = 'Dependencies',
+          highlight = { guifg = '#ECBE7B' },
+          matcher = function(buf)
+            return vim.startswith(buf.path, fmt('%s/site/pack/packer', fn.stdpath 'data'))
+              or vim.startswith(buf.path, fn.expand '$VIMRUNTIME')
+          end,
+        },
+        {
+          name = 'Terraform',
+          matcher = function(buf)
+            return buf.name:match '%.tf' ~= nil
+          end,
+        },
+        {
+          name = 'SQL',
+          matcher = function(buf)
+            return buf.filename:match '%.sql$'
+          end,
+        },
+        {
+          name = 'tests',
+          icon = '',
+          matcher = function(buf)
+            local name = buf.filename
+            if name:match '%.sql$' == nil then
+              return false
+            end
+            return name:match '_spec' or name:match '_test'
+          end,
+        },
+        {
+          name = 'docs',
+          icon = '',
+          matcher = function(buf)
+            for _, ext in ipairs { 'md', 'txt', 'org', 'norg', 'wiki' } do
+              if ext == fn.fnamemodify(buf.path, ':e') then
+                return true
+              end
+            end
+          end,
+        },
+      },
+    },
   },
 }

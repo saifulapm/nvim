@@ -1,5 +1,4 @@
 local ufo = require 'ufo'
-local hl = require 'utils.color'
 local opt, get_width = vim.opt, vim.api.nvim_strwidth
 
 local function handler(virt_text, _, _, width, truncate, ctx)
@@ -42,14 +41,9 @@ end
 opt.foldlevelstart = 99
 opt.sessionoptions:append 'folds'
 
-local bg = hl.alter_color('#282c34', -7)
-hl.overwrite {
-  { 'Folded', { bold = false, italic = false, bg = bg } },
-}
-
 G.augroup('UfoSettings', {
   {
-    event = 'FileType',
+    event = { 'FileType' },
     pattern = { 'org' },
     command = function()
       ufo.detach()

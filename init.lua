@@ -8,7 +8,6 @@ local core_modules = {
   'core',
   'core.options',
   'core.autocmds',
-  'core.statusline',
   '_compiled',
 }
 
