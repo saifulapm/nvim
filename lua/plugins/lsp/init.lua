@@ -19,15 +19,6 @@ require('lsp-format').setup {}
 u.lsp_handlers()
 
 local function on_attach(client, bufnr)
-  G.augroup('LspAutoCommands', {
-    {
-      event = { 'CursorHold' },
-      buffer = bufnr,
-      command = function()
-        u.diagnostic_popup()
-      end,
-    },
-  })
   require('lsp-format').on_attach(client)
   require('core.mappings').lspconfig(client, bufnr)
 end

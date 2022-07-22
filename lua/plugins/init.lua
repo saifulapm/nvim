@@ -88,12 +88,6 @@ return packer.startup(function()
         }
       end,
     },
-    {
-      'goolord/alpha-nvim',
-      config = function()
-        require 'plugins.configs.alpha'
-      end,
-    },
   }
   -- }}}
 
@@ -470,20 +464,6 @@ return packer.startup(function()
         require('chartoggle').setup {
           leader = '<localleader>', -- you can use any key as Leader
           keys = { ',', ';' }, -- Which keys will be toggle end of the line
-        }
-      end,
-    },
-    {
-      'ahmedkhalf/project.nvim',
-      config = function()
-        require('project_nvim').setup {
-          ignore_lsp = { 'null-ls' },
-          patterns = {
-            '.git/',
-            '.env',
-            '.project.lua',
-            'composer.json',
-          },
         }
       end,
     },

@@ -23,7 +23,15 @@ local sources = {
   -- b.formatting.shfmt,
   -- b.formatting.trim_whitespace.with({ filetypes = { "tmux", "teal" } }),
   with_root_file(b.formatting.stylua, 'stylua.toml'),
-  b.formatting.phpcsfixer,
+  b.formatting.phpcsfixer.with {
+    args = {
+      '--no-interaction',
+      '--quiet',
+      '--config=/home/saiful/.dotfiles/.php-cs-fixer.dist.php',
+      'fix',
+      '$FILENAME',
+    },
+  },
   -- diagnostics
   -- b.diagnostics.phpstan,
   -- with_root_file(b.diagnostics.selene, "selene.toml"),
