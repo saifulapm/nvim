@@ -48,11 +48,12 @@ local sources = {
 }
 
 local M = {}
-M.setup = function(on_attach)
+M.setup = function(_)
   null_ls.setup {
-    -- debug = true,
     sources = sources,
-    on_attach = on_attach,
+    on_attach = function(client)
+      require('lsp-format').on_attach(client)
+    end,
   }
 end
 

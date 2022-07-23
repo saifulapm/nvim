@@ -15,7 +15,7 @@ end
 
 ---A very over-engineered statusline, heavily inspired by doom-modeline
 ---@return string
-function G.style.ui.statusline()
+function G.style.statusline()
   local curwin = api.nvim_get_current_win()
   local curbuf = api.nvim_win_get_buf(curwin)
 
@@ -308,6 +308,6 @@ G.augroup('CustomStatusline', {
 vim.g.qf_disable_statusline = 1
 
 -- set the statusline
-vim.o.statusline = '%{%v:lua.G.style.ui.statusline()%}'
+vim.o.statusline = '%{%v:lua.G.style.statusline()%}'
 
 return M

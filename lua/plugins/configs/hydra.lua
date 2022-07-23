@@ -1,7 +1,7 @@
 local Hydra = require 'hydra'
 local border = G.style.border.line
 
-require('base46').load_highlight 'hydra'
+require('colors').load_highlight 'hydra'
 
 Hydra {
   name = 'Folds',

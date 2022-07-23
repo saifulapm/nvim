@@ -1,5 +1,5 @@
 local gitsigns = require 'gitsigns'
-require('base46').load_highlight 'git'
+require('colors').load_highlight 'git'
 
 gitsigns.setup {
   signs = {

@@ -14,18 +14,13 @@ return packer.startup(function()
   use {
     { 'wbthomason/packer.nvim', opt = true },
     { 'nvim-lua/plenary.nvim' },
+    { 'MunifTanjim/nui.nvim' },
     { 'lewis6991/impatient.nvim' },
     {
       'lewis6991/gitsigns.nvim',
       after = 'plenary.nvim',
       config = function()
         require 'plugins.configs.gitsigns'
-      end,
-    },
-    {
-      '~/Sites/nvim/base46',
-      config = function()
-        require('base46').load_theme()
       end,
     },
     { 'kyazdani42/nvim-web-devicons' },
@@ -269,16 +264,34 @@ return packer.startup(function()
 
   --- Editor Helper {{{
   use {
+    -- {
+    --   'kyazdani42/nvim-tree.lua',
+    --   cmd = 'NvimTreeToggle',
+    --   requires = 'nvim-web-devicons',
+    --   config = function()
+    --     require 'plugins.configs.nvimtree'
+    --   end,
+    --   setup = function()
+    --     require('core.mappings').nvimtree()
+    --   end,
+    -- },
     {
-      'kyazdani42/nvim-tree.lua',
-      cmd = 'NvimTreeToggle',
-      requires = 'nvim-web-devicons',
+      'nvim-neo-tree/neo-tree.nvim',
+      branch = 'v2.x', -- branch = 'v2.x',
       config = function()
-        require 'plugins.configs.nvimtree'
+        require 'plugins.configs.neotree'
       end,
-      setup = function()
-        require('core.mappings').nvimtree()
-      end,
+      keys = { '<C-N>' },
+      cmd = { 'NeoTree' },
+      requires = {
+        {
+          's1n7ax/nvim-window-picker',
+          tag = 'v1.*',
+          config = function()
+            require 'plugins.configs.window-picker'
+          end,
+        },
+      },
     },
     {
       'norcalli/nvim-colorizer.lua',

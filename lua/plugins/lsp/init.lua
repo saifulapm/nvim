@@ -9,17 +9,20 @@ if not packer_plugins['nvim-lsp-installer'].loaded then
   vim.cmd [[PackerLoad lsp-format.nvim]]
 end
 
-require('base46').load_highlight 'lsp'
+require('colors').load_highlight 'lsp'
 
 require('nvim-lsp-installer').setup {
   automatic_installation = true,
 }
 require('lsp-format').setup {}
 
+if vim.env.DEVELOPING then
+  vim.lsp.set_log_level(vim.lsp.log_levels.DEBUG)
+end
+
 u.lsp_handlers()
 
 local function on_attach(client, bufnr)
-  require('lsp-format').on_attach(client)
   require('core.mappings').lspconfig(client, bufnr)
 end
 

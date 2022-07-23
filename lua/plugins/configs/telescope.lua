@@ -4,7 +4,7 @@ if not present then
   return
 end
 
-require('base46').load_highlight 'telescope'
+require('colors').load_highlight 'telescope'
 
 telescope.setup {
   defaults = {

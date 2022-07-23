@@ -1,42 +1,73 @@
 local M = {}
-local lsp = vim.lsp
-
-local border_opts = { border = G.style.border.line, focusable = false, scope = 'line' }
 
 M.lsp_handlers = function()
-  local function lspSymbol(name, icon)
-    local hl = 'DiagnosticSign' .. name
-    vim.fn.sign_define(hl, { text = icon, numhl = hl, texthl = hl })
+  -- Signs
+  local function sign(opts)
+    vim.fn.sign_define(opts.highlight, {
+      text = opts.icon,
+      texthl = opts.highlight,
+      culhl = opts.highlight .. 'Line',
+    })
   end
 
-  lspSymbol('Error', G.style.icons.lsp.error)
-  lspSymbol('Info', G.style.icons.lsp.info)
-  lspSymbol('Hint', G.style.icons.lsp.hint)
-  lspSymbol('Warn', G.style.icons.lsp.warn)
+  sign { highlight = 'DiagnosticSignError', icon = G.style.icons.lsp.error }
+  sign { highlight = 'DiagnosticSignWarn', icon = G.style.icons.lsp.warn }
+  sign { highlight = 'DiagnosticSignInfo', icon = G.style.icons.lsp.info }
+  sign { highlight = 'DiagnosticSignHint', icon = G.style.icons.lsp.hint }
+
+  -- Diagnostic Configuration
+  local max_width = math.min(math.floor(vim.o.columns * 0.7), 100)
+  local max_height = math.min(math.floor(vim.o.lines * 0.3), 30)
 
   vim.diagnostic.config {
-    virtual_text = false,
-    float = border_opts,
     signs = true,
     underline = true,
     update_in_insert = false,
+    severity_sort = true,
+    virtual_text = {
+      spacing = 1,
+      prefix = '',
+      format = function(d)
+        local level = vim.diagnostic.severity[d.severity]
+        return string.format('%s %s', G.style.icons.lsp[level:lower()], d.message)
+      end,
+    },
+    float = {
+      max_width = max_width,
+      max_height = max_height,
+      border = G.style.border.line,
+      focusable = false,
+      source = 'always',
+      prefix = function(diag, i, _)
+        local level = vim.diagnostic.severity[diag.severity]
+        local prefix = string.format('%d. %s ', i, G.style.icons.lsp[level:lower()])
+        return prefix, 'Diagnostic' .. level:gsub('^%l', string.upper)
+      end,
+    },
   }
 
-  lsp.handlers['textDocument/hover'] = lsp.with(lsp.handlers.hover, border_opts)
-  lsp.handlers['textDocument/signatureHelp'] = lsp.with(lsp.handlers.signature_help, border_opts)
+  vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
+    border = G.style.border.line,
+    max_width = max_width,
+    max_height = max_height,
+  })
 
-  -- suppress irrelevant messages
-  local notify = vim.notify
-  vim.notify = function(msg, ...)
-    if msg:match '%[lspconfig%]' then
-      return
-    end
+  vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+    border = G.style.border.line,
+    max_width = max_width,
+    max_height = max_height,
+  })
 
-    if msg:match 'warning: multiple different client offset_encodings' then
-      return
-    end
-
-    notify(msg, ...)
+  vim.lsp.handlers['window/showMessage'] = function(_, result, ctx)
+    local client = vim.lsp.get_client_by_id(ctx.client_id)
+    local lvl = ({ 'ERROR', 'WARN', 'INFO', 'DEBUG' })[result.type]
+    vim.notify(result.message, lvl, {
+      title = 'LSP | ' .. client.name,
+      timeout = 8000,
+      keep = function()
+        return lvl == 'ERROR' or lvl == 'WARN'
+      end,
+    })
   end
 end
 

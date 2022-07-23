@@ -132,10 +132,4 @@ M.table = {
   end,
 }
 
-M.project = function()
-  if vim.fn.filereadable '.project.lua' == 1 then
-    vim.cmd 'source .project.lua'
-  end
-end
-
 return M

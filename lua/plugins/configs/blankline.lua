@@ -1,4 +1,4 @@
-require('base46').load_highlight 'blankline'
+require('colors').load_highlight 'blankline'
 require('indent_blankline').setup {
   char = '┊', -- ┆ ┊  ┊
   show_foldtext = false,

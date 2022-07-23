@@ -21,10 +21,6 @@ opt.fillchars = { eob = ' ' }
 opt.ignorecase = true
 opt.smartcase = true
 opt.mouse = 'a'
-
--- Numbers
-opt.number = true
-opt.numberwidth = 2
 opt.ruler = false
 
 -- disable nvim intro

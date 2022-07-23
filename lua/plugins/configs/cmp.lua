@@ -4,7 +4,7 @@ if not present then
   return
 end
 
-require('base46').load_highlight 'cmp'
+require('colors').load_highlight 'cmp'
 
 local kinds = {
   Text = '',

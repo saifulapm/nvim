@@ -4,13 +4,57 @@ _G.G = {}
 G.cache = {}
 
 G.style = {
+  colors = {
+    bg = '#282c34',
+    bg_alt = '#21242b',
+    bg_highlight = '#21252a',
+    bg_statusline = '#3E4556',
+    bg_highlighted = '#4A4A45',
+    blue = '#82AAFE',
+    bright_blue = '#51afef',
+    bright_yellow = '#FAB005',
+    comment_grey = '#5c6370',
+    cyan = '#46D9FF',
+    dark_blue = '#4e88ff',
+    dark_green = '#10B981',
+    dark_orange = '#FF922B',
+    dark_red = '#be5046',
+    dark_violet = '#4e4f67',
+    fg = '#bbc2cf',
+    fg_alt = '#5B6268',
+    green = '#98c379',
+    grey = '#3E4556',
+    light_gray = '#626262',
+    light_red = '#c43e1f',
+    light_yellow = '#e5c07b',
+    magenta = '#c678dd',
+    orange = '#da8548',
+    pale_pink = '#b490c0',
+    pale_red = '#E06C75',
+    red = '#ff6c6b',
+    teal = '#15AABF',
+    violet = '#a9a1e1',
+    white = '#efefef',
+    whitesmoke = '#9E9E9E',
+    yellow = '#ECBE7B',
+    base0 = '#1B2229',
+    base1 = '#1c1f24',
+    base2 = '#202328',
+    base3 = '#23272e',
+    base4 = '#3f444a',
+    base5 = '#5B6268',
+    base6 = '#73797e',
+    base7 = '#9ca0a4',
+    base8 = '#DFDFDF',
+    base9 = '#E6E6E6',
+  },
   icons = {
     separators = {
       vert_bottom_half_block = '▄',
       vert_top_half_block = '▀',
     },
     lsp = {
-      error = '', -- '✗'
+      error = '✗', -- '✗'
       warn = '',
       info = '', -- 
       hint = '', -- ⚑
@@ -163,9 +207,6 @@ G.style = {
     chars = { '▔', '▕', '▁', '▏', '🭽', '🭾', '🭿', '🭼' },
     line = { '🭽', '▔', '🭾', '▕', '🭿', '▁', '🭼', '▏' },
     rectangle = { '┌', '─', '┐', '│', '┘', '─', '└', '│' },
-  },
-  ui = {
-    theme = 'gruvchad',
   },
 }
 

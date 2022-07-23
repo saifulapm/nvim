@@ -18,6 +18,9 @@ else
     pcall(require, module)
   end
 
+  -- Colorscheme
+  require('colors').apply()
+
   -- Load keybindings module at the end because the keybindings module cost is high
   vim.defer_fn(function()
     require('core.mappings').basic()

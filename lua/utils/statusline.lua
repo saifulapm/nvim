@@ -351,7 +351,7 @@ end
 function M.hydra()
   local ok, hydra = pcall(require, 'hydra.statusline')
   if not ok then
-    return false, { name = ''}
+    return false, { name = '' }
   end
   local colors = {
     red = 'HydraRedSt',
@@ -465,7 +465,7 @@ function M.mode()
 end
 
 function M.lsp_clients(ctx)
-  local clients = vim.lsp.get_active_clients { bufnr = ctx.bufnum }
+  local clients = vim.lsp.get_active_clients()
   if empty(clients) then
     return { { name = 'No LSP clients available', priority = 7 } }
   end

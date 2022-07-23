@@ -4,29 +4,6 @@ vim.cmd [[
    augroup END
 ]]
 
-G.augroup('Numbers', {
-  {
-    -- Open images in an image viewer (probably Preview)
-    event = { 'InsertEnter' },
-    pattern = { '*' },
-    command = ':set norelativenumber',
-  },
-  {
-    -- Open images in an image viewer (probably Preview)
-    event = { 'InsertLeave' },
-    pattern = { '*' },
-    command = ':set relativenumber',
-  },
-})
-
-G.augroup('Project', {
-  {
-    event = { 'VimEnter' },
-    pattern = { '*' },
-    command = "lua require('utils').project()",
-  },
-})
-
 G.augroup('TextYankHighlight', {
   {
     -- don't execute silently in case of errors

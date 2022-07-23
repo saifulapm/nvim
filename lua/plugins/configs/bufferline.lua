@@ -1,4 +1,4 @@
-require('base46').load_highlight 'bufferline'
+require('colors').load_highlight 'bufferline'
 
 local fn = vim.fn
 local fmt = string.format

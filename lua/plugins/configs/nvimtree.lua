@@ -1,6 +1,5 @@
-local g = vim.g
 local action = require('nvim-tree.config').nvim_tree_callback
-require('base46').load_highlight 'nvimtree'
+require('colors').load_highlight 'nvimtree'
 
 require('nvim-tree').setup {
   view = {

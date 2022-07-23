@@ -4,8 +4,8 @@ if not present then
   return
 end
 
-require('base46').load_highlight 'syntax'
-require('base46').load_highlight 'treesitter'
+require('colors.syntax').apply()
+require('colors.treesitter').apply()
 
 ts_config.setup {
   ensure_installed = {

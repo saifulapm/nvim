@@ -8,7 +8,7 @@ if not packer_plugins['nvim-treesitter'].loaded then
   vim.cmd [[PackerLoad nvim-treesitter]]
 end
 
-require('base46').load_highlight 'norg'
+require('colors').load_highlight 'norg'
 
 neorg.setup {
   load = {
