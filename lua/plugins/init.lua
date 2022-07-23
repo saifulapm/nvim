@@ -69,22 +69,6 @@ return packer.startup(function()
       end,
     },
     {
-      'folke/todo-comments.nvim',
-      event = 'BufRead',
-      config = function()
-        -- this plugin is not safe to reload
-        if vim.g.packer_compiled_loaded then
-          return
-        end
-        require('todo-comments').setup {
-          highlight = {
-            exclude = { 'org', 'orgagenda', 'vimwiki', 'markdown' },
-          },
-        }
-        vim.keymap.set('n', '<leader>lt', '<Cmd>TodoTrouble<CR>')
-      end,
-    },
-    {
       'b0o/incline.nvim',
       config = function()
         require('incline').setup {
@@ -100,12 +84,12 @@ return packer.startup(function()
         vim.g.highlighturl_guifg = require('core.highlights').get('URL', 'fg')
       end,
     },
-    {
-      'goolord/alpha-nvim',
-      config = function()
-        require 'plugins.configs.alpha'
-      end,
-    },
+    -- {
+    --   'goolord/alpha-nvim',
+    --   config = function()
+    --     require 'plugins.configs.alpha'
+    --   end,
+    -- },
     {
       'folke/which-key.nvim',
       config = function()
@@ -362,41 +346,6 @@ return packer.startup(function()
       -- event = 'BufRead',
       config = function()
         require 'plugins.configs.treesitter'
-      end,
-    },
-    { 'p00f/nvim-ts-rainbow' },
-    { 'nvim-treesitter/nvim-treesitter-textobjects' },
-    {
-      'nvim-treesitter/nvim-treesitter-context',
-      config = function()
-        local hl = require 'core.highlights'
-        hl.plugin('treesitter-context', {
-          ContextBorder = { link = 'Dim' },
-          TreesitterContext = { inherit = 'Normal' },
-          TreesitterContextLineNumber = { inherit = 'LineNr' },
-        })
-        require('treesitter-context').setup {
-          multiline_threshold = 4,
-          separator = { '─', 'ContextBorder' }, -- alternatives: ▁ ─ ▄
-          mode = 'topline',
-        }
-      end,
-    },
-    {
-      'm-demare/hlargs.nvim',
-      config = function()
-        require('core.highlights').plugin('hlargs', {
-          Hlargs = { italic = true, bold = false, foreground = '#A5D6FF' },
-        })
-        require('hlargs').setup {
-          excluded_argnames = {
-            declarations = { 'use', 'use_rocks', '_' },
-            usages = {
-              go = { '_' },
-              lua = { 'self', 'use', 'use_rocks', '_' },
-            },
-          },
-        }
       end,
     },
   }

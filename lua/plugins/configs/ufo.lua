@@ -61,9 +61,9 @@ G.augroup('UfoSettings', {
 })
 
 ufo.setup {
-  open_fold_hl_timeout = 0,
-  fold_virt_text_handler = handler,
-  enable_fold_end_virt_text = true,
+  -- open_fold_hl_timeout = 0,
+  -- fold_virt_text_handler = handler,
+  -- enable_fold_end_virt_text = true,
   preview = { win_config = { winhighlight = 'Normal:Normal,FloatBorder:Normal' } },
   provider_selector = function()
     return { 'treesitter', 'indent' }

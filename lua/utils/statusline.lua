@@ -369,7 +369,7 @@ end
 function M.hydra()
   local ok, hydra = pcall(require, 'hydra.statusline')
   if not ok then
-    return false, {}
+    return false, { name = '' }
   end
   local colors = {
     red = 'HydraRedSt',
