@@ -1,3 +1,5 @@
+local H = require 'core.highlights'
+
 local fn = vim.fn
 local api = vim.api
 local expand = fn.expand
@@ -228,6 +230,7 @@ local function filename(ctx, modifier)
 
   local fname = buf_expand(ctx.bufnum, modifier)
 
+  ---@type string|fun(fname: string, buf: number): string
   local name = exceptions.names[ctx.filetype]
   if type(name) == 'function' then
     return '', '', name(fname, ctx.bufnum)
@@ -251,18 +254,27 @@ local function filename(ctx, modifier)
 end
 
 --- @param hl string
---- @param icon_color string
-local function highlight_ft_icon(hl, icon_color)
-  local present, base46 = pcall(require, 'base46')
-
-  if not hl or not icon_color or not present then
+--- @param bg_hl string
+local function highlight_ft_icon(hl, bg_hl)
+  if not hl or not bg_hl then
     return
   end
-  local colors = base46.get_theme_tb 'base_30'
   local name = hl .. 'Statusline'
   if not vim.tbl_contains(G.cache, name) then
-    api.nvim_set_hl(0, name, { bg = colors.statusline_bg, fg = icon_color })
-    table.insert(G.cache, name)
+    local fg_color = H.get(hl, 'fg')
+    local bg_color = H.get(bg_hl, 'bg')
+    if bg_color and fg_color then
+      G.augroup(name, {
+        {
+          event = 'ColorScheme',
+          command = function()
+            api.nvim_set_hl(0, name, { foreground = fg_color, background = bg_color })
+          end,
+        },
+      })
+      api.nvim_set_hl(0, name, { foreground = fg_color, background = bg_color })
+      table.insert(G.cache, name)
+    end
   end
   return name
 end
@@ -279,13 +291,12 @@ local function filetype(ctx, opts)
   if bt_exception then
     return bt_exception, opts.default
   end
-  local icon, hl, icon_color
+  local icon, hl
   local extension = fnamemodify(ctx.bufname, ':e')
   local icons_loaded, devicons = pcall(require, 'nvim-web-devicons')
   if icons_loaded then
     icon, hl = devicons.get_icon(ctx.bufname, extension, { default = true })
-    icon, icon_color = devicons.get_icon_color(ctx.bufname, extension, { default = true })
-    hl = highlight_ft_icon(hl, icon_color)
+    hl = highlight_ft_icon(hl, opts.icon_bg)
   end
   return icon, hl
 end
@@ -295,10 +306,17 @@ end
 ---@param minimal boolean
 ---@return table
 function M.file(ctx, minimal)
+  local curwin = ctx.winid
   -- highlight the filename components separately
   local filename_hl = minimal and 'StFilenameInactive' or 'StFilename'
   local directory_hl = minimal and 'StDirectoryInactive' or 'StDirectory'
   local parent_hl = minimal and directory_hl or 'StParentDirectory'
+
+  if H.winhighlight_exists(curwin, 'Normal', 'StatusLine') then
+    directory_hl = H.adopt_winhighlight(curwin, 'StatusLine', 'StCustomDirectory', 'StTitle')
+    filename_hl = H.adopt_winhighlight(curwin, 'StatusLine', 'StCustomFilename', 'StTitle')
+    parent_hl = H.adopt_winhighlight(curwin, 'StatusLine', 'StCustomParentDir', 'StTitle')
+  end
 
   local ft_icon, icon_highlight = filetype(ctx, { icon_bg = 'StatusLine', default = 'StComment' })
 
@@ -351,7 +369,7 @@ end
 function M.hydra()
   local ok, hydra = pcall(require, 'hydra.statusline')
   if not ok then
-    return false, { name = '' }
+    return false, {}
   end
   local colors = {
     red = 'HydraRedSt',
@@ -464,6 +482,9 @@ function M.mode()
   return (mode_map[current_mode] or 'UNKNOWN'), hl
 end
 
+---Return a sorted list of lsp client names and their priorities
+---@param ctx table
+---@return table[]
 function M.lsp_clients(ctx)
   local clients = vim.lsp.get_active_clients()
   if empty(clients) then
@@ -593,10 +614,10 @@ end
 --- @class ComponentOpts
 --- @field priority number
 --- @field click string
---- @field suffix string|nil
+--- @field suffix string
 --- @field suffix_color string
---- @field prefix string|nil
---- @field prefix_color string|nil
+--- @field prefix string
+--- @field prefix_color string
 --- @field before string
 --- @field after string
 --- @field id number

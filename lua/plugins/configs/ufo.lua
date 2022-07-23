@@ -1,4 +1,5 @@
 local ufo = require 'ufo'
+local hl = require 'core.highlights'
 local opt, get_width = vim.opt, vim.api.nvim_strwidth
 
 local function handler(virt_text, _, _, width, truncate, ctx)
@@ -41,6 +42,14 @@ end
 opt.foldlevelstart = 99
 opt.sessionoptions:append 'folds'
 
+hl.plugin('ufo', {
+  Folded = {
+    bold = false,
+    italic = false,
+    bg = hl.alter_color(hl.get('Normal', 'bg'), -7),
+  },
+})
+
 G.augroup('UfoSettings', {
   {
     event = { 'FileType' },
@@ -60,5 +69,6 @@ ufo.setup {
     return { 'treesitter', 'indent' }
   end,
 }
-vim.keymap.set('n', 'zR', ufo.openAllFolds)
-vim.keymap.set('n', 'zM', ufo.closeAllFolds)
+vim.keymap.set('n', 'zR', ufo.openAllFolds, { noremap = true })
+vim.keymap.set('n', 'zM', ufo.closeAllFolds, { noremap = true })
+vim.keymap.set('n', 'zP', ufo.peekFoldedLinesUnderCursor, { noremap = true })

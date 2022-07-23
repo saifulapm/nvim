@@ -1,53 +1,34 @@
+local fn = vim.fn
+local api = vim.api
+local fmt = string.format
+
 -- Global Object
 _G.G = {}
 
 G.cache = {}
 
+local palette = {
+  green = '#98c379',
+  dark_green = '#10B981',
+  blue = '#82AAFE',
+  dark_blue = '#4e88ff',
+  bright_blue = '#51afef',
+  teal = '#15AABF',
+  pale_pink = '#b490c0',
+  magenta = '#c678dd',
+  pale_red = '#E06C75',
+  light_red = '#c43e1f',
+  dark_red = '#be5046',
+  dark_orange = '#FF922B',
+  bright_yellow = '#FAB005',
+  light_yellow = '#e5c07b',
+  whitesmoke = '#9E9E9E',
+  light_gray = '#626262',
+  comment_grey = '#5c6370',
+  grey = '#3E4556',
+}
+
 G.style = {
-  colors = {
-    bg = '#282c34',
-    bg_alt = '#21242b',
-    bg_highlight = '#21252a',
-    bg_statusline = '#3E4556',
-    bg_highlighted = '#4A4A45',
-    blue = '#82AAFE',
-    bright_blue = '#51afef',
-    bright_yellow = '#FAB005',
-    comment_grey = '#5c6370',
-    cyan = '#46D9FF',
-    dark_blue = '#4e88ff',
-    dark_green = '#10B981',
-    dark_orange = '#FF922B',
-    dark_red = '#be5046',
-    dark_violet = '#4e4f67',
-    fg = '#bbc2cf',
-    fg_alt = '#5B6268',
-    green = '#98c379',
-    grey = '#3E4556',
-    light_gray = '#626262',
-    light_red = '#c43e1f',
-    light_yellow = '#e5c07b',
-    magenta = '#c678dd',
-    orange = '#da8548',
-    pale_pink = '#b490c0',
-    pale_red = '#E06C75',
-    red = '#ff6c6b',
-    teal = '#15AABF',
-    violet = '#a9a1e1',
-    white = '#efefef',
-    whitesmoke = '#9E9E9E',
-    yellow = '#ECBE7B',
-    base0 = '#1B2229',
-    base1 = '#1c1f24',
-    base2 = '#202328',
-    base3 = '#23272e',
-    base4 = '#3f444a',
-    base5 = '#5B6268',
-    base6 = '#73797e',
-    base7 = '#9ca0a4',
-    base8 = '#DFDFDF',
-    base9 = '#E6E6E6',
-  },
   icons = {
     separators = {
       vert_bottom_half_block = '▄',
@@ -123,75 +104,121 @@ G.style = {
       block = '▌',
     },
     kinds = {
-      Text = '',
-      Method = '',
-      Function = '',
-      Constructor = '',
-      Field = '', -- '',
-      Variable = '', -- '',
-      Class = '', -- '',
-      Interface = '',
-      Module = '',
-      Property = 'ﰠ',
-      Unit = '塞',
-      Value = '',
-      Enum = '',
-      Keyword = '', -- '',
-      Snippet = '', -- '', '',
-      Color = '',
-      File = '',
-      Reference = '', -- '',
-      Folder = '',
-      EnumMember = '',
-      Constant = '', -- '',
-      Struct = '', -- 'פּ',
-      Event = '',
-      Operator = '',
-      TypeParameter = '',
-      Namespace = '?',
-      Package = '?',
-      String = '?',
-      Number = '?',
-      Boolean = '?',
-      Array = '?',
-      Object = '?',
-      Key = '?',
-      Null = '?',
+      codicons = {
+        Text = '',
+        Method = '',
+        Function = '',
+        Constructor = '',
+        Field = '',
+        Variable = '',
+        Class = '',
+        Interface = '',
+        Module = '',
+        Property = '',
+        Unit = '',
+        Value = '',
+        Enum = '',
+        Keyword = '',
+        Snippet = '',
+        Color = '',
+        File = '',
+        Reference = '',
+        Folder = '',
+        EnumMember = '',
+        Constant = '',
+        Struct = '',
+        Event = '',
+        Operator = '',
+        TypeParameter = '',
+        Namespace = '?',
+        Package = '?',
+        String = '?',
+        Number = '?',
+        Boolean = '?',
+        Array = '?',
+        Object = '?',
+        Key = '?',
+        Null = '?',
+      },
+      nerdfonts = {
+        Text = '',
+        Method = '',
+        Function = '',
+        Constructor = '',
+        Field = '', -- '',
+        Variable = '', -- '',
+        Class = '', -- '',
+        Interface = '',
+        Module = '',
+        Property = 'ﰠ',
+        Unit = '塞',
+        Value = '',
+        Enum = '',
+        Keyword = '', -- '',
+        Snippet = '', -- '', '',
+        Color = '',
+        File = '',
+        Reference = '', -- '',
+        Folder = '',
+        EnumMember = '',
+        Constant = '', -- '',
+        Struct = '', -- 'פּ',
+        Event = '',
+        Operator = '',
+        TypeParameter = '',
+        Namespace = '?',
+        Package = '?',
+        String = '?',
+        Number = '?',
+        Boolean = '?',
+        Array = '?',
+        Object = '?',
+        Key = '?',
+        Null = '?',
+      },
     },
   },
-  kinds = {
-    Text = 'String',
-    Method = 'Method',
-    Function = 'Function',
-    Constructor = 'TSConstructor',
-    Field = 'Field',
-    Variable = 'Variable',
-    Class = 'Class',
-    Interface = 'Constant',
-    Module = 'Include',
-    Property = 'Property',
-    Unit = 'Constant',
-    Value = 'Variable',
-    Enum = 'Type',
-    Keyword = 'Keyword',
-    File = 'Directory',
-    Reference = 'PreProc',
-    Constant = 'Constant',
-    Struct = 'Type',
-    Snippet = 'Label',
-    Event = 'Variable',
-    Operator = 'Operator',
-    TypeParameter = 'Type',
-    Namespace = 'TSNamespace',
-    Package = 'Include',
-    String = 'String',
-    Number = 'Number',
-    Boolean = 'Boolean',
-    Array = 'StorageClass',
-    Object = 'Type',
-    Key = 'Field',
-    Null = 'ErrorMsg',
-    EnumMember = 'Field',
+  lsp = {
+    colors = {
+      error = palette.pale_red,
+      warn = palette.dark_orange,
+      hint = palette.bright_blue,
+      info = palette.teal,
+    },
+    highlights = {
+      Text = 'String',
+      Method = 'Method',
+      Function = 'Function',
+      Constructor = 'TSConstructor',
+      Field = 'Field',
+      Variable = 'Variable',
+      Class = 'Class',
+      Interface = 'Constant',
+      Module = 'Include',
+      Property = 'Property',
+      Unit = 'Constant',
+      Value = 'Variable',
+      Enum = 'Type',
+      Keyword = 'Keyword',
+      File = 'Directory',
+      Reference = 'PreProc',
+      Constant = 'Constant',
+      Struct = 'Type',
+      Snippet = 'Label',
+      Event = 'Variable',
+      Operator = 'Operator',
+      TypeParameter = 'Type',
+      Namespace = 'TSNamespace',
+      Package = 'Include',
+      String = 'String',
+      Number = 'Number',
+      Boolean = 'Boolean',
+      Array = 'StorageClass',
+      Object = 'Type',
+      Key = 'Field',
+      Null = 'ErrorMsg',
+      EnumMember = 'Field',
+    },
   },
   border = {
     cmp = {
@@ -208,6 +235,7 @@ G.style = {
     line = { '🭽', '▔', '🭾', '▕', '🭿', '▁', '🭼', '▏' },
     rectangle = { '┌', '─', '┐', '│', '┘', '─', '└', '│' },
   },
+  palette = palette,
 }
 
 --- Convert a list or map of items into a value by iterating all it's fields and transforming
@@ -270,20 +298,6 @@ function G.empty(item)
   return item ~= nil
 end
 
-G.list_installed_plugins = (function()
-  local plugins
-  return function()
-    if plugins then
-      return plugins
-    end
-    local data_dir = vim.fn.stdpath 'data'
-    local start = vim.fn.expand(data_dir .. '/site/pack/packer/start/*', true, true)
-    local opt = vim.fn.expand(data_dir .. '/site/pack/packer/opt/*', true, true)
-    plugins = vim.list_extend(start, opt)
-    return plugins
-  end
-end)()
-
 function _G.P(...)
   local objects, v = {}, nil
   for i = 1, select('#', ...) do
@@ -293,6 +307,68 @@ function _G.P(...)
 
   print(table.concat(objects, '\n'))
   return ...
+end
+
+G.list_installed_plugins = (function()
+  local plugins
+  return function()
+    if plugins then
+      return plugins
+    end
+    local data_dir = fn.stdpath 'data'
+    local start = fn.expand(data_dir .. '/site/pack/packer/start/*', true, true)
+    local opt = fn.expand(data_dir .. '/site/pack/packer/opt/*', true, true)
+    plugins = vim.list_extend(start, opt)
+    return plugins
+  end
+end)()
+
+---Check if a plugin is on the system not whether or not it is loaded
+---@param plugin_name string
+---@return boolean
+function G.plugin_installed(plugin_name)
+  for _, path in ipairs(G.list_installed_plugins()) do
+    if vim.endswith(path, plugin_name) then
+      return true
+    end
+  end
+  return false
+end
+
+---Require a module using [pcall] and report any errors
+---@param module string
+---@param opts table?
+---@return boolean, any
+function G.safe_require(module, opts)
+  opts = opts or { silent = false }
+  local ok, result = pcall(require, module)
+  if not ok and not opts.silent then
+    if opts.message then
+      result = opts.message .. '\n' .. result
+    end
+    vim.notify(result, vim.log.levels.ERROR, { title = fmt('Error requiring: %s', module) })
+  end
+  return ok, result
+end
+
+--- A convenience wrapper that calls the ftplugin config for a plugin if it exists
+--- and warns me if the plugin is not installed
+--- TODO: find out if it's possible to annotate the plugin as a module
+---@param name string | Plugin
+---@param callback fun(module: table)
+function G.ftplugin_conf(name, callback)
+  local plugin_name = type(name) == 'table' and name.plugin or nil
+  if plugin_name and not G.plugin_loaded(plugin_name) then
+    return
+  end
+
+  local module = type(name) == 'table' and name[1] or name
+  local info = debug.getinfo(1, 'S')
+  local ok, plugin = G.safe_require(module, { message = fmt('In file: %s', info.source) })
+
+  if ok then
+    callback(plugin)
+  end
 end
 
 ---@class Autocommand
@@ -310,10 +386,10 @@ end
 ---@param commands Autocommand[]
 ---@return number
 function G.augroup(name, commands)
-  local id = vim.api.nvim_create_augroup(name, { clear = true })
+  local id = api.nvim_create_augroup(name, { clear = true })
   for _, autocmd in ipairs(commands) do
     local is_callback = type(autocmd.command) == 'function'
-    vim.api.nvim_create_autocmd(autocmd.event, {
+    api.nvim_create_autocmd(autocmd.event, {
       group = id,
       pattern = autocmd.pattern,
       desc = autocmd.description,
@@ -338,5 +414,5 @@ end
 ---@param opts table
 function G.command(name, rhs, opts)
   opts = opts or {}
-  vim.api.nvim_create_user_command(name, rhs, opts)
+  api.nvim_create_user_command(name, rhs, opts)
 end

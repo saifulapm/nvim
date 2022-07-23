@@ -9,8 +9,6 @@ if not packer_plugins['nvim-lsp-installer'].loaded then
   vim.cmd [[PackerLoad lsp-format.nvim]]
 end
 
-require('colors').load_highlight 'lsp'
-
 require('nvim-lsp-installer').setup {
   automatic_installation = true,
 }

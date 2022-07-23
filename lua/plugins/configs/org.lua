@@ -4,12 +4,6 @@ if not present then
   return
 end
 
-if not packer_plugins['nvim-treesitter'].loaded then
-  vim.cmd [[PackerLoad nvim-treesitter]]
-end
-
-require('colors').load_highlight 'norg'
-
 neorg.setup {
   load = {
     ['core.defaults'] = {},

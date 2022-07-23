@@ -1,33 +1,74 @@
-local gitsigns = require 'gitsigns'
-require('colors').load_highlight 'git'
-
-gitsigns.setup {
+local cwd = vim.fn.getcwd()
+require('gitsigns').setup {
   signs = {
-    add = { hl = 'DiffAdd', text = '│', numhl = 'GitSignsAddNr' },
-    change = { hl = 'DiffChange', text = '│', numhl = 'GitSignsChangeNr' },
-    delete = { hl = 'DiffDelete', text = '', numhl = 'GitSignsDeleteNr' },
-    topdelete = { hl = 'DiffDelete', text = '‾', numhl = 'GitSignsDeleteNr' },
-    changedelete = { hl = 'DiffChangeDelete', text = '~', numhl = 'GitSignsChangeNr' },
+    add = { hl = 'GitSignsAdd', text = '▌' },
+    change = { hl = 'GitSignsChange', text = '▌' },
+    delete = { hl = 'GitSignsDelete', text = '▌' },
+    topdelete = { hl = 'GitSignsDelete', text = '▌' },
+    changedelete = { hl = 'GitSignsChange', text = '▌' },
   },
-  -- keymaps = {
-  --   -- Default keymap options
-  --   noremap = true,
-  --   buffer = true,
-  --   ['n [h'] = { expr = true, "&diff ? ']h' : '<cmd>lua require\"gitsigns\".next_hunk()<CR>'" },
-  --   ['n ]h'] = { expr = true, "&diff ? '[h' : '<cmd>lua require\"gitsigns\".prev_hunk()<CR>'" },
-  --   ['n <localleader>gw'] = '<cmd>lua require"gitsigns".stage_buffer()<CR>',
-  --   ['n <localleader>gre'] = '<cmd>lua require"gitsigns".reset_buffer()<CR>',
-  --   ['n <localleader>gbl'] = '<cmd>lua require"gitsigns".blame_line()<CR>',
-  --   ['n <localleader>gbd'] = '<cmd>lua require"gitsigns".toggle_word_diff()<CR>',
-  --   ['n <leader>lm'] = '<cmd>lua require"gitsigns".setqflist("all")<CR>',
-  --   -- Text objects
-  --   ['o ih'] = ':<C-U>lua require"gitsigns".select_hunk()<CR>',
-  --   ['x ih'] = ':<C-U>lua require"gitsigns".select_hunk()<CR>',
-  --   ['n <leader>hs'] = '<cmd>lua require"gitsigns".stage_hunk()<CR>',
-  --   ['v <leader>hs'] = '<cmd>lua require"gitsigns".stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
-  --   ['n <leader>hu'] = '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>',
-  --   ['n <leader>hr'] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
-  --   ['v <leader>hr'] = '<cmd>lua require"gitsigns".reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
-  --   ['n <leader>hp'] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
-  -- },
+  _threaded_diff = true, -- NOTE: experimental but I'm curious
+  word_diff = false,
+  current_line_blame = not cwd:match 'personal' and not cwd:match 'dotfiles',
+  numhl = false,
+  preview_config = {
+    border = G.style.border.line,
+  },
+  on_attach = function()
+    local gs = package.loaded.gitsigns
+
+    local function qf_list_modified()
+      gs.setqflist 'all'
+    end
+
+    require('which-key').register {
+      ['<leader>h'] = {
+        name = '+gitsigns hunk',
+        u = { gs.undo_stage_hunk, 'undo stage' },
+        p = { gs.preview_hunk, 'preview current hunk' },
+        s = { gs.stage_hunk, 'stage current hunk' },
+        r = { gs.reset_hunk, 'reset current hunk' },
+        b = { gs.toggle_current_line_blame, 'toggle current line blame' },
+        d = { gs.toggle_deleted, 'show deleted lines' },
+        w = { gs.toggle_word_diff, 'gitsigns: toggle word diff' },
+      },
+      ['<localleader>g'] = {
+        name = '+git',
+        w = { gs.stage_buffer, 'gitsigns: stage entire buffer' },
+        r = {
+          name = '+reset',
+          e = { gs.reset_buffer, 'gitsigns: reset entire buffer' },
+        },
+        b = {
+          name = '+blame',
+          l = { gs.blame_line, 'gitsigns: blame current line' },
+        },
+      },
+      ['<leader>lm'] = { qf_list_modified, 'gitsigns: list modified in quickfix' },
+    }
+
+    -- Navigation
+    vim.keymap.set('n', '[h', function()
+      vim.schedule(function()
+        gs.next_hunk()
+      end)
+      return '<Ignore>'
+    end, { expr = true, noremap = true })
+
+    vim.keymap.set('n', ']h', function()
+      vim.schedule(function()
+        gs.prev_hunk()
+      end)
+      return '<Ignore>'
+    end, { expr = true, noremap = true })
+
+    vim.keymap.set('v', '<leader>hs', function()
+      gs.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
+    end, { noremap = true })
+    vim.keymap.set('v', '<leader>hr', function()
+      gs.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
+    end, { noremap = true })
+
+    vim.keymap.set({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+  end,
 }

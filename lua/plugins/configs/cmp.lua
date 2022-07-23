@@ -1,47 +1,31 @@
-local present, cmp = pcall(require, 'cmp')
+local cmp = require 'cmp'
+local h = require 'core.highlights'
 
-if not present then
-  return
-end
+local api = vim.api
+local fmt = string.format
+local border = G.style.border.line
+local lsp_hls = G.style.lsp.highlights
+local ellipsis = G.style.icons.misc.ellipsis
 
-require('colors').load_highlight 'cmp'
+-- Make the source information less prominent
+local faded = h.alter_color(h.get('Pmenu', 'bg'), 30)
 
-local kinds = {
-  Text = '',
-  Method = '',
-  Function = '',
-  Constructor = '',
-  Field = '', -- '',
-  Variable = '', -- '',
-  Class = '', -- '',
-  Interface = '',
-  Module = '',
-  Property = 'ﰠ',
-  Unit = '塞',
-  Value = '',
-  Enum = '',
-  Keyword = '', -- '',
-  Snippet = '', -- '', '',
-  Color = '',
-  File = '',
-  Reference = '', -- '',
-  Folder = '',
-  EnumMember = '',
-  Constant = '', -- '',
-  Struct = '', -- 'פּ',
-  Event = '',
-  Operator = '',
-  TypeParameter = '',
-}
-local cmp_window = {
-  border = G.style.border.cmp,
-  winhighlight = table.concat({
-    'Normal:NormalFloat',
-    'FloatBorder:FloatBorder',
-    'CursorLine:Visual',
-    'Search:None',
-  }, ','),
-}
+local kind_hls = G.fold(
+  function(accum, value, key)
+    accum['CmpItemKind' .. key] = { foreground = { from = value } }
+    return accum
+  end,
+  lsp_hls,
+  {
+    CmpItemAbbr = { foreground = 'fg', background = 'NONE', italic = false, bold = false },
+    CmpItemMenu = { foreground = faded, italic = true, bold = false },
+    CmpItemAbbrMatch = { foreground = { from = 'Keyword' } },
+    CmpItemAbbrDeprecated = { strikethrough = true, inherit = 'Comment' },
+    CmpItemAbbrMatchFuzzy = { italic = true, foreground = { from = 'Keyword' } },
+  }
+)
+
+h.plugin('Cmp', kind_hls)
 
 local function tab(fallback)
   local ok, luasnip = pcall(require, 'luasnip')
@@ -87,7 +71,19 @@ local function ctl_f(fallback)
   end
 end
 
+local cmp_window = {
+  border = border,
+  winhighlight = table.concat({
+    'Normal:NormalFloat',
+    'FloatBorder:FloatBorder',
+    'CursorLine:Visual',
+    'Search:None',
+  }, ','),
+}
+
 cmp.setup {
+  experimental = { ghost_text = true },
+  preselect = cmp.PreselectMode.None,
   window = {
     completion = cmp.config.window.bordered(cmp_window),
     documentation = cmp.config.window.bordered(cmp_window),
@@ -101,9 +97,6 @@ cmp.setup {
     end,
   },
   mapping = {
-    -- ['<c-h>'] = cmp.mapping(function()
-    --   vim.api.nvim_feedkeys(vim.fn['copilot#Accept'](t '<Tab>'), 'n', true)
-    -- end),
     ['<Tab>'] = cmp.mapping(tab, { 'i', 'c' }),
     ['<S-Tab>'] = cmp.mapping(shift_tab, { 'i', 'c' }),
     ['<C-d>'] = cmp.mapping(ctl_d, { 'i', 's' }),
@@ -113,48 +106,55 @@ cmp.setup {
       i = cmp.mapping.abort(),
       c = cmp.mapping.close(),
     },
-    ['<C-space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-    ['<CR>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = false,
-    },
+    ['<C-space>'] = cmp.mapping.complete(),
+    ['<CR>'] = cmp.mapping.confirm { select = false },
   },
   formatting = {
     deprecated = true,
     fields = { 'kind', 'abbr', 'menu' },
     format = function(entry, vim_item)
-      vim_item.kind = kinds[vim_item.kind]
-      local name = entry.source.name
-      -- FIXME: automate this using a regex to normalise names
-      local menu = ({
+      local MAX = math.floor(vim.o.columns * 0.5)
+      vim_item.abbr = #vim_item.abbr >= MAX and string.sub(vim_item.abbr, 1, MAX) .. ellipsis
+        or vim_item.abbr
+      vim_item.kind = fmt('%s %s', G.style.icons.kinds.codicons[vim_item.kind], vim_item.kind)
+      vim_item.menu = ({
         nvim_lsp = '[LSP]',
         nvim_lua = '[Lua]',
-        emoji = '[Emoji]',
+        emoji = '[E]',
         path = '[Path]',
-        calc = '[Calc]',
-        neorg = '[Neorg]',
+        neorg = '[N]',
+        luasnip = '[SN]',
+        dictionary = '[D]',
+        buffer = '[B]',
+        spell = '[SP]',
+        cmdline = '[Cmd]',
+        cmdline_history = '[Hist]',
         orgmode = '[Org]',
-        cmp_tabnine = '[TN]',
-        luasnip = '[Luasnip]',
-        buffer = '[Buffer]',
-        fuzzy_buffer = '[Fuzzy Buffer]',
-        fuzzy_path = '[Fuzzy Path]',
-        spell = '[Spell]',
-        cmdline = '[Command]',
-      })[name]
-
-      vim_item.menu = menu
+        norg = '[Norg]',
+        rg = '[Rg]',
+        git = '[Git]',
+      })[entry.source.name]
       return vim_item
     end,
   },
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
-    { name = 'nvim_lua' },
-    { name = 'spell' },
     { name = 'path' },
   }, {
-    { name = 'buffer' },
+    {
+      name = 'buffer',
+      options = {
+        get_bufnrs = function()
+          local bufs = {}
+          for _, win in ipairs(api.nvim_list_wins()) do
+            bufs[api.nvim_win_get_buf(win)] = true
+          end
+          return vim.tbl_keys(bufs)
+        end,
+      },
+    },
+    { name = 'spell' },
   }),
 }
 
@@ -162,11 +162,9 @@ local search_sources = {
   completion = {
     keyword_length = 2, -- avoid keyword completion
   },
-  sources = cmp.config.sources({
-    { name = 'nvim_lsp_document_symbol' },
-  }, {
+  sources = cmp.config.sources {
     { name = 'buffer' },
-  }),
+  },
 }
 
 -- Use buffer source for `/`.
@@ -178,5 +176,7 @@ cmp.setup.cmdline('?', search_sources)
 cmp.setup.cmdline(':', {
   sources = cmp.config.sources {
     { name = 'cmdline', keyword_pattern = [=[[^[:blank:]\!]*]=] },
+    { name = 'path' },
+    { name = 'cmdline_history', priority = 10, max_item_count = 5 },
   },
 })

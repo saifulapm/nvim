@@ -8,25 +8,26 @@ local function get_height(self, _, max_lines)
   return (results <= (LIMIT - PADDING) and results + PADDING or LIMIT)
 end
 
+require('core.highlights').plugin('dressing', { FloatTitle = { inherit = 'Visual', bold = true } })
 require('dressing').setup {
   input = {
     insert_only = false,
     winblend = 2,
-    border = G.style.border.rectangle,
+    border = G.style.border.line,
   },
   select = {
     get_config = function(opts)
       -- center the picker for treesitter prompts
-      if opts.kind == 'treesitter' then
+      if opts.kind == 'codeaction' then
         return {
           backend = 'telescope',
-          telescope = require('telescope.themes').get_dropdown {
+          telescope = require('telescope.themes').get_cursor {
             layout_config = { height = get_height },
           },
         }
       end
     end,
-    telescope = require('telescope.themes').get_cursor {
+    telescope = require('telescope.themes').get_dropdown {
       layout_config = { height = get_height },
     },
   },

@@ -37,6 +37,17 @@ return packer.startup(function()
   -- UI Plugin {{{
   use {
     {
+      'NTBBloodbath/doom-one.nvim',
+      config = function()
+        require('doom-one').setup {
+          pumblend = {
+            enable = true,
+            transparency_amount = 3,
+          },
+        }
+      end,
+    },
+    {
       'akinsho/bufferline.nvim',
       tag = '*',
       config = function()
@@ -81,6 +92,38 @@ return packer.startup(function()
             focused_win = true,
           },
         }
+      end,
+    },
+    {
+      'itchyny/vim-highlighturl',
+      config = function()
+        vim.g.highlighturl_guifg = require('core.highlights').get('URL', 'fg')
+      end,
+    },
+    {
+      'goolord/alpha-nvim',
+      config = function()
+        require 'plugins.configs.alpha'
+      end,
+    },
+    {
+      'folke/which-key.nvim',
+      config = function()
+        require 'plugins.configs.whichkey'
+      end,
+    },
+    {
+      'rcarriga/nvim-notify',
+      cond = function()
+        -- TODO: causes blocking output in headless mode
+        return #vim.api.nvim_list_uis() > 0
+      end,
+      config = function()
+        -- this plugin is not safe to reload
+        if vim.g.packer_compiled_loaded then
+          return
+        end
+        require 'plugins.configs.notify'
       end,
     },
   }
@@ -136,11 +179,6 @@ return packer.startup(function()
       end,
     },
     {
-      'folke/trouble.nvim',
-      cmd = 'TroubleToggle',
-      config = [[require('plugins.configs.trouble')]],
-    },
-    {
       'rmagatti/goto-preview',
       config = function()
         require('goto-preview').setup {
@@ -162,6 +200,32 @@ return packer.startup(function()
         }
       end,
     },
+    {
+      'zbirenbaum/neodim',
+      config = function()
+        require('neodim').setup {
+          blend_color = require('core.highlights').get('Normal', 'bg'),
+          alpha = 0.45,
+          hide = {
+            underline = false,
+          },
+        }
+      end,
+    },
+    {
+      'kosayoda/nvim-lightbulb',
+      config = function()
+        require('core.highlights').plugin('Lightbulb', {
+          LightBulbFloatWin = { foreground = { from = 'Type' } },
+        })
+        require('nvim-lightbulb').setup {
+          ignore = { 'null-ls' },
+          sign = { enabled = false },
+          float = { text = '', enabled = true, win_opts = { border = 'none' } }, -- 
+          autocmd = { enabled = true },
+        }
+      end,
+    },
   }
   -- }}}
 
@@ -172,11 +236,32 @@ return packer.startup(function()
       module = 'cmp',
       event = { 'BufRead' },
       requires = {
-        { 'hrsh7th/cmp-nvim-lua', after = 'nvim-cmp' },
         { 'hrsh7th/cmp-cmdline', after = 'nvim-cmp' },
         { 'hrsh7th/cmp-path', after = 'nvim-cmp' },
         { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' },
         { 'saadparwaiz1/cmp_luasnip', after = 'nvim-cmp' },
+        { 'dmitmel/cmp-cmdline-history', after = 'nvim-cmp' },
+        { 'hrsh7th/cmp-emoji', after = 'nvim-cmp' },
+        {
+          'uga-rosa/cmp-dictionary',
+          after = 'nvim-cmp',
+          config = function()
+            require('cmp_dictionary').setup {
+              async = true,
+              dic = {
+                ['*'] = { '/usr/share/dict/words' },
+              },
+            }
+            require('cmp_dictionary').update()
+          end,
+        },
+        {
+          'petertriho/cmp-git',
+          after = 'nvim-cmp',
+          config = function()
+            require('cmp_git').setup { filetypes = { 'gitcommit', 'NeogitCommitMessage' } }
+          end,
+        },
       },
       config = function()
         require 'plugins.configs.cmp'
@@ -246,17 +331,72 @@ return packer.startup(function()
   use {
     {
       'nvim-telescope/telescope.nvim',
-      cmd = 'Telescope',
+      branch = 'master', -- '0.1.x',
+      module_pattern = 'telescope.*',
       config = function()
         require 'plugins.configs.telescope'
       end,
+      event = 'CursorHold',
+      requires = {
+        {
+          'natecraddock/telescope-zf-native.nvim',
+          after = 'telescope.nvim',
+          config = function()
+            require('telescope').load_extension 'zf-native'
+          end,
+        },
+        {
+          'nvim-telescope/telescope-smart-history.nvim',
+          requires = { { 'kkharji/sqlite.lua', module = 'sqlite' } },
+          after = 'telescope.nvim',
+          config = function()
+            require('telescope').load_extension 'smart_history'
+          end,
+        },
+        { 'ilAYAli/scMRU.nvim', module = 'mru' },
+      },
     },
     {
       'nvim-treesitter/nvim-treesitter',
       run = ':TSUpdate',
-      event = 'BufRead',
+      -- event = 'BufRead',
       config = function()
         require 'plugins.configs.treesitter'
+      end,
+    },
+    { 'p00f/nvim-ts-rainbow' },
+    { 'nvim-treesitter/nvim-treesitter-textobjects' },
+    {
+      'nvim-treesitter/nvim-treesitter-context',
+      config = function()
+        local hl = require 'core.highlights'
+        hl.plugin('treesitter-context', {
+          ContextBorder = { link = 'Dim' },
+          TreesitterContext = { inherit = 'Normal' },
+          TreesitterContextLineNumber = { inherit = 'LineNr' },
+        })
+        require('treesitter-context').setup {
+          multiline_threshold = 4,
+          separator = { '─', 'ContextBorder' }, -- alternatives: ▁ ─ ▄
+          mode = 'topline',
+        }
+      end,
+    },
+    {
+      'm-demare/hlargs.nvim',
+      config = function()
+        require('core.highlights').plugin('hlargs', {
+          Hlargs = { italic = true, bold = false, foreground = '#A5D6FF' },
+        })
+        require('hlargs').setup {
+          excluded_argnames = {
+            declarations = { 'use', 'use_rocks', '_' },
+            usages = {
+              go = { '_' },
+              lua = { 'self', 'use', 'use_rocks', '_' },
+            },
+          },
+        }
       end,
     },
   }
@@ -264,17 +404,6 @@ return packer.startup(function()
 
   --- Editor Helper {{{
   use {
-    -- {
-    --   'kyazdani42/nvim-tree.lua',
-    --   cmd = 'NvimTreeToggle',
-    --   requires = 'nvim-web-devicons',
-    --   config = function()
-    --     require 'plugins.configs.nvimtree'
-    --   end,
-    --   setup = function()
-    --     require('core.mappings').nvimtree()
-    --   end,
-    -- },
     {
       'nvim-neo-tree/neo-tree.nvim',
       branch = 'v2.x', -- branch = 'v2.x',
@@ -478,6 +607,21 @@ return packer.startup(function()
           leader = '<localleader>', -- you can use any key as Leader
           keys = { ',', ';' }, -- Which keys will be toggle end of the line
         }
+      end,
+    },
+    {
+      'https://gitlab.com/yorickpeterse/nvim-pqf',
+      event = 'BufReadPre',
+      config = function()
+        require('core.highlights').plugin('pqf', { qfPosition = { link = 'Todo' } })
+        require('pqf').setup()
+      end,
+    },
+    {
+      'kevinhwang91/nvim-bqf',
+      ft = 'qf',
+      config = function()
+        require('core.highlights').plugin('bqf', { BqfPreviewBorder = { link = 'WinSeparator' } })
       end,
     },
   }

@@ -23,6 +23,16 @@ require('dial.config').augends:register_group {
       types = { 'camelCase', 'snake_case', 'PascalCase', 'SCREAMING_SNAKE_CASE' },
       cyclic = true,
     },
+    augend.constant.new {
+      elements = { 'public', 'protected', 'private' },
+      word = false,
+      cyclic = true,
+    },
+    augend.constant.new {
+      elements = { 'and', 'or' },
+      word = true,
+      cyclic = true,
+    },
   },
   dep_files = {
     augend.semver.alias.semver,

@@ -1,7 +1,5 @@
 local Hydra = require 'hydra'
-local border = G.style.border.line
-
-require('colors').load_highlight 'hydra'
+local border = G.style.border.lines
 
 Hydra {
   name = 'Folds',
@@ -207,7 +205,7 @@ local dap_hydra = Hydra {
 }
 
 G.augroup('HydraDap', {
-  event = 'User',
+  event = { 'User' },
   user = 'DapStarted',
   command = function()
     vim.schedule(function()

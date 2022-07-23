@@ -17,7 +17,6 @@ opt.expandtab = true
 opt.shiftwidth = 3
 opt.smartindent = true
 
-opt.fillchars = { eob = ' ' }
 opt.ignorecase = true
 opt.smartcase = true
 opt.mouse = 'a'
@@ -50,7 +49,6 @@ g.maplocalleader = ','
 opt.eadirection = 'hor'
 vim.o.switchbuf = 'useopen,uselast'
 opt.fillchars = {
-  vert = '▕', -- alternatives │
   fold = ' ',
   eob = ' ', -- suppress ~ at EndOfBuffer
   diff = '╱', -- alternatives = ⣿ ░ ─
@@ -58,6 +56,13 @@ opt.fillchars = {
   foldopen = '▾',
   foldsep = '│',
   foldclose = '▸',
+  horiz = '━',
+  horizup = '┻',
+  horizdown = '┳',
+  vert = '┃',
+  vertleft = '┨',
+  vertright = '┣',
+  verthoriz = '╋',
 }
 -- }}}
 
@@ -97,40 +102,6 @@ opt.spellcapcheck = '' -- don't check for capital letters at start of sentence
 opt.fileformats = { 'unix', 'mac', 'dos' }
 --}}}
 
--- disable some builtin vim plugins
-local default_plugins = {
-  '2html_plugin',
-  'getscript',
-  'getscriptPlugin',
-  'gzip',
-  'logipat',
-  'netrw',
-  'netrwPlugin',
-  'netrwSettings',
-  'netrwFileHandlers',
-  'matchit',
-  'tar',
-  'tarPlugin',
-  'rrhelper',
-  'spellfile_plugin',
-  'vimball',
-  'vimballPlugin',
-  'zip',
-  'zipPlugin',
-  'tutor',
-  'rplugin',
-  'syntax',
-  'synmenu',
-  'optwin',
-  'compiler',
-  'bugreport',
-  'ftplugin',
-}
-
-for _, plugin in pairs(default_plugins) do
-  g['loaded_' .. plugin] = 1
-end
-
 local default_providers = {
   'node',
   'perl',
@@ -141,9 +112,3 @@ local default_providers = {
 for _, provider in ipairs(default_providers) do
   vim.g['loaded_' .. provider .. '_provider'] = 0
 end
-
--- set shada path
-vim.schedule(function()
-  vim.opt.shadafile = vim.fn.expand '$HOME' .. '/.local/share/nvim/shada/main.shada'
-  vim.cmd [[ silent! rsh ]]
-end)

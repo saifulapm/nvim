@@ -1,10 +1,70 @@
+local H = require 'core.highlights'
 local utils = require 'utils.statusline'
 
 local api = vim.api
 local icons = G.style.icons
+local P = G.style.palette
 local C = utils.constants
 
 local M = {}
+
+local function colors()
+  --- NOTE: Unicode characters including vim devicons should NOT be highlighted
+  --- as italic or bold, this is because the underlying bold font is not necessarily
+  --- patched with the nerd font characters
+  --- terminal emulators like kitty handle this by fetching nerd fonts elsewhere
+  --- but this is not universal across terminals so should be avoided
+
+  local indicator_color = P.bright_blue
+  local warning_fg = G.style.lsp.colors.warn
+
+  local error_color = G.style.lsp.colors.error
+  local info_color = G.style.lsp.colors.info
+  local normal_fg = H.get('Normal', 'fg')
+  local string_fg = H.get('String', 'fg')
+  local number_fg = H.get('Number', 'fg')
+
+  local normal_bg = H.get('Normal', 'bg')
+  local dim_color = H.alter_color(normal_bg, 40)
+  local bg_color = H.alter_color(normal_bg, -16)
+
+  H.all {
+    StMetadata = { background = bg_color, inherit = 'Comment' },
+    StMetadataPrefix = { background = bg_color, foreground = { from = 'Comment' } },
+    StIndicator = { background = bg_color, foreground = indicator_color },
+    StModified = { foreground = string_fg, background = bg_color },
+    StGit = { foreground = P.light_gray, background = bg_color },
+    StGreen = { foreground = string_fg, background = bg_color },
+    StBlue = { foreground = P.dark_blue, background = bg_color, bold = true },
+    StNumber = { foreground = number_fg, background = bg_color },
+    StCount = { foreground = 'bg', background = indicator_color, bold = true },
+    StClient = { background = bg_color, foreground = normal_fg, bold = true },
+    StDirectory = { background = bg_color, foreground = 'Gray', italic = true },
+    StDirectoryInactive = { background = bg_color, foreground = dim_color, italic = true },
+    StParentDirectory = { background = bg_color, foreground = string_fg, bold = true },
+    StTitle = { background = bg_color, foreground = 'LightGray', bold = true },
+    StComment = { background = bg_color, inherit = 'Comment' },
+    StatusLine = { background = bg_color },
+    StatusLineNC = { link = 'VertSplit' },
+    StInfo = { foreground = info_color, background = bg_color, bold = true },
+    StWarn = { foreground = warning_fg, background = bg_color },
+    StError = { foreground = error_color, background = bg_color },
+    StFilename = { background = bg_color, foreground = 'LightGray', bold = true },
+    StFilenameInactive = { inherit = 'Comment', background = bg_color, bold = true },
+    StModeNormal = { background = bg_color, foreground = P.light_gray, bold = true },
+    StModeInsert = { background = bg_color, foreground = P.dark_blue, bold = true },
+    StModeVisual = { background = bg_color, foreground = P.magenta, bold = true },
+    StModeReplace = { background = bg_color, foreground = P.dark_red, bold = true },
+    StModeCommand = { background = bg_color, foreground = P.light_yellow, bold = true },
+    StModeSelect = { background = bg_color, foreground = P.teal, bold = true },
+    -- FOR HYDRA
+    HydraRedSt = { inherit = 'HydraRed', reverse = true },
+    HydraBlueSt = { inherit = 'HydraBlue', reverse = true },
+    HydraAmaranthSt = { inherit = 'HydraAmaranth', reverse = true },
+    HydraTealSt = { inherit = 'HydraTeal', reverse = true },
+    HydraPinkSt = { inherit = 'HydraPink', reverse = true },
+  }
+end
 
 local separator = function()
   return { component = C.ALIGN, length = 0, priority = 0 }
@@ -272,6 +332,11 @@ G.augroup('CustomStatusline', {
     command = function()
       vim.g.vim_in_focus = false
     end,
+  },
+  {
+    event = { 'VimEnter', 'ColorScheme' },
+    pattern = { '*' },
+    command = colors,
   },
   {
     event = { 'BufReadPre' },
